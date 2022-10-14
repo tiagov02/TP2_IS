@@ -1,0 +1,14 @@
+services:
+  python:
+    container_name: is-dev
+    build: src
+    ports:
+      - "9000:9000"
+    volumes:
+      - "./src:/usr/src/app"
+
+  database:
+    container_name: is-db
+    build: db
+    ports:
+      - "5432:5432"

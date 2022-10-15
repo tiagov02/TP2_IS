@@ -6,7 +6,7 @@ cursor = None
 try:
     connection = psycopg2.connect(user="is",
                                   password="is",
-                                  host="is-db",
+                                  host="localhost",
                                   port="5432",
                                   database="is")
 

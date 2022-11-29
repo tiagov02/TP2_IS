@@ -4,9 +4,12 @@ services:
     build: src
     volumes:
       - "./src:/usr/src/app"
+      - "./data:/data"
     depends_on:
       - database
     network_mode: host
+
+  
 
   database:
     container_name: is-db
@@ -15,6 +18,7 @@ services:
       - postgres_data:/var/lib/postgresql/data/
     ports:
       - "5432:5432"
+
 
 volumes:
   postgres_data:

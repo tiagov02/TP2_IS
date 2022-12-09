@@ -4,6 +4,6 @@ ENV POSTGRES_USER=is
 ENV POSTGRES_PASSWORD=is
 ENV POSTGRES_DB=is
 
-COPY schema.sql /docker-entrypoint-initdb.d/
+COPY initial_schema.sql /docker-entrypoint-initdb.d/
 
 EXPOSE 5432

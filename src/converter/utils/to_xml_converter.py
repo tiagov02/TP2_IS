@@ -2,7 +2,7 @@ import csv
 import xml.dom.minidom as md
 import xml.etree.ElementTree as ET
 
-from csv_reader import CSVReader
+from utils.reader import CSVReader
 from entities.country import Country
 from entities.team import Team
 from entities.player import Player

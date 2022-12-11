@@ -12,6 +12,3 @@ CREATE TABLE public.teachers (
 	created_on      TIMESTAMP NOT NULL DEFAULT NOW(),
 	updated_on      TIMESTAMP NOT NULL DEFAULT NOW()
 );
-
-INSERT INTO teachers(name, city) VALUES('Luís Teófilo', 'Porto');
-INSERT INTO teachers(name, city) VALUES('Jorge Ribeiro', 'Braga');

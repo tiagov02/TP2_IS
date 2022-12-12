@@ -48,3 +48,5 @@ Thumbs.db
 *.mov
 *.wmv
 
+# Ignore XML files produced by the importer
+/volumes/output/*.xml

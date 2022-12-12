@@ -12,6 +12,7 @@ CREATE TABLE public.teams (
 CREATE TABLE public.countries (
 	id              uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
 	name            VARCHAR(250) UNIQUE NOT NULL,
+	geom            GEOMETRY,
 	created_on      TIMESTAMP NOT NULL DEFAULT NOW(),
 	updated_on      TIMESTAMP NOT NULL DEFAULT NOW()
 );

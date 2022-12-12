@@ -1,4 +1,4 @@
-FROM postgres:9.6.5
+FROM postgres:15.1
 
 ENV POSTGRES_USER=is
 ENV POSTGRES_PASSWORD=is

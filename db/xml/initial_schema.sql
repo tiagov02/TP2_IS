@@ -13,4 +13,5 @@ CREATE TABLE public.converted_documents (
     dst             VARCHAR(250) UNIQUE NOT NULL,
 	created_on      TIMESTAMP NOT NULL DEFAULT NOW(),
 	updated_on      TIMESTAMP NOT NULL DEFAULT NOW()
-)
+);
+

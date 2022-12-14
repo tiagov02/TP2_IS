@@ -18,4 +18,4 @@ RUN npm install -g npm@9.2.0
 RUN npm install -g nodemon
 
 # run the script
-CMD (chmod +x ./run.sh) & (./run.sh)
+CMD (chmod +x ./run.sh) && (./run.sh)

@@ -25,7 +25,7 @@ services:
     container_name: importer
     build: images/python
     volumes:
-      - ./src/importer:/usr/src/app
+      - ./src/daemon/importer:/usr/src/app
       - ./volumes/shared:/shared
       - ./volumes/csv:/csv
     environment:
@@ -36,11 +36,28 @@ services:
     container_name: rpc-server
     build: images/python
     volumes:
-      - ./src/rpc-server:/usr/src/app
+      - ./src/server/rpc:/usr/src/app
       - ./volumes/shared:/shared
     environment:
       USE_DEV_MODE: ${USE_DEV_MODE}
       RPC_SERVER_PORT: ${RPC_SERVER_PORT}
+
+  # Container that runs the web interface for displaying entities
+  frontend-ent:
+    container_name: frontend-ent
+    build: images/web
+    volumes:
+      - ./src/frontend/ent:/usr/src/app
+      - ./volumes/shared:/shared
+    ports:
+      - "30001:30001"
+    environment:
+      USE_DEV_MODE: ${USE_DEV_MODE}
+      WEB_PORT: 30001
+      API_ENTITIES_URL: "api-entities:${API_PORT}"
+      API_GIS_URL: "api-gis:${API_PORT}"
+      API_GRAPHQL_URL: "api-entities:${API_PORT}"
+      API_PROC_URL: "api-entities:${API_PORT}"
 
 volumes:
   xml-data:

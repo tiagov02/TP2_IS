@@ -8,7 +8,7 @@ function Menu({selectedTab = Sections[0].id, changeSelectedTab}) {
             <div className={"Logo"}>
                 <img src={"logo512.png"} alt={""}/>
                 <div className={"Title"}>
-                    Systems Integration (ENT)
+                    Systems Integration (GIS)
                 </div>
             </div>
             <Tabs value={selectedTab} orientation={"vertical"} centered onChange={changeSelectedTab}>

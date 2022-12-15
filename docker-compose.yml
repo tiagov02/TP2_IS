@@ -50,13 +50,47 @@ services:
       - ./src/frontend/ent:/usr/src/app
       - ./volumes/shared:/shared
     ports:
-      - "30001:30001"
+      - "${EXT_PORT_FRONTEND_ENT}:${EXT_PORT_FRONTEND_ENT}"
     environment:
       USE_DEV_MODE: ${USE_DEV_MODE}
-      WEB_PORT: 30001
+      WEB_PORT: ${EXT_PORT_FRONTEND_ENT}
       API_ENTITIES_URL: "api-entities:${API_PORT}"
       API_GIS_URL: "api-gis:${API_PORT}"
-      API_GRAPHQL_URL: "api-entities:${API_PORT}"
+      API_GRAPHQL_URL: "api-graphql:${API_PORT}"
+      API_PROC_URL: "api-proc:${API_PORT}"
+
+  # Container that runs the web interface for displaying the map
+  frontend-gis:
+    container_name: frontend-gis
+    build: images/web
+    volumes:
+      - ./src/frontend/gis:/usr/src/app
+      - ./volumes/shared:/shared
+    ports:
+      - "${EXT_PORT_FRONTEND_GIS}:${EXT_PORT_FRONTEND_GIS}"
+    environment:
+      USE_DEV_MODE: ${USE_DEV_MODE}
+      WEB_PORT: ${EXT_PORT_FRONTEND_GIS}
+      API_ENTITIES_URL: "api-entities:${API_PORT}"
+      API_GIS_URL: "api-gis:${API_PORT}"
+      API_GRAPHQL_URL: "api-graphql:${API_PORT}"
+      API_PROC_URL: "api-proc:${API_PORT}"
+
+  # Container that runs the web interface for displaying the map
+  frontend-proc:
+    container_name: frontend-proc
+    build: images/web
+    volumes:
+      - ./src/frontend/proc:/usr/src/app
+      - ./volumes/shared:/shared
+    ports:
+      - "${EXT_PORT_FRONTEND_PROC}:${EXT_PORT_FRONTEND_PROC}"
+    environment:
+      USE_DEV_MODE: ${USE_DEV_MODE}
+      WEB_PORT: ${EXT_PORT_FRONTEND_PROC}
+      API_ENTITIES_URL: "api-entities:${API_PORT}"
+      API_GIS_URL: "api-gis:${API_PORT}"
+      API_GRAPHQL_URL: "api-graphql:${API_PORT}"
       API_PROC_URL: "api-proc:${API_PORT}"
 
 volumes:

@@ -4,5 +4,9 @@ WORKDIR /usr/src/app
 
 RUN npm install -g npm@9.2.0
 
+COPY run.sh ..
+RUN chmod +x ../run.sh
+
+
 # run the script
-CMD (chmod +x ./run.sh) && (./run.sh)
+CMD ../run.sh

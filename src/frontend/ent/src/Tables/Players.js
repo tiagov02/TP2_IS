@@ -54,9 +54,11 @@ function Players() {
 
     useEffect(() => {
         //!FIXME: this is to simulate how to retrieve data from the server
+        //!FIXME: the entities server URL is available on process.env.REACT_APP_API_ENTITIES_URL
         setData(null);
         setTimeout(() => {
-            setData(DEMO_PLAYERS.filter((item, index)=>Math.floor(index / PAGE_SIZE) === (page-1)));
+            console.log(`fetching from ${process.env.REACT_APP_API_ENTITIES_URL}`)
+            setData(DEMO_PLAYERS.filter((item, index) => Math.floor(index / PAGE_SIZE) === (page - 1)));
         }, 500);
     }, [page])
 
@@ -64,26 +66,24 @@ function Players() {
         <>
             <h1>Players</h1>
 
-            {
-                data ?
-                    <>
-                        <TableContainer component={Paper}>
-                        <Table sx={{minWidth: 650}} aria-label="simple table">
-                            <TableHead>
-                                <TableRow>
-                                    <TableCell component="th" width={"1px"} align="center">ID</TableCell>
-                                    <TableCell>Player Name</TableCell>
-                                    <TableCell align="center">Age</TableCell>
-                                </TableRow>
-                            </TableHead>
-                            <TableBody>
-                                {data.map((row) => (
+            <TableContainer component={Paper}>
+                <Table sx={{minWidth: 650}} aria-label="simple table">
+                    <TableHead>
+                        <TableRow>
+                            <TableCell component="th" width={"1px"} align="center">ID</TableCell>
+                            <TableCell>Player Name</TableCell>
+                            <TableCell align="center">Age</TableCell>
+                        </TableRow>
+                    </TableHead>
+                    <TableBody>
+                        {
+                            data ?
+                                data.map((row) => (
                                     <TableRow
                                         key={row.id}
                                         style={{background: "gray", color: "black"}}
                                     >
                                         <TableCell component="td" align="center">{row.id}</TableCell>
-
                                         <TableCell component="td" scope="row">
                                             {row.name}
                                         </TableCell>
@@ -91,29 +91,30 @@ function Players() {
                                             {row.age}
                                         </TableCell>
                                     </TableRow>
-                                ))}
-                            </TableBody>
-                        </Table>
-                    </TableContainer>
-
-
-                    </>
-
-                    : <CircularProgress/>
-            }
+                                ))
+                                :
+                                <TableRow>
+                                    <TableCell colSpan={3}>
+                                        <CircularProgress/>
+                                    </TableCell>
+                                </TableRow>
+                        }
+                    </TableBody>
+                </Table>
+            </TableContainer>
             {
                 maxDataSize && <div style={{background: "black", padding: "1rem"}}>
                     <Pagination style={{color: "black"}}
-                        variant="outlined" shape="rounded"
-                        color={"primary"}
-                        onChange={(e, v)=>{ setPage(v)}}
-                        page={page}
-                        count={Math.ceil(maxDataSize / PAGE_SIZE)}
+                                variant="outlined" shape="rounded"
+                                color={"primary"}
+                                onChange={(e, v) => {
+                                    setPage(v)
+                                }}
+                                page={page}
+                                count={Math.ceil(maxDataSize / PAGE_SIZE)}
                     />
                 </div>
             }
-
-
 
 
         </>

@@ -11,7 +11,6 @@ function Content({selected}) {
                     "Countries": <h1>Countries - Work in progress</h1>
                 }[selected]
             }
-
         </div>
     );
 }

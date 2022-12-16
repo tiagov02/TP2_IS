@@ -30,6 +30,22 @@ services:
       - ./volumes/csv:/csv
     environment:
       USE_DEV_MODE: ${USE_DEV_MODE}
+    depends_on:
+      - db-xml
+
+  # Container that automatically migrates data from db-xml to db-rel
+  migrator:
+    container_name: migrator
+    build: images/python
+    volumes:
+      - ./src/daemon/migrator:/usr/src/app
+      - ./volumes/shared:/shared
+    environment:
+      USE_DEV_MODE: ${USE_DEV_MODE}
+      POLLING_FREQ: ${POLLING_FREQ}
+    depends_on:
+      - db-xml
+      - db-rel
 
   # Container that runs the RPC server
   rpc-server:
@@ -41,6 +57,8 @@ services:
     environment:
       USE_DEV_MODE: ${USE_DEV_MODE}
       RPC_SERVER_PORT: ${RPC_SERVER_PORT}
+    depends_on:
+      - db-xml
 
   # Container that runs the web interface for displaying entities
   frontend-ent:
@@ -55,6 +73,8 @@ services:
       USE_DEV_MODE: ${USE_DEV_MODE}
       WEB_PORT: ${EXT_PORT_FRONTEND_ENT}
       API_ENTITIES_URL: "api-entities:${API_PORT}"
+    depends_on:
+      - api-entities
 
   # Container that runs the web interface for displaying the map
   frontend-gis:
@@ -69,6 +89,8 @@ services:
       USE_DEV_MODE: ${USE_DEV_MODE}
       WEB_PORT: ${EXT_PORT_FRONTEND_GIS}
       API_GIS_URL: "api-gis:${API_PORT}"
+    depends_on:
+      - api-gis
 
   # Container that runs the web interface for displaying the map
   frontend-proc:
@@ -84,6 +106,9 @@ services:
       WEB_PORT: ${EXT_PORT_FRONTEND_PROC}
       API_GRAPHQL_URL: "api-graphql:${API_PORT}"
       API_PROC_URL: "api-proc:${API_PORT}"
+    depends_on:
+      - api-proc
+      - api-graphql
 
   # Container that runs the API for entities
   api-entities:

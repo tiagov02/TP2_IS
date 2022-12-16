@@ -4,6 +4,9 @@ import {useState} from "react";
 import Menu from "./Layout/Menu";
 import Content from "./Layout/Content";
 import Sections from "./Layout/Sections";
+import "leaflet/dist/leaflet.css"
+import "leaflet/dist/images/marker-icon-2x.png"
+
 
 const darkTheme = createTheme({
     palette: {

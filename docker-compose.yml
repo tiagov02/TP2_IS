@@ -9,7 +9,7 @@ services:
     volumes:
       - xml-data:/var/lib/postgresql/shared-data/
     ports:
-      - "10001:5432"
+      - "${EXP_PORT_PG_XML}:5432"
 
   # Database to store Relational data
   db-rel:
@@ -18,7 +18,7 @@ services:
     volumes:
       - rel-data:/var/lib/postgresql/shared-data/
     ports:
-      - "10002:5432"
+      - "${EXP_PORT_PG_REL}:5432"
 
   # Container that automatically converts CSV to XML and then imports the XML to db-xml
   importer:
@@ -55,9 +55,6 @@ services:
       USE_DEV_MODE: ${USE_DEV_MODE}
       WEB_PORT: ${EXT_PORT_FRONTEND_ENT}
       API_ENTITIES_URL: "api-entities:${API_PORT}"
-      API_GIS_URL: "api-gis:${API_PORT}"
-      API_GRAPHQL_URL: "api-graphql:${API_PORT}"
-      API_PROC_URL: "api-proc:${API_PORT}"
 
   # Container that runs the web interface for displaying the map
   frontend-gis:
@@ -71,10 +68,7 @@ services:
     environment:
       USE_DEV_MODE: ${USE_DEV_MODE}
       WEB_PORT: ${EXT_PORT_FRONTEND_GIS}
-      API_ENTITIES_URL: "api-entities:${API_PORT}"
       API_GIS_URL: "api-gis:${API_PORT}"
-      API_GRAPHQL_URL: "api-graphql:${API_PORT}"
-      API_PROC_URL: "api-proc:${API_PORT}"
 
   # Container that runs the web interface for displaying the map
   frontend-proc:
@@ -88,10 +82,56 @@ services:
     environment:
       USE_DEV_MODE: ${USE_DEV_MODE}
       WEB_PORT: ${EXT_PORT_FRONTEND_PROC}
-      API_ENTITIES_URL: "api-entities:${API_PORT}"
-      API_GIS_URL: "api-gis:${API_PORT}"
       API_GRAPHQL_URL: "api-graphql:${API_PORT}"
       API_PROC_URL: "api-proc:${API_PORT}"
+
+  # Container that runs the API for entities
+  api-entities:
+    container_name: api-entities
+    build: images/python
+    volumes:
+      - ./src/api/entities:/usr/src/app
+      - ./volumes/shared:/shared
+    ports:
+      - "${EXT_PORT_API_ENTITIES}:${API_PORT}"
+    environment:
+      API_PORT: ${API_PORT}
+
+  # Container that runs the API for gis
+  api-gis:
+    container_name: api-gis
+    build: images/python
+    volumes:
+      - ./src/api/gis:/usr/src/app
+      - ./volumes/shared:/shared
+    ports:
+      - "${EXT_PORT_API_GIS}:${API_PORT}"
+    environment:
+      API_PORT: ${API_PORT}
+
+  # Container that runs the API for procedures
+  api-proc:
+    container_name: api-proc
+    build: images/python
+    volumes:
+      - ./src/api/proc:/usr/src/app
+      - ./volumes/shared:/shared
+    ports:
+      - "${EXT_PORT_API_PROC}:${API_PORT}"
+    environment:
+      API_PORT: ${API_PORT}
+
+  # Container that runs the API for graphql
+  api-graphql:
+    container_name: api-graphql
+    build: images/python
+    volumes:
+      - ./src/api/graphql:/usr/src/app
+      - ./volumes/shared:/shared
+    ports:
+      - "${EXT_PORT_API_GRAPHQL}:${API_PORT}"
+    environment:
+      API_PORT: ${API_PORT}
 
 volumes:
   xml-data:

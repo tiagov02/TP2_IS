@@ -47,6 +47,21 @@ services:
       - db-xml
       - db-rel
 
+  # Container that automatically migrates data from db-xml to db-rel
+  gis-updater:
+    container_name: gis-updater
+    build: images/python
+    volumes:
+      - ./src/daemon/gis-updater:/usr/src/app
+      - ./volumes/shared:/shared
+    environment:
+      USE_DEV_MODE: ${USE_DEV_MODE}
+      POLLING_FREQ: ${POLLING_FREQ}
+      ENTITIES_PER_ITERATION: ${ENTITIES_PER_ITERATION}
+    depends_on:
+      - api-gis
+      - api-entities
+
   # Container that runs the RPC server
   rpc-server:
     container_name: rpc-server

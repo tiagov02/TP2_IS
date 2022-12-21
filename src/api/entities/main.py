@@ -9,6 +9,8 @@ PORT = int(sys.argv[1]) if len(sys.argv) >= 2 else 9000
 # set of all teams
 # !TODO: replace by database access
 teams = [
+    Team("Team1"),
+    Team("Team2")
 ]
 
 app = Flask(__name__)

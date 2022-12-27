@@ -16,6 +16,8 @@ RUN python -m pip install --upgrade pip
 # dependencies
 COPY ./requirements.txt ./
 RUN pip install --no-cache-dir -r requirements.txt
+RUN chmod +x .
 
 # run the script
-CMD (chmod +x ./run.sh) && (./run.sh)
+ENTRYPOINT ["./run.sh"]
+#ENTRYPOINT ["tail", "-f", "/dev/null"]

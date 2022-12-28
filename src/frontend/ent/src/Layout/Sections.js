@@ -4,7 +4,7 @@ const Sections = [
 
     {
         id: "players",
-        label: "Players",
+        label: "Jogadores",
         content: <Players/>
     },
 

@@ -14,8 +14,10 @@ if __name__ == "__main__":
         rpc_paths = ('/RPC2',)
 
 
+
     with SimpleXMLRPCServer(('localhost', PORT), requestHandler=RequestHandler) as server:
         server.register_introspection_functions()
+        settings = "user=is password=is host=localhost port=5432 database=is"
 
 
         def signal_handler(signum, frame):
@@ -48,18 +50,14 @@ if __name__ == "__main__":
                 return False
 
 
-        def saveToDb(xml: str):
+        def saveToDb(xml: str,xml_name:str):
             try:
                 xml_file = etree.fromstring(xml)
                 s = etree.tostring(xml_file, encoding="utf8", method="xml").decode()
-                connection = psycopg2.connect(user="is",
-                                              password="is",
-                                              host="localhost",
-                                              port="5432",
-                                              database="is")
+                connection = psycopg2.connect(settings)
 
                 cursor = connection.cursor()
-                cursor.execute("INSERT INTO imported_documents (file_name, xml) VALUES(%s, %s)", ("suicides2.xml", s))
+                cursor.execute("INSERT INTO imported_documents (file_name, xml) VALUES(%s, %s)", (xml_name, s))
                 connection.commit()
             except (Exception, psycopg2.Error) as error:
                 print("Failed to fetch data", error)

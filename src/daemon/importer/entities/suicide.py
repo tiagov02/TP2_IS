@@ -3,11 +3,6 @@ import xml.etree.ElementTree as ET
 
 class Suicide:
 
-    def __init__(self, name):
-        Country.counter += 1
-        self._id = Country.counter
-        self._name = name
-
     def __init__(self, id, idcountry, year, sex, minage, maxage, tax, population_no, suicides_no,
                  generation, gdp_for_year, hdi_for_year, gdp_per_capita):
         self.id = id

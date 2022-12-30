@@ -3,15 +3,9 @@ import Players from "../Tables/Players";
 const Sections = [
 
     {
-        id: "players",
-        label: "Jogadores",
+        id: "suicides",
+        label: "Suicides",
         content: <Players/>
-    },
-
-    {
-        id: "teams",
-        label: "Teams",
-        content: <h1>Teams - Work in progresss</h1>
     },
 
     {

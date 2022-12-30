@@ -64,7 +64,7 @@ function Players() {
 
     return (
         <>
-            <h1>Players</h1>
+            <h1>Suicides</h1>
 
             <TableContainer component={Paper}>
                 <Table sx={{minWidth: 650}} aria-label="simple table">

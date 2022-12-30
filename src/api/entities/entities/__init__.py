@@ -1,1 +1,2 @@
-from .team import Team
+#from .team import Team
+from .suicide import Suicide

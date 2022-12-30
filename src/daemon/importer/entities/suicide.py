@@ -1,14 +1,13 @@
 import xml.etree.ElementTree as ET
-
 from src.daemon.importer.entities.country import Country
 
 
 class Suicide:
 
-    def __init__(self, id, idcountry, year, sex, minage, maxage, tax, population_no, suicides_no,
+    def __init__(self, id, country : Country, year, sex, minage, maxage, tax, population_no, suicides_no,
                  generation, gdp_for_year, hdi_for_year, gdp_per_capita):
         self.id = id
-        self.idcountry = idcountry
+        self.country = []
         self.year = year
         self.sex = sex
         self.minage = minage
@@ -21,9 +20,9 @@ class Suicide:
         self.hdi_for_year = hdi_for_year
         self.gdp_per_capita = gdp_per_capita
 
-    def __init__(self,idcountry, year, sex, minage, maxage, tax, population_no, suicides_no,
+    def __init__(self,country : Country, year, sex, minage, maxage, tax, population_no, suicides_no,
                  generation, gdp_for_year, hdi_for_year, gdp_per_capita):
-        self.idcountry = idcountry
+        self.country = country
         self.year = year
         self.sex = sex
         self.minage = minage
@@ -39,7 +38,6 @@ class Suicide:
 
     def to_xml(self):
         el = ET.Element("Suicides")
-        el.set("country", str(self.idcountry))
         el.set("year", str(self.year))
         el.set("sex", str(self.sex))
         el.set("minage", str(self.minage))
@@ -53,7 +51,10 @@ class Suicide:
         el.set("gdp_per_capita", str(self.gdp_per_capita))
 
         suicides = ET.Element("Suicides")
+        for country in self.country:
+            suicides.append(country.to_xml())
         el.append(suicides)
+        return el
 
 
 

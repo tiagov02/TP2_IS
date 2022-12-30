@@ -17,12 +17,12 @@ app = Flask(__name__)
 app.config["DEBUG"] = True
 
 
-@app.route('/api/teams/', methods=['GET'])
+@app.route('/api/suicides/', methods=['GET'])
 def get_teams():
     return jsonify([team.__dict__ for team in teams])
 
 
-@app.route('/api/teams/', methods=['POST'])
+@app.route('/api/suicides/', methods=['POST'])
 def create_team():
     data = request.get_json()
     team = Team(name=data['name'])

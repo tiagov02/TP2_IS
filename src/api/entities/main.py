@@ -2,32 +2,33 @@ import sys
 
 from flask import Flask, jsonify, request
 
-from entities import Team
+from entities.suicide import Suicide
 
 PORT = int(sys.argv[1]) if len(sys.argv) >= 2 else 9000
 
 # set of all teams
 # !TODO: replace by database access
-teams = [
-    Team("Team1"),
-    Team("Team2")
-]
+
 
 app = Flask(__name__)
 app.config["DEBUG"] = True
 
+suicides=[
+    Suicide(name="Nome1")
+]
+
 
 @app.route('/api/suicides/', methods=['GET'])
-def get_teams():
-    return jsonify([team.__dict__ for team in teams])
+def get_suicides():
+    return jsonify([suicide.__dict__ for suicide in suicides])
 
 
 @app.route('/api/suicides/', methods=['POST'])
-def create_team():
+def create_suicides():
     data = request.get_json()
-    team = Team(name=data['name'])
-    teams.append(team)
-    return jsonify(team.__dict__), 201
+    suicide = Suicide(name=data['name'])
+    suicides.append(suicide)
+    return jsonify(suicide.__dict__), 201
 
 
 if __name__ == '__main__':

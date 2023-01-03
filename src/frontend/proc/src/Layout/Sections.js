@@ -3,14 +3,14 @@ import TopTeams from "../Procedures/TopTeams";
 const Sections = [
 
     {
-        id: "top-teams",
-        label: "Top Teams",
+        id: "top-teams", //change
+        label: "Top Countries",
         content: <TopTeams/>
     },
 
     {
-        id: "top-scorers",
-        label: "Top Scorers",
+        id: "top-scorers", //change
+        label: "Age with more suicides",
         content: <h1>Top Scorers - Work in progresss</h1>
     }
 

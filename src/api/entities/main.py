@@ -1,8 +1,8 @@
 import sys
 
 from flask import Flask, jsonify, request
-
 from entities.suicide import Suicide
+import psycopg2
 
 PORT = int(sys.argv[1]) if len(sys.argv) >= 2 else 9000
 
@@ -13,22 +13,33 @@ PORT = int(sys.argv[1]) if len(sys.argv) >= 2 else 9000
 app = Flask(__name__)
 app.config["DEBUG"] = True
 
-suicides=[
-    Suicide(name="Nome1")
-]
 
 
 @app.route('/api/suicides/', methods=['GET'])
 def get_suicides():
+    suicides = []
+    connection = psycopg2.connect(user="is",
+                                  password="is",
+                                  host="localhost",
+                                  port="5432",
+                                  database="is")
+
+    cursor = connection.cursor()
+    cursor.execute("SELECT * from suicides")
+    for result in cursor:
+        s = Suicide(result[0],result[1],result[2],result[3],result[4],result[5],result[6],result[7],result[8],result [9],result[10],result[11])
+        suicides.append(s)
+
     return jsonify([suicide.__dict__ for suicide in suicides])
 
 
-@app.route('/api/suicides/', methods=['POST'])
+@app.route('/api/suicides/create', methods=['POST'])
 def create_suicides():
     data = request.get_json()
-    suicide = Suicide(name=data['name'])
-    suicides.append(suicide)
-    return jsonify(suicide.__dict__), 201
+    print(data)
+    suicide = Suicide()
+    #suicides.append()
+    return jsonify(data), 201
 
 
 if __name__ == '__main__':

@@ -40,16 +40,6 @@ if __name__ == "__main__":
             return result
 
 
-        def receive_file(arg):
-            if validateXSD(arg.data, "suicidesXSD.xsd"):
-                with open("suicides.xml", "wb") as handle:
-                    saveToDb(arg.data)
-                    handle.write(arg.data)
-                    return True
-            else:
-                return False
-
-
         def saveToDb(xml: str,xml_name:str):
             try:
                 xml_file = etree.fromstring(xml)
@@ -336,7 +326,6 @@ if __name__ == "__main__":
         # register both functions
         server.register_function(string_reverse)
         server.register_function(string_length)
-        server.register_function(receive_file)
         server.register_function(orderByYear)
         server.register_function(orderByCountry)
         server.register_function(orderByYarAndCountry)

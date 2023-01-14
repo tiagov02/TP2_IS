@@ -179,7 +179,7 @@ def update_country():
                                   host="db-rel",
                                   database="is")
     cursor = connection.cursor()
-    cursor.execute(f"UPDATE countries SET name=\'{name}\',geom = ST_MakePoint({lon}, {lat}) WHERE id=\'{id}\'")
+    cursor.execute(f"UPDATE countries SET name=\'{name}\',geom = ST_MakePoint({lon}, {lat}),updated_on=now() WHERE id=\'{id}\'")
     cursor.execute(f"SELECT * from countries WHERE id=\'{id}\' ")
     first = cursor.fetchone()
     return jsonify(Country(

@@ -86,6 +86,10 @@ def create_suicides():
     return jsonify(data), 201
 
 
+'''
+COUNTRIES
+'''
+
 @app.route('/api/countries', methods=['GET'])
 def get_countries():
     countries = []

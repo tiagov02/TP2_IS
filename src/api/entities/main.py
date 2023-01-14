@@ -80,9 +80,7 @@ def get_suicide(id:str):
 @app.route('/api/suicides/create', methods=['POST'])
 def create_suicides():
     data = request.get_json()
-    print(data)
-    #suicide = Suicide()
-    #suicides.append()
+
     return jsonify(data), 201
 
 

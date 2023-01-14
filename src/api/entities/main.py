@@ -14,7 +14,7 @@ PORT = int(sys.argv[1]) if len(sys.argv) >= 2 else 9000
 app = Flask(__name__)
 app.config["DEBUG"] = True
 
-
+# SUICIDES
 
 @app.route('/api/suicides/', methods=['GET'])
 def get_suicides():
@@ -46,6 +46,35 @@ def get_suicides():
         suicides.append(s)
 
     return jsonify([suicide.__dict__ for suicide in suicides])
+
+@app.route('/api/suicides/<string:id>', methods=['GET'])
+def get_suicide(id:str):
+    connection = psycopg2.connect(user="is",
+                                  password="is",
+                                  host="db-rel",
+                                  database="is")
+
+    cursor = connection.cursor()
+    cursor.execute(f"SELECT * from suicides WHERE id=\'{id}\'")
+    result = cursor.fetchone()
+    suicide = Suicide(
+        id=result[0],
+        min_age=result[1],
+        max_age=result[2],
+        tax = result[3],
+        population_no = result[4],
+        suicides_no = result[5],
+        generation = result[6],
+        gdp_for_year = result[7],
+        hdi_for_year = result[8],
+        gdp_per_capita = result[9],
+        year = result[10],
+        id_country = result[11],
+        created_on = result[12],
+        updated_on = result[13]
+        )
+
+    return jsonify([suicide.__dict__])
 
 
 @app.route('/api/suicides/create', methods=['POST'])

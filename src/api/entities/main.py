@@ -26,10 +26,25 @@ def get_suicides():
     cursor = connection.cursor()
     cursor.execute("SELECT * from suicides")
     for result in cursor:
-        s = Suicide(result[0],result[1],result[2],result[3],result[4],result[5],result[6],result[7],result[8],result [9],result[10],result[11])
+        s = Suicide(
+            id=result[0],
+            min_age=result[1],
+            max_age=result[2],
+            tax = result[3],
+            population_no = result[4],
+            suicides_no = result[5],
+            generation = result[6],
+            gdp_for_year = result[7],
+            hdi_for_year = result[8],
+            gdp_per_capita = result[9],
+            year = result[10],
+            id_country = result[11],
+            created_on = result[12],
+            updated_on = result[13]
+        )
         suicides.append(s)
 
-    return jsonify([suicide for suicide in suicides])
+    return jsonify([suicide.__dict__ for suicide in suicides])
 
 
 @app.route('/api/suicides/create', methods=['POST'])

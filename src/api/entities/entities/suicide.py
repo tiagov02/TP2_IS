@@ -31,7 +31,7 @@ class Suicide:
                                       database="is")
 
         cursor = connection.cursor()
-        cursor.execute("SELECT * from countries WHERE id= %s",id_country)
+        cursor.execute(f"SELECT * from countries WHERE id=\'{id_country}\' ")
         first = cursor.fetchone()
         return Country(
             id = first[0],
@@ -39,4 +39,4 @@ class Suicide:
             geom = first[2],
             created_on = first[3],
             updated_on = first[4]
-        )
+        ).__dict__

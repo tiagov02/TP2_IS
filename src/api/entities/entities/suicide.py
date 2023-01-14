@@ -1,6 +1,6 @@
 import uuid
 from datetime import datetime
-from country import Country
+from .country import Country
 import psycopg2
 
 

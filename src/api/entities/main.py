@@ -90,7 +90,65 @@ def create_suicides():
     hdi_for_year = data['hdi_for_year']
     gdp_per_capita = data['gpd_per_capita']
     id_country = data['id_country']
+    year = data['year']
+
+    connection = psycopg2.connect(user="is",
+                                  password="is",
+                                  host="db-rel",
+                                  database="is")
+
+    cursor = connection.cursor()
+
+    cursor.execute(f"insert into suicides (min_age, max_age, tax, population_no, suicides_no, generation, gdp_for_year, hdi_for_year, gdp_per_capita, year, id_country) "
+                   f"values ({min_age}, {max_age}, {tax}, {population_no}, {suicides_no}, \'{generation}\', {gpd_for_year}, {hdi_for_year}, {gdp_per_capita}, {year}, \'{id_country}\');")
     return jsonify(data), 201
+
+@app.route('/api/suicides/update', methods=['POST'])
+def update_suicide():
+    data = request.get_json()
+    id = data['id']
+    min_age = data['min_age']
+    max_age = data['max_age']
+    tax = data['tax']
+    population_no = data['population_no']
+    suicides_no = data['suicides_no']
+    generation = data['generation']
+    gpd_for_year = data['gdp_for_year']
+    hdi_for_year = data['hdi_for_year']
+    gdp_per_capita = data['gpd_per_capita']
+    id_country = data['id_country']
+    year = data['year']
+
+    connection = psycopg2.connect(user="is",
+                                  password="is",
+                                  host="db-rel",
+                                  database="is")
+
+    cursor = connection.cursor()
+    cursor.execute(f"UPDATE suicides SET min_age={min_age}, max_age={max_age}, tax={tax}, population_no={population_no}, suicides_no={suicides_no}, "
+                   f"generation=\'{generation}\', gdp_for_year={gpd_for_year}, hdi_for_year={hdi_for_year}, gdp_per_capita={gdp_per_capita}, id_country=\'{id_country}\',  "
+                   f"year={year} WHERE id=\'{id}\'")
+
+    cursor.execute(f"SELECT * from suicides WHERE id=\'{id}\'")
+    result = cursor.fetchone()
+    suicide = Suicide(
+        id=result[0],
+        min_age=result[1],
+        max_age=result[2],
+        tax=result[3],
+        population_no=result[4],
+        suicides_no=result[5],
+        generation=result[6],
+        gdp_for_year=result[7],
+        hdi_for_year=result[8],
+        gdp_per_capita=result[9],
+        year=result[10],
+        id_country=result[11],
+        created_on=result[12],
+        updated_on=result[13]
+    )
+
+    return jsonify([suicide.__dict__]),201
 
 
 '''

@@ -80,7 +80,16 @@ def get_suicide(id:str):
 @app.route('/api/suicides/create', methods=['POST'])
 def create_suicides():
     data = request.get_json()
-
+    min_age = data['min_age']
+    max_age = data['max_age']
+    tax = data['tax']
+    population_no = data['population_no']
+    suicides_no = data['suicides_no']
+    generation = data['generation']
+    gpd_for_year = data['gdp_for_year']
+    hdi_for_year = data['hdi_for_year']
+    gdp_per_capita = data['gpd_per_capita']
+    id_country = data['id_country']
     return jsonify(data), 201
 
 

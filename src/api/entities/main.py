@@ -2,6 +2,7 @@ import sys
 
 from flask import Flask, jsonify, request
 from entities.suicide import Suicide
+from entities.country import Country
 import psycopg2
 
 PORT = int(sys.argv[1]) if len(sys.argv) >= 2 else 9000

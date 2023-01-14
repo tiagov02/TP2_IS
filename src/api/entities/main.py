@@ -256,7 +256,7 @@ def update_country():
     ).__dict__),201
 
 
-@app.route('/api/suicides/delete/<int:id>', methods=['DELETE'])
+@app.route('/api/suicides/delete/<int:id>', methods=['GET'])
 def delete_suicide(id:str):
     connection = psycopg2.connect(user="is",
                                   password="is",

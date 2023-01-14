@@ -81,9 +81,68 @@ def get_suicide(id:str):
 def create_suicides():
     data = request.get_json()
     print(data)
-    suicide = Suicide()
+    #suicide = Suicide()
     #suicides.append()
     return jsonify(data), 201
+
+
+@app.route('/api/countries', methods=['GET'])
+def get_countries():
+    countries = []
+    connection = psycopg2.connect(user="is",
+                                  password="is",
+                                  host="db-rel",
+                                  database="is")
+
+    cursor = connection.cursor()
+    cursor.execute("SELECT * from countries")
+    for result in cursor:
+        countries.append(Country(
+            id=result[0],
+            name=result[1],
+            geom=result[2],
+            created_on=result[3],
+            updated_on=result[4]
+        ))
+    return jsonify([country.__dict__ for country in countries])
+
+@app.route('/api/countries/<string:id>', methods=['GET'])
+def get_country(id:str):
+    connection = psycopg2.connect(user="is",
+                                  password="is",
+                                  host="db-rel",
+                                  database="is")
+
+    cursor = connection.cursor()
+    cursor.execute(f"SELECT * from countries WHERE id=\'{id}\' ")
+    first = cursor.fetchone()
+    return Country(
+        id=first[0],
+        name=first[1],
+        geom=first[2],
+        created_on=first[3],
+        updated_on=first[4]
+    ).__dict__
+
+@app.route('/api/countries/to_update', methods=['GET'])
+def get_100_countries_to_update():
+    countries = []
+    connection = psycopg2.connect(user="is",
+                                  password="is",
+                                  host="db-rel",
+                                  database="is")
+
+    cursor = connection.cursor()
+    cursor.execute("SELECT * from countries WHERE geom is null LIMIT 100")
+    for result in cursor:
+        countries.append(Country(
+            id=result[0],
+            name=result[1],
+            geom=result[2],
+            created_on=result[3],
+            updated_on=result[4]
+        ))
+    return jsonify([country.__dict__ for country in countries])
 
 
 if __name__ == '__main__':

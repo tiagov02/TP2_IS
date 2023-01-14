@@ -20,8 +20,7 @@ def get_suicides():
     suicides = []
     connection = psycopg2.connect(user="is",
                                   password="is",
-                                  host="localhost",
-                                  port="5432",
+                                  host="db-rel",
                                   database="is")
 
     cursor = connection.cursor()
@@ -30,7 +29,7 @@ def get_suicides():
         s = Suicide(result[0],result[1],result[2],result[3],result[4],result[5],result[6],result[7],result[8],result [9],result[10],result[11])
         suicides.append(s)
 
-    return jsonify([suicide.__dict__ for suicide in suicides])
+    return jsonify([suicide for suicide in suicides])
 
 
 @app.route('/api/suicides/create', methods=['POST'])

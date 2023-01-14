@@ -49,7 +49,7 @@ function TopTeams() {
 
     return (
         <>
-            <h1>Top Teams</h1>
+            <h1>Top Countries</h1>
 
             <Container maxWidth="100%"
                        sx={{backgroundColor: 'background.default', padding: "2rem", borderRadius: "1rem"}}>

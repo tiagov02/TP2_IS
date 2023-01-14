@@ -256,6 +256,18 @@ def update_country():
     ).__dict__),201
 
 
+@app.route('/api/suicides/delete/<int:id>', methods=['DELETE'])
+def delete_suicide(id:str):
+    connection = psycopg2.connect(user="is",
+                                  password="is",
+                                  host="db-rel",
+                                  database="is")
+    cursor = connection.cursor()
+    cursor.execute(f"DELETE FROM suicides WHERE id = {id}")
+    connection.commit()
+    return jsonify({'message': 'Suicide record deleted'}), 200
+
+
 
 if __name__ == '__main__':
     app.run(host="0.0.0.0", port=PORT)

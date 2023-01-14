@@ -47,7 +47,7 @@ class CSVHandler(FileSystemEventHandler):
         xml_path = generate_unique_file_name(self._output_path)
 
         # we do the conversion
-        # !TODO: CHANGE
+
         # !TODO: once the conversion is done, we should updated the converted_documents tables
         convert_csv_to_xml(csv_path, xml_path)
         print(f"new xml file generated: '{xml_path}'")

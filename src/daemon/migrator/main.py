@@ -75,7 +75,6 @@ if __name__ == "__main__":
                     new_id = None
                     try:
                         db_dst_cur.execute(f"SELECT id from countries WHERE name=\'{country[0]}\'")
-                        new_id = db_dst_cur.fetchone()[0]
                         found = True
                     except psycopg2.errors.UndefinedColumn:
                         found = False

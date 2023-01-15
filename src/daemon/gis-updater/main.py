@@ -32,7 +32,7 @@ def getCoordsWithoutUpdate():
 
     data = r.json()
 
-    return [data]
+    return data
 
 if __name__ == "__main__":
     while True:

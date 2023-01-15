@@ -12,16 +12,52 @@ server = xmlrpc.client.ServerProxy('http://rpc-server:9000')
 print("Connected!")
 
 @app.route('/api/suicides_per_year/<int:year>', methods=['GET'])
-def get_best_players(year:int):
-    server.orderByYear(year)
+def get_suicides_per_year(year:int):
+    res = server.orderByYear(year)
     return [{
-        "id": "7674fe6a-6c8d-47b3-9a1f-18637771e23b",
-        "name": "Ronaldo",
-        "country": "Portugal",
-        "position": "Striker",
-        "imgUrl": "https://cdn-icons-png.flaticon.com/512/805/805401.png",
-        "number": 7
-    }]
+        "per_sex":[{
+            "sex" : res[0][0][0],
+            "suicides_no" : res[0][0][1]
+        },
+        {
+            "sex":res[0][1][0],
+            "suicides_no":res[0][1][1]
+        }],
+        "children":res[1][0][0],
+        "olders":res[3][0][0]
+    }],200
+
+@app.route('/api/suicides_per_country/<string:country>', methods=['GET'])
+def get_suicides_per_country(country):
+    res= server.orderByCountry(country)
+    return [{
+        "per_sex": [{
+            "sex": res[0][0][0],
+            "suicides_no": res[0][0][1]
+        },
+            {
+                "sex": res[0][1][0],
+                "suicides_no": res[0][1][1]
+            }],
+        "children": res[1][0][0],
+        "olders": res[3][0][0]
+    }], 200
+
+@app.route('/api/suicides_per_year_country/<int:year>/<int:country>', methods =['GET'])
+def get_suicides_per_year_country(year,country):
+    res = server.orderByYarAndCountry(year, country)
+    return [{
+        "per_sex": [{
+            "sex": res[0][0][0],
+            "suicides_no": res[0][0][1]
+        },
+            {
+                "sex": res[0][1][0],
+                "suicides_no": res[0][1][1]
+            }],
+        "children": res[1][0][0],
+        "olders": res[3][0][0]
+    }], 200
 
 @app.route('/api/suicides_in_rich_countries', methods=['GET'])
 def get_suicides_in_rich_countries():

@@ -195,8 +195,8 @@ def get_country(id:str):
         updated_on=first[4]
     ).__dict__),200
 
-@app.route('/api/countries/to_update', methods=['GET'])
-def get_100_countries_to_update():
+@app.route('/api/countries/to_update/<int:limit>', methods=['GET'])
+def get_100_countries_to_update(limit:int):
     countries = []
     connection = psycopg2.connect(user="is",
                                   password="is",
@@ -204,7 +204,7 @@ def get_100_countries_to_update():
                                   database="is")
 
     cursor = connection.cursor()
-    cursor.execute("SELECT * from countries WHERE geom is null LIMIT 100")
+    cursor.execute(f"SELECT * from countries WHERE geom is null LIMIT {limit}")
     for result in cursor:
         countries.append(Country(
             id=result[0],

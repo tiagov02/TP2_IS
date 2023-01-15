@@ -26,7 +26,7 @@ def generate_coords(region: str):
     ]
 
 def getCoordsWithoutUpdate():
-    url = f"http://127.0.0.1:20001/api/countries/to_update"
+    url = f"http://127.0.0.1:9000/api/countries/to_update"
 
     r = requests.get(url=url)
 
@@ -43,7 +43,7 @@ if __name__ == "__main__":
 
         for data in getCoordsWithoutUpdate():
             coords = generate_coords(data['name'])
-            url = 'http://127.0.0.1:20001/api/countries/update'
+            url = 'http://127.0.0.1:9000/api/countries/update'
             myobj = {
                 'id': data['id'],
                 'name':data['name'],

@@ -21,8 +21,10 @@ def generate_unique_file_name(directory):
 #CHANGE
 def convert_csv_to_xml(in_path, out_path):
     converter = CSVtoXMLConverter(in_path)
+    xml = converter.to_xml_str()
     file = open(out_path, "w")
-    file.write(converter.to_xml_str())
+    file.write(xml)
+    return xml
 
 class CSVHandler(FileSystemEventHandler):
     def __init__(self, input_path, output_path):
@@ -49,7 +51,7 @@ class CSVHandler(FileSystemEventHandler):
         # we do the conversion
 
         # !TODO: once the conversion is done, we should updated the converted_documents tables
-        convert_csv_to_xml(csv_path, xml_path)
+        xml= convert_csv_to_xml(csv_path, xml_path)
         print(f"new xml file generated: '{xml_path}'")
 
         # !TODO: we should store the XML document into the imported_documents table
@@ -67,7 +69,7 @@ class CSVHandler(FileSystemEventHandler):
             cursor.execute("INSERT INTO converted_documents (src, file_size, dst) VALUES (%s, %s, %s);", (csv_path, os.stat(xml_path).st_size , xml_path))
             connection.commit()
 
-            cursor.execute("INSERT INTO imported_documents (file_name, xml, estado) VALUES (%s, %s, 'imported');",(csv_path, xml_path))
+            cursor.execute("INSERT INTO imported_documents (file_name, xml, estado) VALUES (%s, %s, 'imported');",(csv_path, xml))
             connection.commit()
 
         except (Exception, psycopg2.Error) as error:

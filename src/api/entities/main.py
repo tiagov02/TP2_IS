@@ -100,7 +100,8 @@ def create_suicides():
     cursor = connection.cursor()
 
     cursor.execute(f"insert into suicides (min_age, max_age, tax, population_no, suicides_no, generation, gdp_for_year, hdi_for_year, gdp_per_capita, year, id_country) "
-                   f"values ({min_age}, {max_age}, {tax}, {population_no}, {suicides_no}, \'{generation}\', {gpd_for_year}, {hdi_for_year}, {gdp_per_capita}, {year}, \'{id_country}\');")
+                   f"values ({min_age}, {max_age}, {tax}, {population_no}, {suicides_no}, \'{generation}\', \'{gpd_for_year}\', {hdi_for_year}, {gdp_per_capita}, {year}, \'{id_country}\');")
+    connection.commit()
     return jsonify(data), 201
 
 @app.route('/api/suicides/update', methods=['POST'])
@@ -126,11 +127,12 @@ def update_suicide():
 
     cursor = connection.cursor()
     cursor.execute(f"UPDATE suicides SET min_age={min_age}, max_age={max_age}, tax={tax}, population_no={population_no}, suicides_no={suicides_no}, "
-                   f"generation=\'{generation}\', gdp_for_year={gpd_for_year}, hdi_for_year={hdi_for_year}, gdp_per_capita={gdp_per_capita}, id_country=\'{id_country}\',  "
+                   f"generation=\'{generation}\', gdp_for_year=\'{gpd_for_year}\', hdi_for_year={hdi_for_year}, gdp_per_capita={gdp_per_capita}, id_country=\'{id_country}\',  "
                    f"year={year} WHERE id=\'{id}\'")
 
     cursor.execute(f"SELECT * from suicides WHERE id=\'{id}\'")
     result = cursor.fetchone()
+    connection.commit()
     suicide = Suicide(
         id=result[0],
         min_age=result[1],
@@ -226,6 +228,7 @@ def create_country():
     cursor = connection.cursor()
     cursor.execute(f"insert into countries (name) values (\'{name}\') RETURNING id")
     new_id = cursor.fetchone()[0]
+    connection.commit()
     if new_id is not None:
         return get_country(new_id)
     else:
@@ -247,6 +250,7 @@ def update_country():
     cursor.execute(f"UPDATE countries SET name=\'{name}\',geom = ST_MakePoint({lon}, {lat}),updated_on=now() WHERE id=\'{id}\'")
     cursor.execute(f"SELECT * from countries WHERE id=\'{id}\' ")
     first = cursor.fetchone()
+    connection.commit()
     return jsonify(Country(
         id=first[0],
         name=first[1],

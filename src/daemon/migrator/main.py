@@ -82,8 +82,6 @@ if __name__ == "__main__":
                     if not found:
                         db_dst_cur.execute(f"insert into countries (name) values (\'{country[0]}\')")
                         db_dst.commit()
-
-
                     db_org_cur.execute(f"WITH data AS ( "
                                        f"SELECT "
                                        f"(unnest(xpath('/SUICIDES/YEAR[@code={year[0]}]/COUNTRY[@name=\"{country[0]}\"]/SUICIDE/@sex', xml)))::text AS sex, "
@@ -115,6 +113,8 @@ if __name__ == "__main__":
                         db_dst_cur.execute(
                             f"insert into suicides (min_age, max_age, tax, population_no, suicides_no, generation, gdp_for_year, hdi_for_year, gdp_per_capita, year, id_country) "
                             f"values ({min_age}, {max_age}, {tax}, {population_no}, {suicides_no}, \'{generation}\', \'{gdp_for_year}\', {hdi_for_year}, {gdp_per_capita}, {year[0]}, \'{new_id}\');")
+
+            db_org_cur.execute(f"UPDATE imported_documents SET estado='migrated' WHERE id={id[0]}")
         db_org.close()
         db_dst.close()
 

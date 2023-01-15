@@ -9,7 +9,7 @@ app.config["DEBUG"] = True
 
 print("connecting to server...")
 server = xmlrpc.client.ServerProxy('http://rpc-server:9000')
-
+print("Connected!")
 
 @app.route('/api/suicides_per_year/<int:year>', methods=['GET'])
 def get_best_players(year:int):

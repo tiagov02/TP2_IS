@@ -114,6 +114,7 @@ if __name__ == "__main__":
                             f"insert into suicides (min_age, max_age, tax, population_no, suicides_no, generation, gdp_for_year, hdi_for_year, gdp_per_capita, year, id_country) "
                             f"values ({min_age}, {max_age}, {tax}, {population_no}, {suicides_no}, \'{generation}\', \'{gdp_for_year}\', {hdi_for_year}, {gdp_per_capita}, {year[0]}, \'{new_id}\');")
 
+            print(f"Finished the conversion for file with id: {id[0]}")
             db_org_cur.execute(f"UPDATE imported_documents SET estado='migrated' WHERE id={id[0]}")
         db_org.close()
         db_dst.close()

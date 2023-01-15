@@ -17,7 +17,6 @@ if __name__ == "__main__":
 
     with SimpleXMLRPCServer(('localhost', PORT), requestHandler=RequestHandler) as server:
         server.register_introspection_functions()
-        settings = "user=is password=is host=localhost port=5432 database=is"
 
 
         def signal_handler(signum, frame):
@@ -30,33 +29,6 @@ if __name__ == "__main__":
             sys.exit(0)
 
 
-        def validateXSD(xml: str, xsd_path: str) -> bool:
-            xmlschema_doc = etree.parse(xsd_path)
-            xmlschema = etree.XMLSchema(xmlschema_doc)
-
-            xml_doc = etree.fromstring(xml)
-            result = xmlschema.validate(xml_doc)
-
-            return result
-
-
-        def saveToDb(xml: str,xml_name:str):
-            try:
-                xml_file = etree.fromstring(xml)
-                s = etree.tostring(xml_file, encoding="utf8", method="xml").decode()
-                connection = psycopg2.connect(settings)
-
-                cursor = connection.cursor()
-                cursor.execute("INSERT INTO imported_documents (file_name, xml) VALUES(%s, %s)", (xml_name, s))
-                connection.commit()
-            except (Exception, psycopg2.Error) as error:
-                print("Failed to fetch data", error)
-            finally:
-                if connection:
-                    cursor.close()
-                    connection.close()
-
-
         # XPATH AND XQUERY
         def orderByYear(year):
             nSuicides = []
@@ -64,11 +36,7 @@ if __name__ == "__main__":
             children = []
             olders = []
             try:
-                connection = psycopg2.connect(user="is",
-                                              password="is",
-                                              host="localhost",
-                                              port="5432",
-                                              database="is")
+                connection = psycopg2.connect(host='db-xml', database='is', user='is', password='is')
 
                 cursor = connection.cursor()
                 print(year)
@@ -125,11 +93,7 @@ if __name__ == "__main__":
             children = []
             olders = []
             try:
-                connection = psycopg2.connect(user="is",
-                                              password="is",
-                                              host="localhost",
-                                              port="5432",
-                                              database="is")
+                connection = psycopg2.connect(host='db-xml', database='is', user='is', password='is')
 
                 cursor = connection.cursor()
                 cursor.execute(
@@ -187,11 +151,7 @@ if __name__ == "__main__":
             children = []
             olders = []
             try:
-                connection = psycopg2.connect(user="is",
-                                              password="is",
-                                              host="localhost",
-                                              port="5432",
-                                              database="is")
+                connection = psycopg2.connect(host='db-xml', database='is', user='is', password='is')
 
                 cursor = connection.cursor()
                 cursor.execute(
@@ -247,11 +207,7 @@ if __name__ == "__main__":
         def suicidesInRichCountry():
             res = []
             try:
-                connection = psycopg2.connect(user="is",
-                                              password="is",
-                                              host="localhost",
-                                              port="5432",
-                                              database="is")
+                connection = psycopg2.connect(host='db-xml', database='is', user='is', password='is')
 
                 cursor = connection.cursor()
                 cursor.execute(f"with suicides as "
@@ -274,11 +230,7 @@ if __name__ == "__main__":
         def yearWithLessandMoreSuicides():
             res = []
             try:
-                connection = psycopg2.connect(user="is",
-                                              password="is",
-                                              host="localhost",
-                                              port="5432",
-                                              database="is")
+                connection = psycopg2.connect(host='db-xml', database='is', user='is', password='is')
 
                 cursor = connection.cursor()
                 cursor.execute(

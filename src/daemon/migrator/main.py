@@ -78,12 +78,10 @@ if __name__ == "__main__":
                     for country in db_org_cur.fetchall():
                         found = False
                         new_id = None
-                        try:
-                            db_dst_cur.execute(f"SELECT id from countries WHERE name=\'{country[0]}\'")
-                            found = True
-                        except psycopg2.errors.UndefinedColumn:
-                            found = False
-                        if not found:
+
+                        db_dst_cur.execute(f"SELECT id from countries WHERE name=\'{country[0]}\'")
+                        a = db_dst_cur.fetchall()
+                        if len(a) != 0:
                             db_dst_cur.execute(f"insert into countries (name) values (\'{country[0]}\')")
                             db_dst.commit()
                         db_org_cur.execute(f"WITH data AS ( "

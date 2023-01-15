@@ -81,7 +81,7 @@ if __name__ == "__main__":
 
                         db_dst_cur.execute(f"SELECT id from countries WHERE name=\'{country[0]}\'")
                         a = db_dst_cur.fetchall()
-                        if len(a) != 0:
+                        if len(a) == 0:
                             db_dst_cur.execute(f"insert into countries (name) values (\'{country[0]}\')")
                             db_dst.commit()
                         db_org_cur.execute(f"WITH data AS ( "

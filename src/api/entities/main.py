@@ -16,8 +16,9 @@ app.config["DEBUG"] = True
 
 # SUICIDES
 
-@app.route('/api/suicides/', methods=['GET'])
-def get_suicides():
+#Because our database have too many registries we limit the consult to faster acess
+@app.route('/api/suicides/<int:page>/<int:max_records>', methods=['GET'])
+def get_suicides(page:int,max_records:int):
     suicides = []
     connection = psycopg2.connect(user="is",
                                   password="is",
@@ -25,7 +26,8 @@ def get_suicides():
                                   database="is")
 
     cursor = connection.cursor()
-    cursor.execute("SELECT * from suicides")
+    offset = max_records * (page-1)
+    cursor.execute(f"SELECT * from suicides LIMIT {max_records} OFFSET {offset}")
     for result in cursor:
         s = Suicide(
             id=result[0],

@@ -43,7 +43,7 @@ if __name__ == "__main__":
                 cursor.execute(
                     f"with suicides as\t"
                     f"(select unnest(xpath('//SUICIDES/YEAR[@code=\"{year}\"]/COUNTRY/SUICIDE', xml))\t"
-                    f"as suicide from imported_documents where file_name = 'suicides2.xml')\t"
+                    f"as suicide from imported_documents GROUP BY updated_on LIMIT 1)\t"
                     f"SELECT ((xpath('@sex', suicide))[1]::varchar) as sex,\t"
                     f"(sum((xpath('@suicides_no',suicide))[1]::varchar::numeric)) :: varchar\t"
                     f"FROM suicides GROUP BY (xpath('@sex', suicide))[1]::varchar")
@@ -54,7 +54,7 @@ if __name__ == "__main__":
                 cursor = connection.cursor()
                 cursor.execute(f"with suicides as ("
                                f"select unnest(xpath('//SUICIDES/YEAR[@code=\"{year}\"]/COUNTRY/SUICIDE[@minAge < 15]', xml)) "
-                               f"as suicide from imported_documents where file_name = 'suicides2.xml') "
+                               f"as suicide from imported_documents GROUP BY updated_on LIMIT 1) "
                                f"SELECT (sum((xpath('@suicides_no',suicide))[1]::varchar::numeric)) :: varchar "
                                f"FROM suicides")
                 for c in cursor:
@@ -64,7 +64,7 @@ if __name__ == "__main__":
                 cursor.execute(f"with suicides as ("
                                f"select unnest(xpath('//SUICIDES/YEAR[@code=\"{year}\"]/COUNTRY/SUICIDE[@maxAge =\"MAX\"]', xml)) "
                                f"as suicide "
-                               f"from imported_documents where file_name = 'suicides2.xml') "
+                               f"from imported_documents GROUP BY updated_on LIMIT 1) "
                                f"SELECT (sum((xpath('@suicides_no',suicide))[1]::varchar::numeric))::varchar "
                                f"FROM suicides")
                 for o in cursor:
@@ -91,7 +91,7 @@ if __name__ == "__main__":
                 cursor.execute(
                     f"with suicides as (select unnest"
                     f"(xpath('//SUICIDES/YEAR/COUNTRY[@name=\"{country}\"]/SUICIDE', xml)) "
-                    f"as suicide from imported_documents where file_name = 'suicides2.xml') "
+                    f"as suicide from imported_documents GROUP BY updated_on LIMIT 1) "
                     f"SELECT ((xpath('@sex', suicide))[1]::varchar) as sex, "
                     f"(sum((xpath('@suicides_no',suicide))[1]::varchar::numeric))::varchar "
                     f"FROM suicides GROUP BY (xpath('@sex', suicide))[1]::varchar")
@@ -104,7 +104,7 @@ if __name__ == "__main__":
                                f"select "
                                f"unnest"
                                f"(xpath('//SUICIDES/YEAR/COUNTRY[@name=\"{country}\"]/SUICIDE[@minAge < 15]', xml)) "
-                               f"as suicide from imported_documents where file_name = 'suicides2.xml') "
+                               f"as suicide from imported_documents GROUP BY updated_on LIMIT 1) "
                                f"SELECT (sum((xpath('@suicides_no',suicide))[1]::varchar::numeric))::varchar "
                                f"FROM suicides")
                 for c in cursor:
@@ -116,7 +116,7 @@ if __name__ == "__main__":
                                f"unnest"
                                f"(xpath('//SUICIDES/YEAR/COUNTRY[@name=\"{country}\"]/SUICIDE[@maxAge =\"MAX\"]', xml)) "
                                f"as suicide "
-                               f"from imported_documents where file_name = 'suicides2.xml') "
+                               f"from imported_documents GROUP BY updated_on LIMIT 1) "
                                f"SELECT (sum((xpath('@suicides_no',suicide))[1]::varchar::numeric))::varchar "
                                f"FROM suicides")
                 for o in cursor:
@@ -141,7 +141,7 @@ if __name__ == "__main__":
                 cursor.execute(
                     f"with suicides as (select unnest"
                     f"(xpath('//SUICIDES/YEAR[@code=\"{year}\"]/COUNTRY[@name=\"{country}\"]/SUICIDE', xml)) "
-                    f"as suicide from imported_documents where file_name = 'suicides2.xml') "
+                    f"as suicide from imported_documents GROUP BY updated_on LIMIT 1) "
                     f"SELECT ((xpath('@sex', suicide))[1]::varchar) as sex, "
                     f"(sum((xpath('@suicides_no',suicide))[1]::varchar::numeric)) :: varchar "
                     f"FROM suicides GROUP BY (xpath('@sex', suicide))[1]::varchar")
@@ -155,7 +155,7 @@ if __name__ == "__main__":
                                f"select "
                                f"unnest"
                                f"(xpath('//SUICIDES/YEAR[@code=\"{year}\"]/COUNTRY[@name=\"{country}\"]/SUICIDE[@minAge < 15]', xml)) "
-                               f"as suicide from imported_documents where file_name = 'suicides2.xml') "
+                               f"as suicide from imported_documents GROUP BY updated_on LIMIT 1) "
                                f"SELECT (sum((xpath('@suicides_no',suicide))[1]::varchar::numeric))::varchar "
                                f"FROM suicides")
                 for c in cursor:
@@ -167,7 +167,7 @@ if __name__ == "__main__":
                                f"unnest("
                                f"xpath('//SUICIDES/YEAR[@code=\"{year}\"]/COUNTRY[@name=\"{country}\"]/SUICIDE[@maxAge =\"MAX\"]', xml)) "
                                f"as suicide "
-                               f"from imported_documents where file_name = 'suicides2.xml') "
+                               f"from imported_documents GROUP BY updated_on LIMIT 1) "
                                f"SELECT (sum((xpath('@suicides_no',suicide))[1]::varchar::numeric))::varchar "
                                f"FROM suicides")
                 for o in cursor:
@@ -189,7 +189,7 @@ if __name__ == "__main__":
                 cursor = connection.cursor()
                 cursor.execute(f"with suicides as "
                                f"(select unnest(xpath('//SUICIDES/YEAR/COUNTRY/SUICIDE[@gdp_per_capita>18577]', xml)) "
-                               f"as suicide from imported_documents where file_name = 'suicides2.xml') "
+                               f"as suicide from imported_documents GROUP BY updated_on LIMIT 1) "
                                f"SELECT ((xpath('@sex', suicide))[1]::varchar) as sex, "
                                f"(sum((xpath('@suicides_no',suicide))[1]::varchar::numeric))::varchar "
                                f"FROM suicides GROUP BY (xpath('@sex', suicide))[1]::varchar")
@@ -213,8 +213,8 @@ if __name__ == "__main__":
                 cursor.execute(
                     f"with countries as ( "
                     f"select unnest(xpath('//COUNTRY', xml)) as country "
-                    f"from imported_documents "
-                    f"where file_name = 'suicides2.xml' "
+                    f"from imported_documents GROUP BY updated_on LIMIT 1"
+                    f"ORDER BY updated_on DESC "
                     f"), country_suicides as ( "
                     f"SELECT "
                     f"(xpath('@name', country))[1]::text as country_name, "

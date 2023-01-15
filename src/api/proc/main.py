@@ -1,5 +1,5 @@
 import sys
-
+import xmlrpc.client
 from flask import Flask
 
 PORT = int(sys.argv[1]) if len(sys.argv) >= 2 else 9000
@@ -7,9 +7,13 @@ PORT = int(sys.argv[1]) if len(sys.argv) >= 2 else 9000
 app = Flask(__name__)
 app.config["DEBUG"] = True
 
+print("connecting to server...")
+server = xmlrpc.client.ServerProxy('http://rpc-server:9000')
 
-@app.route('/api/best_players', methods=['GET'])
-def get_best_players():
+
+@app.route('/api/suicides_per_year/<int:year>', methods=['GET'])
+def get_best_players(year:int):
+    server.orderByYear(year)
     return [{
         "id": "7674fe6a-6c8d-47b3-9a1f-18637771e23b",
         "name": "Ronaldo",

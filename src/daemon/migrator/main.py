@@ -113,9 +113,11 @@ if __name__ == "__main__":
                         db_dst_cur.execute(
                             f"insert into suicides (min_age, max_age, tax, population_no, suicides_no, generation, gdp_for_year, hdi_for_year, gdp_per_capita, year, id_country) "
                             f"values ({min_age}, {max_age}, {tax}, {population_no}, {suicides_no}, \'{generation}\', \'{gdp_for_year}\', {hdi_for_year}, {gdp_per_capita}, {year[0]}, \'{new_id}\');")
+                        db_dst.commit()
 
             print(f"Finished the conversion for file with id: {id[0]}")
-            db_org_cur.execute(f"UPDATE imported_documents SET estado='migrated' WHERE id={id[0]}")
+            db_org_cur.execute(f"UPDATE imported_documents SET estado='migrated', updated_on=now() WHERE id={id[0]}")
+            db_org.commit()
         db_org.close()
         db_dst.close()
 

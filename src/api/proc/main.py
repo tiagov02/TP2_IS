@@ -20,11 +20,11 @@ def get_suicides_per_year(year:int):
             "suicides_no" : res[0][0][1]
         },
         {
-            "sex":res[0][1][0],
-            "suicides_no":res[0][1][1]
+            "sex" : res[0][1][0],
+            "suicides_no" : res[0][1][1]
         }],
-        "children":res[1][0][0],
-        "olders":res[3][0][0]
+        "children" : res[1][0][0],
+        "olders" : res[3][0][0]
     }],200
 
 @app.route('/api/suicides_per_country/<string:country>', methods=['GET'])

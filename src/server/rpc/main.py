@@ -204,7 +204,7 @@ if __name__ == "__main__":
             return res
 
 
-        def yearWithLessandMoreSuicides():
+        def CountryWithLessandMoreSuicides():
             res = []
             try:
                 connection = psycopg2.connect(host='db-xml', database='is', user='is', password='is')
@@ -258,7 +258,7 @@ if __name__ == "__main__":
         server.register_function(orderByCountry)
         server.register_function(orderByYarAndCountry)
         server.register_function(suicidesInRichCountry)
-        server.register_function(yearWithLessandMoreSuicides)
+        server.register_function(CountryWithLessandMoreSuicides)
 
         # start the server
         print("Starting the RPC Server...")

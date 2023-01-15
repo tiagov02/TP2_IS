@@ -45,10 +45,10 @@ if __name__ == "__main__":
             coords = generate_coords(data['name'])
             url = 'http://api-entities:8080/api/countries/update'
             myobj = {
-                'id': data['id'],
+                'id': data['id'][0],
                 'name':data['name'],
-                'lat':data['lat'],
-                'lon' :data['lon']
+                'lat' : coords[0],
+                'lon' : coords[1]
             }
 
             x = requests.post(url, json=myobj)

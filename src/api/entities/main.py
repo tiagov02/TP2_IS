@@ -27,7 +27,7 @@ def get_suicides(page:int,max_records:int):
 
     cursor = connection.cursor()
     offset = max_records * (page-1)
-    cursor.execute(f"SELECT * from suicides LIMIT {max_records} OFFSET {offset}")
+    cursor.execute(f"SELECT * from suicides ORDER year LIMIT {max_records} OFFSET {offset}")
     for result in cursor:
         s = Suicide(
             id=result[0],

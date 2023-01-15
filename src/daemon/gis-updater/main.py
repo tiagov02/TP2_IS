@@ -42,7 +42,20 @@ if __name__ == "__main__":
         # !TODO: 3- Submit the changes
 
         for data in getCoordsWithoutUpdate():
-            coords = generate_coords(data['name'])
+            #Because Sometimes the api of nominatim crashes, when their api crashes, we can retry the request
+            while True:
+                found = False
+                try:
+                    coords = generate_coords(data['name'])
+                    found = True
+                except requests.exceptions.ConnectionError:
+                    found = False
+                if found:
+                    break
+                else:
+                    time.sleep(POLLING_FREQ)
+                    continue
+
             url = 'http://api-entities:8080/api/countries/update'
             myobj = {
                 'id': data['id'][0],
@@ -52,4 +65,6 @@ if __name__ == "__main__":
             }
 
             x = requests.post(url, json=myobj)
+
+
         time.sleep(POLLING_FREQ)

@@ -33,7 +33,7 @@ def getCoordsWithoutUpdate():
     data = r.json()
 
     return data
-
+#test
 if __name__ == "__main__":
     while True:
         print(f"Getting up to {ENTITIES_PER_ITERATION} entities without coordinates...")

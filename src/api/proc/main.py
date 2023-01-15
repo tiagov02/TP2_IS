@@ -34,7 +34,7 @@ def get_suicides_in_rich_countries():
         {
             "sex": res[0][0],
             "suicides_no": res[0][1]
-        }]
+        }],200
     else:
         abort(500)
 
@@ -51,7 +51,7 @@ def get_countries_less_more_suicides():
                 "country" : res[0][0],
                 "suicides_no": res[0][1]
             }
-        }]
+        }],200
 
 if __name__ == '__main__':
     app.run(host="0.0.0.0", port=PORT)

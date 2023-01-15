@@ -42,7 +42,7 @@ if __name__ == "__main__":
         # !TODO: 3- Submit the changes
 
         for data in getCoordsWithoutUpdate():
-            #Because Sometimes the api of nominatim crashes, when their api crashes, we can retry the request
+            #Because Sometimes the api of nominatim crashes. When their api crashes, we can retry the request
             while True:
                 found = False
                 try:

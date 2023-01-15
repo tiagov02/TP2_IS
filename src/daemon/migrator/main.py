@@ -77,7 +77,7 @@ if __name__ == "__main__":
                         db_dst_cur.execute(f"SELECT id from countries WHERE name=\'{country[0]}\'")
                         new_id = db_dst_cur.fetchone()[0]
                         found = True
-                    except Exception:
+                    except psycopg2.errors.UndefinedColumn:
                         found = False
                     if not found:
                         db_dst_cur.execute(f"insert into countries (name) values (\'{country[0]}\')")

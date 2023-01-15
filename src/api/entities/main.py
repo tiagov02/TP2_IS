@@ -197,7 +197,7 @@ def get_country(id:str):
         updated_on=first[4]
     ).__dict__),200
 
-@app.route('/api/countries/to_update/<int:limit>', methods=['GET'])
+@app.route('/api/countrie/to_update/<int:limit>', methods=['GET'])
 def get_100_countries_to_update(limit:int):
     countries = []
     connection = psycopg2.connect(user="is",

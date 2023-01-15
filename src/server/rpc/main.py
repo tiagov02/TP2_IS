@@ -32,7 +32,6 @@ if __name__ == "__main__":
         # XPATH AND XQUERY
         def orderByYear(year):
             nSuicides = []
-            data = []
             children = []
             olders = []
             try:
@@ -51,14 +50,7 @@ if __name__ == "__main__":
                 for ns in cursor:
                     nSuicides.append(ns)
                 cursor.close()
-                cursor = connection.cursor()
-                cursor.execute(f"select unnest( "
-                               f"xpath('//SUICIDES/YEAR[@code=\"{year}\"]/COUNTRY/SUICIDE',xml) "
-                               f" ) as suicide "
-                               f"from imported_documents where file_name='suicides2.xml'")
-                for dt in cursor:
-                    data.append(dt)
-                cursor.close()
+
                 cursor = connection.cursor()
                 cursor.execute(f"with suicides as ("
                                f"select unnest(xpath('//SUICIDES/YEAR[@code=\"{year}\"]/COUNTRY/SUICIDE[@minAge < 15]', xml)) "
@@ -83,13 +75,13 @@ if __name__ == "__main__":
                 if connection:
                     cursor.close()
                     connection.close()
-            return [nSuicides, data, children, olders]
+            return [nSuicides, children, olders]
 
 
         ##alterar
         def orderByCountry(country):
             nSuicides = []
-            data = []
+
             children = []
             olders = []
             try:
@@ -106,14 +98,7 @@ if __name__ == "__main__":
                 for ns in cursor:
                     nSuicides.append(ns)
                 cursor.close()
-                cursor = connection.cursor()
-                cursor.execute(f"select unnest( "
-                               f"xpath('//SUICIDES/YEAR/COUNTRY[@name=\"{country}\"]/SUICIDE',xml) "
-                               f" ) as suicide "
-                               f"from imported_documents where file_name='suicides2.xml'")
-                for dt in cursor:
-                    data.append(dt)
-                cursor.close()
+
                 cursor = connection.cursor()
                 cursor.execute(f"with suicides as ("
                                f"select "
@@ -142,12 +127,11 @@ if __name__ == "__main__":
                 if connection:
                     cursor.close()
                     connection.close()
-            return [nSuicides, data, children, olders]
+            return [nSuicides, children, olders]
 
 
         def orderByYarAndCountry(year, country):
             nSuicides = []
-            data = []
             children = []
             olders = []
             try:
@@ -165,14 +149,7 @@ if __name__ == "__main__":
                 for ns in cursor:
                     nSuicides.append(ns)
                 cursor.close()
-                cursor = connection.cursor()
-                cursor.execute(f"select unnest( "
-                               f"xpath('//SUICIDES/YEAR[@code=\"{year}\"]/COUNTRY[@name=\"{country}\"]/SUICIDE',xml) "
-                               f" ) as suicide "
-                               f"from imported_documents where file_name='suicides2.xml'")
-                for dt in cursor:
-                    data.append(dt)
-                cursor.close()
+
                 cursor = connection.cursor()
                 cursor.execute(f"with suicides as ("
                                f"select "
@@ -201,7 +178,7 @@ if __name__ == "__main__":
                 if connection:
                     cursor.close()
                     connection.close()
-            return [nSuicides, data, children, olders]
+            return [nSuicides, children, olders]
 
 
         def suicidesInRichCountry():

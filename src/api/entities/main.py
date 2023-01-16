@@ -27,8 +27,16 @@ def get_suicides(page:int,max_records:int):
 
     cursor = connection.cursor()
     offset = max_records * (page-1)
-    cursor.execute(f"SELECT * from suicides ORDER year LIMIT {max_records} OFFSET {offset}")
+    cursor.execute(f"SELECT s.*,c.* from suicides s, countries c WHERE s.id_country=c.id ORDER BY year LIMIT {max_records} OFFSET {offset} ")
     for result in cursor:
+        c = Country(
+            id=result[14],
+            name=result[15],
+            geom=result[16],
+            created_on=result[17],
+            updated_on=result[18]
+        ).__dict__
+
         s = Suicide(
             id=result[0],
             min_age=result[1],
@@ -42,12 +50,27 @@ def get_suicides(page:int,max_records:int):
             gdp_per_capita = result[9],
             year = result[10],
             id_country = result[11],
+            country= c,
             created_on = result[12],
             updated_on = result[13]
         )
         suicides.append(s)
 
     return jsonify([suicide.__dict__ for suicide in suicides])
+
+@app.route('/api/suicides/number', methods=['GET'])
+def get_number_suicides():
+    connection = psycopg2.connect(user="is",
+                                  password="is",
+                                  host="db-rel",
+                                  database="is")
+
+    cursor = connection.cursor()
+    cursor.execute(f"SELECT COUNT(*) from suicides")
+    result = cursor.fetchone()
+    return [{
+        "no_registries": result[0]
+    }]
 
 @app.route('/api/suicides/<string:id>', methods=['GET'])
 def get_suicide(id:str):
@@ -57,8 +80,15 @@ def get_suicide(id:str):
                                   database="is")
 
     cursor = connection.cursor()
-    cursor.execute(f"SELECT * from suicides WHERE id=\'{id}\'")
+    cursor.execute(f"SELECT s.*,c.* from suicides s, countries c WHERE id=\'{id}\' AND s.id_country=c.id ")
     result = cursor.fetchone()
+    c = Country(
+        id=result[14],
+        name=result[15],
+        geom=result[16],
+        created_on=result[17],
+        updated_on=result[18]
+    ).__dict__
     suicide = Suicide(
         id=result[0],
         min_age=result[1],
@@ -72,6 +102,7 @@ def get_suicide(id:str):
         gdp_per_capita = result[9],
         year = result[10],
         id_country = result[11],
+        country=c,
         created_on = result[12],
         updated_on = result[13]
         )

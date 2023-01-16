@@ -15,7 +15,7 @@ if __name__ == "__main__":
 
 
 
-    with SimpleXMLRPCServer(('localhost', PORT), requestHandler=RequestHandler) as server:
+    with SimpleXMLRPCServer(('0.0.0.0', PORT), requestHandler=RequestHandler) as server:
         server.register_introspection_functions()
 
 

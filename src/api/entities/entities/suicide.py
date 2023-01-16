@@ -6,8 +6,9 @@ import psycopg2
 
 class Suicide:
 
-    def __init__(self,min_age,max_age,tax,population_no,suicides_no,generation,gdp_for_year,hdi_for_year,gdp_per_capita,year,id_country,country,id=None, created_on=None, updated_on=None):
+    def __init__(self,min_age,sex,max_age,tax,population_no,suicides_no,generation,gdp_for_year,hdi_for_year,gdp_per_capita,year,id_country,country,id=None, created_on=None, updated_on=None):
         self.year = year
+        self.sex = sex
         self.id = id or uuid.uuid4()
         self.min_age = min_age
         self.max_age = max_age

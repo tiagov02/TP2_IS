@@ -29,7 +29,8 @@ if __name__ == "__main__":
             sys.exit(0)
 
 
-        # XPATH AND XQUERY
+        # TODO:XPATH AND XQUERY
+        '''
         def orderByYear(year):
             nSuicides = []
             children = []
@@ -81,7 +82,7 @@ if __name__ == "__main__":
             return [nSuicides, children, olders]
 
 
-        ##alterar
+        
         def orderByCountry(country):
             nSuicides = []
             children = []
@@ -262,7 +263,53 @@ if __name__ == "__main__":
                     cursor.close()
                     connection.close()
             return res
+        '''
+        def orderByYear(year):
+            nSuicides = []
+            children = []
+            olders = []
+            try:
+                connection = psycopg2.connect(host='db-rel', database='is', user='is', password='is')
 
+                cursor = connection.cursor()
+                print(year)
+
+                cursor.execute(
+                    f"with suicides as\t"
+                    f"(select unnest(xpath('//SUICIDES/YEAR[@code=\"{year}\"]/COUNTRY/SUICIDE', xml))\t"
+                    f"as suicide from imported_documents WHERE id={id})\t"
+                    f"SELECT ((xpath('@sex', suicide))[1]::varchar) as sex,\t"
+                    f"(sum((xpath('@suicides_no',suicide))[1]::varchar::numeric)) :: varchar\t"
+                    f"FROM suicides GROUP BY (xpath('@sex', suicide))[1]::varchar")
+                for ns in cursor:
+                    nSuicides.append(ns)
+                cursor.close()
+
+                cursor = connection.cursor()
+                cursor.execute(f"with suicides as ("
+                               f"select unnest(xpath('//SUICIDES/YEAR[@code=\"{year}\"]/COUNTRY/SUICIDE[@minAge < 15]', xml)) "
+                               f"as suicide from imported_documents WHERE id={id}) "
+                               f"SELECT (sum((xpath('@suicides_no',suicide))[1]::varchar::numeric)) :: varchar "
+                               f"FROM suicides")
+                for c in cursor:
+                    children.append(c)
+                cursor.close()
+                cursor = connection.cursor()
+                cursor.execute(f"with suicides as ("
+                               f"select unnest(xpath('//SUICIDES/YEAR[@code=\"{year}\"]/COUNTRY/SUICIDE[@maxAge =\"MAX\"]', xml)) "
+                               f"as suicide "
+                               f"from imported_documents WHERE id={id}) "
+                               f"SELECT (sum((xpath('@suicides_no',suicide))[1]::varchar::numeric))::varchar "
+                               f"FROM suicides")
+                for o in cursor:
+                    olders.append(o)
+            except (Exception, psycopg2.Error) as error:
+                print("Failed to fetch data", error)
+            finally:
+                if connection:
+                    cursor.close()
+                    connection.close()
+            return [nSuicides, children, olders]
 
         # signals
 

@@ -30,11 +30,11 @@ def get_suicides(page:int,max_records:int):
     cursor.execute(f"SELECT s.*,c.* from suicides s, countries c WHERE s.id_country=c.id ORDER BY year LIMIT {max_records} OFFSET {offset} ")
     for result in cursor:
         c = Country(
-            id=result[14],
-            name=result[15],
-            geom=result[16],
-            created_on=result[17],
-            updated_on=result[18]
+            id=result[15],
+            name=result[16],
+            geom=result[17],
+            created_on=result[18],
+            updated_on=result[19]
         ).__dict__
 
         s = Suicide(
@@ -52,7 +52,8 @@ def get_suicides(page:int,max_records:int):
             id_country = result[11],
             country= c,
             created_on = result[12],
-            updated_on = result[13]
+            updated_on = result[13],
+            sex = result[14]
         )
         suicides.append(s)
 

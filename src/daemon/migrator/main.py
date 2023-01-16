@@ -113,8 +113,8 @@ if __name__ == "__main__":
                             hdi_for_year = 0 if row[8] == 'nan' else row[8]
                             gdp_per_capita = row[9]
                             db_dst_cur.execute(
-                                f"insert into suicides (min_age, max_age, tax, population_no, suicides_no, generation, gdp_for_year, hdi_for_year, gdp_per_capita, year, id_country) "
-                                f"values ({min_age}, {max_age}, {tax}, {population_no}, {suicides_no}, \'{generation}\', \'{gdp_for_year}\', {hdi_for_year}, {gdp_per_capita}, {year[0]}, \'{new_id}\');")
+                                f"insert into suicides (min_age, max_age, tax, population_no, suicides_no, generation, gdp_for_year, hdi_for_year, gdp_per_capita, year, id_country,sex) "
+                                f"values ({min_age}, {max_age}, {tax}, {population_no}, {suicides_no}, \'{generation}\', \'{gdp_for_year}\', {hdi_for_year}, {gdp_per_capita}, {year[0]}, \'{new_id}\', {sex});")
                             db_dst.commit()
 
                 print(f"Finished the conversion for file with id: {id[0]}")

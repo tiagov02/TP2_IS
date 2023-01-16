@@ -84,11 +84,11 @@ def get_suicide(id:str):
     cursor.execute(f"SELECT s.*,c.* from suicides s, countries c WHERE id=\'{id}\' AND s.id_country=c.id ")
     result = cursor.fetchone()
     c = Country(
-        id=result[14],
-        name=result[15],
-        geom=result[16],
-        created_on=result[17],
-        updated_on=result[18]
+        id=result[15],
+        name=result[16],
+        geom=result[17],
+        created_on=result[18],
+        updated_on=result[19]
     ).__dict__
     suicide = Suicide(
         id=result[0],
@@ -105,7 +105,8 @@ def get_suicide(id:str):
         id_country = result[11],
         country=c,
         created_on = result[12],
-        updated_on = result[13]
+        updated_on = result[13],
+        sex = result[14]
         )
 
     return jsonify([suicide.__dict__])
@@ -153,6 +154,7 @@ def update_suicide():
     gdp_per_capita = data['gpd_per_capita']
     id_country = data['id_country']
     year = data['year']
+    sex = data['sex']
 
     connection = psycopg2.connect(user="is",
                                   password="is",
@@ -162,11 +164,18 @@ def update_suicide():
     cursor = connection.cursor()
     cursor.execute(f"UPDATE suicides SET min_age={min_age}, max_age={max_age}, tax={tax}, population_no={population_no}, suicides_no={suicides_no}, "
                    f"generation=\'{generation}\', gdp_for_year=\'{gpd_for_year}\', hdi_for_year={hdi_for_year}, gdp_per_capita={gdp_per_capita}, id_country=\'{id_country}\',  "
-                   f"year={year} WHERE id=\'{id}\'")
+                   f"year={year} , sex=\'{sex}\' WHERE id=\'{id}\'")
 
-    cursor.execute(f"SELECT * from suicides WHERE id=\'{id}\'")
+    cursor.execute(f"SELECT s.*,c.* from suicides s, countries cWHERE id=\'{id}\'")
     result = cursor.fetchone()
     connection.commit()
+    c = Country(
+        id=result[15],
+        name=result[16],
+        geom=result[17],
+        created_on=result[18],
+        updated_on=result[19]
+    ).__dict__
     suicide = Suicide(
         id=result[0],
         min_age=result[1],
@@ -181,7 +190,9 @@ def update_suicide():
         year=result[10],
         id_country=result[11],
         created_on=result[12],
-        updated_on=result[13]
+        updated_on=result[13],
+        sex = result[14],
+        country = c
     )
 
     return jsonify([suicide.__dict__]),201

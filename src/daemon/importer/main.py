@@ -42,20 +42,15 @@ class CSVHandler(FileSystemEventHandler):
         # !TODO: check converted files in the database
         if csv_path in await self.get_converted_files():
             return
-
         print(f"new file to convert: '{csv_path}'")
-
         # we generate a unique file name for the XML file
         xml_path = generate_unique_file_name(self._output_path)
-
         # we do the conversion
 
         # !TODO: once the conversion is done, we should updated the converted_documents tables
         xml= convert_csv_to_xml(csv_path, xml_path)
         print(f"new xml file generated: '{xml_path}'")
-
         # !TODO: we should store the XML document into the imported_documents table
-
         connection = None
         cursor = None
 

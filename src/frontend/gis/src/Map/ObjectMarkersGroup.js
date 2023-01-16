@@ -2,7 +2,40 @@ import React, {useEffect, useState} from 'react';
 import {LayerGroup, useMap} from 'react-leaflet';
 import {ObjectMarker} from "./ObjectMarker";
 
+
+
 const DEMO_DATA = [
+        fetch('/api/all')
+            .then(response => response.json())
+            .then(data => {
+                // Format the data to match the structure of the DEMO_DATA
+                const formattedData = data.map(item => {
+                    return {
+                        type: "feature",
+                        geometry: {
+                            type: "Point",
+                            coordinates: [item.longitude, item.latitude]
+                        },
+                        properties: {
+                            id: item.id,
+                            name: item.name,
+                            country: item.country,
+                            position: item.position,
+                            imgUrl: item.img_url,
+                            number: item.number
+                        }
+                    }
+                });
+                setData(formattedData);
+            })
+];
+
+
+
+/*
+const DEMO_DATA = [
+
+
     {
         "type": "feature",
         "geometry": {
@@ -33,24 +66,14 @@ const DEMO_DATA = [
             imgUrl: "https://cdn-icons-png.flaticon.com/512/805/805404.png",
             number: 10
         }
-    },
-
-    {
-        "type": "feature",
-        "geometry": {
-            "type": "Point",
-            "coordinates": [41.69562, -8.84979]
-        },
-        "properties": {
-            id: "4cb5b2f0-343d-4250-ba5c-3a235343cb01",
-            name: "Ibrahimovic",
-            country: "Sweden",
-            position: "Striker",
-            imgUrl: "https://cdn-icons-png.flaticon.com/512/805/805409.png",
-            number: 11
-        }
     }
+
+
 ];
+
+ */
+
+
 
 function ObjectMarkersGroup() {
 

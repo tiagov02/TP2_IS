@@ -26,7 +26,7 @@ def generate_coords(region: str):
     ]
 
 def getCoordsWithoutUpdate():
-    url = f"http://api-entities:8080/api/countrie/to_update/{ENTITIES_PER_ITERATION}"
+    url = f"http://api-entities:8080/api/countries/to_update/{ENTITIES_PER_ITERATION}"
 
     r = requests.get(url=url)
 

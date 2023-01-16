@@ -179,25 +179,7 @@ def get_countries():
         ))
     return jsonify([country.__dict__ for country in countries])
 
-@app.route('/api/countries/<string:id>', methods=['GET'])
-def get_country(id:str):
-    connection = psycopg2.connect(user="is",
-                                  password="is",
-                                  host="db-rel",
-                                  database="is")
-
-    cursor = connection.cursor()
-    cursor.execute(f"SELECT * from countries WHERE id=\'{id}\' ")
-    first = cursor.fetchone()
-    return jsonify(Country(
-        id=first[0],
-        name=first[1],
-        geom=first[2],
-        created_on=first[3],
-        updated_on=first[4]
-    ).__dict__),200
-
-@app.route('/api/countrie/to_update/<int:limit>', methods=['GET'])
+@app.route('/api/countries/to_update/<int:limit>', methods=['GET'])
 def get_100_countries_to_update(limit:int):
     countries = []
     connection = psycopg2.connect(user="is",
@@ -216,6 +198,24 @@ def get_100_countries_to_update(limit:int):
             updated_on=result[4]
         ))
     return jsonify([country.__dict__ for country in countries])
+
+@app.route('/api/countries/<string:id>', methods=['GET'])
+def get_country(id:str):
+    connection = psycopg2.connect(user="is",
+                                  password="is",
+                                  host="db-rel",
+                                  database="is")
+
+    cursor = connection.cursor()
+    cursor.execute(f"SELECT * from countries WHERE id=\'{id}\' ")
+    first = cursor.fetchone()
+    return jsonify(Country(
+        id=first[0],
+        name=first[1],
+        geom=first[2],
+        created_on=first[3],
+        updated_on=first[4]
+    ).__dict__),200
 
 @app.route('/api/countries/create',methods=['POST'])
 def create_country():

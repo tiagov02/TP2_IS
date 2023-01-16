@@ -5,28 +5,13 @@ import {ObjectMarker} from "./ObjectMarker";
 
 
 const DEMO_DATA = [
-        fetch('/api/all')
+        fetch('http://api-proc:8080/api/all')
             .then(response => response.json())
             .then(data => {
                 // Format the data to match the structure of the DEMO_DATA
                 const formattedData = data.map(item => {
-                    return {
-                        type: "feature",
-                        geometry: {
-                            type: "Point",
-                            coordinates: [item.longitude, item.latitude]
-                        },
-                        properties: {
-                            id: item.id,
-                            name: item.name,
-                            country: item.country,
-                            position: item.position,
-                            imgUrl: item.img_url,
-                            number: item.number
-                        }
-                    }
+                    return item
                 });
-                setData(formattedData);
             })
 ];
 

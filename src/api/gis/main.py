@@ -31,7 +31,7 @@ def get_markers():
         }
     ]
 #This returns all
-@app.route('/api/all')
+@app.route('/api/all', methods=['GET'])
 def get_all():
     connection = psycopg2.connect(user="is",
                                   password="is",

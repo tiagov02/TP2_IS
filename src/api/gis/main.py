@@ -42,7 +42,7 @@ def get_all():
     cursor.execute(f"WITH suicide_country as( "
                    f"select SUM(s.suicides_no) as suicides_no, AVG(s.tax) as med_tax, c.name as country , c.geom as geom "
                    f" FROM countries c, suicides s "
-                   f"WHERE s.id_country = c.id AND st_makeenvelope(39.50,76.4,39.3,76.6) "
+                   f"WHERE s.id_country = c.id  "
                    f"GROUP BY s.id_country, c.name, c.geom "
                    f")"
                    f"SELECT jsonb_build_object(  "

@@ -45,7 +45,7 @@ def get_suicides_per_country(country):
                         "sex": res[0][1][0],
                         "suicides_no": res[0][1][1]
                     }],
-                "children": res[1][0],
+                "children": res[1][0][0],
                 "olders": res[2][0][0]
             }], 200
         else:
@@ -54,11 +54,11 @@ def get_suicides_per_country(country):
         abort(404)
 
 
-@app.route('/api/suicides_per_year_country/<int:year>/<int:country>', methods =['GET'])
+@app.route('/api/suicides_per_year_country/<int:year>/<string:country>', methods =['GET'])
 def get_suicides_per_year_country(year,country):
     try:
         res = server.orderByYarAndCountry(year, country)
-        if not len(res):
+        if not len(res) == 0:
             return [{
                 "per_sex": [{
                     "sex": res[0][0][0],
@@ -68,7 +68,7 @@ def get_suicides_per_year_country(year,country):
                         "sex": res[0][1][0],
                         "suicides_no": res[0][1][1]
                     }],
-                "children": res[1][0],
+                "children": res[1][0][0],
                 "olders": res[2][0][0]
             }], 200
         else:

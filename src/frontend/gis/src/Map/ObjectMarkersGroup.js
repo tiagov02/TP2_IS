@@ -3,8 +3,7 @@ import {LayerGroup, useMap} from 'react-leaflet';
 import {ObjectMarker} from "./ObjectMarker";
 
 async function requestEntities(bounds) {
-    const url = 'http://localhost:20002/api/objects?bounds=${bounds.toBBoxString()}';
-    const response = await fetch(url);
+    const response = await fetch(`http://localhost:20002/api/tile/${bounds.swLng}/${bounds.swlAT}/${bounds.neLng}/${bounds.neLat}`);;
     const data = await response.json();
     return data;
 }

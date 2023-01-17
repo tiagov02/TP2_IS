@@ -79,7 +79,7 @@ function Suicides(){
                                             {row.suicides_no}
                                         </TableCell>
                                         <TableCell component="td" align="center" scope="row">
-                                            {row.tax}
+                                            {row.tax} %
                                         </TableCell>
                                         <TableCell component="td" align="center" scope="row">
                                             {row.generation}

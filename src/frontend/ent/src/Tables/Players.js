@@ -58,10 +58,10 @@ function Players(){
                                     >
                                         <TableCell component="td" align="center">{row.id}</TableCell>
                                         <TableCell component="td" scope="row">
-                                            {row.name}
+                                            {row.country.name}
                                         </TableCell>
                                         <TableCell component="td" align="center" scope="row">
-                                            {row.age}
+                                            {row.gdp_per_capita}
                                         </TableCell>
                                     </TableRow>
                                 ))

@@ -21,7 +21,20 @@ app.config["DEBUG"] = True
 def connectToDB():
     return psycopg2.connect(user="is",password="is",host="db-rel",database="is")
 
-@app.route('/api/suicides/<int:page>/<int:max_records>', methods=['GET'])
+@app.route('/api/suicides/number', methods=['GET'])
+def get_number_suicides():
+
+    connection = connectToDB()
+    cursor = connection.cursor()
+
+    cursor.execute(f"SELECT COUNT(*) from suicides")
+    result = cursor.fetchone()
+
+    return [{
+        "no_registries": result[0]
+    }]
+
+@app.route('/api/suicides/per_page/<int:page>/<int:max_records>', methods=['GET'])
 def get_suicides(page:int,max_records:int):
     suicides = []
 
@@ -29,7 +42,8 @@ def get_suicides(page:int,max_records:int):
 
     cursor = connection.cursor()
     offset = max_records * (page-1)
-    cursor.execute(f"SELECT s.*,c.* from suicides s, countries c WHERE s.id_country=c.id ORDER BY year LIMIT {max_records} OFFSET {offset} ")
+    cursor.execute(f"SELECT s.*,c.* from suicides s, countries c WHERE s.id_country=c.id "
+                   f"ORDER BY year LIMIT {max_records} OFFSET {offset} ")
 
     for result in cursor:
         c = Country(
@@ -62,20 +76,7 @@ def get_suicides(page:int,max_records:int):
 
     return jsonify([suicide.__dict__ for suicide in suicides])
 
-@app.route('/api/suicides/number', methods=['GET'])
-def get_number_suicides():
-
-    connection = connectToDB()
-    cursor = connection.cursor()
-
-    cursor.execute(f"SELECT COUNT(*) from suicides")
-    result = cursor.fetchone()
-
-    return [{
-        "no_registries": result[0]
-    }]
-
-@app.route('/api/suicides/<string:id>', methods=['GET'])
+@app.route('/api/suicides/by_id/<string:id>', methods=['GET'])
 def get_suicide(id:str):
 
     connection = connectToDB()

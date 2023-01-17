@@ -40,7 +40,7 @@ export function ObjectMarker({geoJSON}) {
                         <ListItemText primary={name}/>
                     </ListItem>
                     {
-                        jsonData
+                        data
                             .map(({key, label, Icon}) =>
                                 <ListItem key={key}>
                                     <ListItemIcon>

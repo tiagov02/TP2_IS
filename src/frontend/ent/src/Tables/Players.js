@@ -44,8 +44,8 @@ function Players(){
                     <TableHead>
                         <TableRow>
                             <TableCell component="th" width={"1px"} align="center">ID</TableCell>
-                            <TableCell>YYYYYYY(DEPOIS MUDO)</TableCell>
-                            <TableCell align="center">XXXXXXX(DEPOIS MUDO)</TableCell>
+                            <TableCell>Country Name</TableCell>
+                            <TableCell align="center">GDP per capita</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>

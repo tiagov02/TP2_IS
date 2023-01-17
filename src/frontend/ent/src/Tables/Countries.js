@@ -19,9 +19,18 @@ function Suicides(){
     const [maxDataSize, setMaxDataSize] = useState(0);
 
 
-    useEffect(() => {
+         useEffect(() => {
+        setData(null);
         setTimeout(() => {
             fetch(`http://localhost:20001/api/countries/with_suicides_no/${page}/${SIZE_PAGE}`)
+            .then(response => response.json())
+            .then(jsonData => setData(jsonData));
+        }, 500);
+    }, [page])
+
+    useEffect(() => {
+        setTimeout(() => {
+            fetch(`http://localhost:20001/api/countries/number`)
             .then(response => response.json())
             .then(jsonData => setMaxDataSize(jsonData));
         }, 500);

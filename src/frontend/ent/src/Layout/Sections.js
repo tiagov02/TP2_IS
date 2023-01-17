@@ -1,4 +1,3 @@
-import Players from "../Tables/Suicides";
 import Suicides from "../Tables/Suicides";
 
 const Sections = [

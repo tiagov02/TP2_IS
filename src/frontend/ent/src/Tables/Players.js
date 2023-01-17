@@ -50,6 +50,7 @@ function Players(){
                             <TableCell align="center">Generation</TableCell>
                             <TableCell align="center">Min Age</TableCell>
                             <TableCell align="center">Max Age</TableCell>
+                            <TableCell align="center">Number Population</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
@@ -81,11 +82,14 @@ function Players(){
                                         <TableCell component="td" align="center" scope="row">
                                             {row.max_age}
                                         </TableCell>
+                                        <TableCell component="td" align="center" scope="row">
+                                            {row.population_no}
+                                        </TableCell>
                                     </TableRow>
                                 ))
                                 :
                                 <TableRow>
-                                    <TableCell colSpan={7}>
+                                    <TableCell colSpan={8}>
                                         <CircularProgress/>
                                     </TableCell>
                                 </TableRow>

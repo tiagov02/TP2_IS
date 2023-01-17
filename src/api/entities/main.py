@@ -232,7 +232,7 @@ def get_countries_with_suicides_no(page:int,max_records:int):
                    f"where c.id = sc.id_country "
                    f"GROUP BY c.id "
                    f") "
-                   f"select * from cs ORDER BY name"
+                   f"select * from cs ORDER BY name "
                    f"ORDER BY year LIMIT {max_records} OFFSET {offset}  ")
     for result in cursor:
         countries.append(Country(

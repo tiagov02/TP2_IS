@@ -48,6 +48,7 @@ function Players(){
                             <TableCell align="center">GDP per capita</TableCell>
                             <TableCell align="center">Sex</TableCell>
                             <TableCell align="center">Number of Suicides</TableCell>
+                            <TableCell align="center">Tax of Suicides</TableCell>
                             <TableCell align="center">Generation</TableCell>
                             <TableCell align="center">Min Age</TableCell>
                             <TableCell align="center">Max Age</TableCell>
@@ -78,6 +79,9 @@ function Players(){
                                             {row.suicides_no}
                                         </TableCell>
                                         <TableCell component="td" align="center" scope="row">
+                                            {row.tax}
+                                        </TableCell>
+                                        <TableCell component="td" align="center" scope="row">
                                             {row.generation}
                                         </TableCell>
                                         <TableCell component="td" align="center" scope="row">
@@ -93,7 +97,7 @@ function Players(){
                                 ))
                                 :
                                 <TableRow>
-                                    <TableCell colSpan={9}>
+                                    <TableCell colSpan={10}>
                                         <CircularProgress/>
                                     </TableCell>
                                 </TableRow>

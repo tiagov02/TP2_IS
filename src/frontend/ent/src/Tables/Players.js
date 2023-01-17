@@ -15,21 +15,21 @@ import {
 function Players(){
     const SIZE_PAGE = 20;
     const [page, setPage] = useState(1);
-    const [data, setData] = useState(null);
+    const [data, setData] = useState([]);
     const [maxDataSize, setMaxDataSize] = useState(0);
 
       useEffect(() => {
         setData(null);
-        setTimeout(() => {
-            fetch(`http://localhost:20001/api/suicides/${page}/${SIZE_PAGE}/`)
+        setTimeout(async () => {
+            await fetch(`http://localhost:20001/api/suicides/${page}/${SIZE_PAGE}/`)
             .then(response => response.json())
             .then(jsonData => setData(jsonData));
         }, 500);
     }, [page])
 
     useEffect(() => {
-        setTimeout(() => {
-            fetch(`http://localhost:20001/api/suicides/number`)
+        setTimeout(async () => {
+            await fetch(`http://localhost:20001/api/suicides/number`)
             .then(response => response.json())
             .then(jsonData => setMaxDataSize(jsonData));
         }, 500);

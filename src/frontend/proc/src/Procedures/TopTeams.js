@@ -1,6 +1,21 @@
 import React, {useEffect, useState} from "react";
 import {Box, CircularProgress, Container, FormControl, InputLabel, MenuItem, Select} from "@mui/material";
 
+
+
+function getCountry(){
+    const [countries, setCountries] = useState([]);
+    const [selectedCountry, setSelectedCountry] = useState('');
+    useEffect(() => {
+        // Make the GET request to the '/api/countries' endpoint
+        fetch('http://localhost:20002/api/countries')
+        .then(response => response.json())
+        .then(data => {
+            // Update the state with the received data
+            setCountries(data);
+        });
+    }, []);
+}
 const DEMO_TEAMS = [
     {"team": "Manchester United", country: "UK"},
     {"team": "Manchester City", country: "UK"},
@@ -17,6 +32,7 @@ const DEMO_TEAMS = [
 ];
 
 const COUNTRIES = [...new Set(DEMO_TEAMS.map(team => team.country))];
+
 
 function TopTeams() {
 
@@ -54,20 +70,16 @@ function TopTeams() {
                     <h2 style={{color: "white"}}>Options</h2>
                     <FormControl fullWidth>
                         <InputLabel id="countries-select-label">Country</InputLabel>
-                        <Select
-                            labelId="countries-select-label"
-                            id="demo-simple-select"
-                            value={selectedCountry}
-                            label="Country"
-                            onChange={(e, v) => {
-                                setSelectedCountry(e.target.value)
-                            }}
-                        >
-                            <MenuItem value={""}><em>None</em></MenuItem>
+                          <select id="country-select" value={selectedCountry} onChange={e => setSelectedCountry(e.target.value)}>
+                            <option value="" disabled>Select a country</option>
                             {
-                                COUNTRIES.map(c => <MenuItem key={c} value={c}>{c}</MenuItem>)
+                                countries.map(country => (
+                                    <option key={country.id} value={country.name}>
+                                        {country.name}
+                                    </option>
+                                ))
                             }
-                        </Select>
+                        </select>
                     </FormControl>
                 </Box>
             </Container>

@@ -7,6 +7,7 @@ import {ObjectMarker} from "./ObjectMarker";
 link for icon
 https://cdn-icons-png.flaticon.com/512/6349/6349523.png
  */
+
 async function requestEntities(bounds) {
     const response = await fetch(`http://localhost:20002/api/tile/${bounds._southWest.lng}/${bounds._southWest.lat}/${bounds._northEast.lng}/${bounds._northEast.lat}`);
     return await response.json();

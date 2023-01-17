@@ -4,9 +4,7 @@ from flask import Flask, jsonify, request,abort
 from flask_cors import CORS
 from entities.suicide import Suicide
 from entities.country import Country
-from entities.year import Year
 import psycopg2
-
 
 PORT = int(sys.argv[1]) if len(sys.argv) >= 2 else 9000
 
@@ -37,19 +35,20 @@ def get_years():
     return [{
         "no_registries": result[0]
     }]
+
+
 @app.route('/api/suicides/number', methods=['GET'])
 def get_number_suicides():
-    ret = []
+
     connection = connectToDB()
     cursor = connection.cursor()
 
     cursor.execute(f"SELECT COUNT(*) from suicides")
+    result = cursor.fetchone()
 
-    for res in cursor:
-        ret.append(Year(year=res[0]))
-
-
-    return jsonify([year.__dict__ for year in ret])
+    return [{
+        "no_registries": result[0]
+    }]
 
 @app.route('/api/suicides/per_page/<int:page>/<int:max_records>', methods=['GET'])
 def get_suicides(page:int,max_records:int):

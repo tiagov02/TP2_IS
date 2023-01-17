@@ -7,7 +7,6 @@ from entities.country import Country
 from entities.year import Year
 import psycopg2
 
-
 PORT = int(sys.argv[1]) if len(sys.argv) >= 2 else 9000
 
 # set of all teams
@@ -27,29 +26,31 @@ def connectToDB():
 
 @app.route('/api/years', methods=['GET'])
 def get_years():
+
+    ret = []
     connection = connectToDB()
     cursor = connection.cursor()
 
     cursor.execute(f"SELECT distinct year from suicides "
                    f"ORDER BY year asc; ")
+    for res in cursor:
+        ret.append(Year(year=res[0]))
+
+    return jsonify([year.__dict__ for year in ret])
+
+
+@app.route('/api/suicides/number', methods=['GET'])
+def get_number_suicides():
+
+    connection = connectToDB()
+    cursor = connection.cursor()
+
+    cursor.execute(f"SELECT COUNT(*) from suicides")
     result = cursor.fetchone()
 
     return [{
         "no_registries": result[0]
     }]
-@app.route('/api/suicides/number', methods=['GET'])
-def get_number_suicides():
-    ret = []
-    connection = connectToDB()
-    cursor = connection.cursor()
-
-    cursor.execute(f"SELECT COUNT(*) from suicides")
-
-    for res in cursor:
-        ret.append(Year(year=res[0]))
-
-
-    return jsonify([year.__dict__ for year in ret])
 
 @app.route('/api/suicides/per_page/<int:page>/<int:max_records>', methods=['GET'])
 def get_suicides(page:int,max_records:int):

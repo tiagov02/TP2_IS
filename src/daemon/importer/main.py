@@ -15,10 +15,7 @@ filesConverter = []
 
 
 def connectToDB():
-    psycopg2.connect(user="is",
-                     password="is",
-                     host="db-rel",
-                     database="is")
+    return psycopg2.connect(user="is",password="is",host="db-rel",database="is")
 
 def get_csv_files_in_input_folder():
     return [os.path.join(dp, f) for dp, dn, filenames in os.walk(CSV_INPUT_PATH) for f in filenames if
@@ -69,7 +66,7 @@ class CSVHandler(FileSystemEventHandler):
 
         try:
 
-            connection = connectToDB();
+            connection = connectToDB()
             cursor = connection.cursor()
 
             cursor.execute("INSERT INTO converted_documents (src, file_size, dst) VALUES (%s, %s, %s);", (csv_path, os.stat(xml_path).st_size , xml_path))
@@ -92,7 +89,7 @@ class CSVHandler(FileSystemEventHandler):
         connection = None
         cursor = None
         try:
-            connection = connectToDB();
+            connection = connectToDB()
             cursor = connection.cursor()
 
             cursor.execute("SELECT src from converted_documents")

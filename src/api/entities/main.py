@@ -220,7 +220,7 @@ def get_countries():
     return jsonify([country.__dict__ for country in countries])
 
 @app.route('/api/countries/number', methods=['GET'])
-def get_number_suicides():
+def get_number_countries():
 
     connection = connectToDB()
     cursor = connection.cursor()

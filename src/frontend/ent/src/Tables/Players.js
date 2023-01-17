@@ -46,8 +46,6 @@ function Players(){
                             <TableCell component="th" width={"1px"} align="center">ID</TableCell>
                             <TableCell>Country Name</TableCell>
                             <TableCell align="center">GDP per capita</TableCell>
-                            <TableCell align="center">Sex</TableCell>
-                            <TableCell align="center">Number of Suicides</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
@@ -65,17 +63,11 @@ function Players(){
                                         <TableCell component="td" align="center" scope="row">
                                             {row.gdp_per_capita}
                                         </TableCell>
-                                         <TableCell component="td" align="center" scope="row">
-                                            {row.sex}
-                                        </TableCell>
-                                        <TableCell component="td" align="center" scope="row">
-                                            {row.suicides_no}
-                                        </TableCell>
                                     </TableRow>
                                 ))
                                 :
                                 <TableRow>
-                                    <TableCell colSpan={5}>
+                                    <TableCell colSpan={3}>
                                         <CircularProgress/>
                                     </TableCell>
                                 </TableRow>

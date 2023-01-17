@@ -23,7 +23,8 @@ def get_csv_files_in_input_folder():
 
 def generate_unique_file_name(directory):
     return f"{directory}/{str(uuid.uuid4())}.xml"
-#CHANGE
+
+
 def convert_csv_to_xml(in_path, out_path):
     converter = CSVtoXMLConverter(in_path)
     xml = converter.to_xml_str()

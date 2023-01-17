@@ -12,12 +12,11 @@ PORT = int(sys.argv[1]) if len(sys.argv) >= 2 else 9000
 if __name__ == "__main__":
 
     def connectToDB():
-        psycopg2.connect(host='db-xml', database='is', user='is', password='is')
+        return psycopg2.connect(host='db-xml', database='is', user='is', password='is')
+
+
     class RequestHandler(SimpleXMLRPCRequestHandler):
         rpc_paths = ('/RPC2',)
-
-
-
 
     with SimpleXMLRPCServer(('0.0.0.0', PORT), requestHandler=RequestHandler) as server:
         server.register_introspection_functions()

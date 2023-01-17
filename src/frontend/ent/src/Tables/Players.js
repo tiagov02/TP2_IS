@@ -43,7 +43,6 @@ function Players(){
                 <Table sx={{minWidth: 650}} aria-label="simple table">
                     <TableHead>
                         <TableRow>
-                            <TableCell component="th" width={"1px"} align="center">ID</TableCell>
                             <TableCell>Country Name</TableCell>
                             <TableCell align="center">GDP per capita</TableCell>
                             <TableCell align="center">Sex</TableCell>
@@ -58,7 +57,6 @@ function Players(){
                                         key={row.id}
                                         style={{background: "gray", color: "black"}}
                                     >
-                                        <TableCell component="td" align="center">{row.id}</TableCell>
                                         <TableCell component="td" scope="row">
                                             {row.country.name}
                                         </TableCell>
@@ -75,7 +73,7 @@ function Players(){
                                 ))
                                 :
                                 <TableRow>
-                                    <TableCell colSpan={5}>
+                                    <TableCell colSpan={4}>
                                         <CircularProgress/>
                                     </TableCell>
                                 </TableRow>

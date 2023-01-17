@@ -88,15 +88,13 @@ function Players(){
                     />
                 </div>
             }
-
-
         </>
     );
 }
 
 /*
 const DEMO_PLAYERS = [
-    {"id": "31", "name": "Alexis Sanchez", "age": "33"},
+    {"id": "31", "name": "Alexis Sanchezzzz", "age": "33"},
     {"id": "39", "name": "Ander Herrera", "age": "33"},
     {"id": "45", "name": "Andreas Pereira", "age": "26"},
     {"id": "51", "name": "Angel Gomes", "age": "22"},

@@ -21,7 +21,7 @@ function Players(){
       useEffect(() => {
         setData(null);
         setTimeout(() => {
-            fetch(`http://api-entities:8080/api/suicides/per_page/${page}/${SIZE_PAGE}/`)
+            fetch(`http://localhost:20001/api/suicides/per_page/${page}/${SIZE_PAGE}/`)
             .then(response => response.json())
             .then(jsonData => setData(jsonData));
         }, 500);

@@ -2,14 +2,14 @@ import React, {useEffect, useState} from 'react';
 import {LayerGroup, useMap} from 'react-leaflet';
 import {ObjectMarker} from "./ObjectMarker";
 
-function requestEntities(){
+async function requestEntities(bounds){
 
 }
 
 function ObjectMarkersGroup() {
 
     const map = useMap();
-    const [geom, setGeom] = useState([...DEMO_DATA]);
+    const [geom, setGeom] = useState([]);
     const [bounds, setBounds] = useState(map.getBounds());
 
     /**
@@ -27,9 +27,9 @@ function ObjectMarkersGroup() {
     }, []);
 
     /* Updates the data for the current bounds */
-    useEffect(() => {
+    useEffect(async () => {
         console.log(`> getting data for bounds`, bounds);
-        setGeom();
+        setGeom(await requestEntities(bounds));
     }, [bounds])
 
     return (

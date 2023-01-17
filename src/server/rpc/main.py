@@ -377,12 +377,10 @@ if __name__ == "__main__":
         def suicidesInRichCountry():
             res = []
             try:
-                connection = psycopg2.connect(host='db-xml', database='is', user='is', password='is')
+                connection = psycopg2.connect(host='db-rel', database='is', user='is', password='is')
 
                 cursor = connection.cursor()
 
-                cursor.execute("SELECT MAX (id) from imported_documents")
-                id = cursor.fetchone()[0]
 
                 cursor.execute(f"SELECT sex , SUM(suicides_no) from suicides "
                                f"WHERE gdp_per_capita>18577 "
@@ -401,7 +399,7 @@ if __name__ == "__main__":
         def CountryWithLessandMoreSuicides():
             res = []
             try:
-                connection = psycopg2.connect(host='db-xml', database='is', user='is', password='is')
+                connection = psycopg2.connect(host='db-rel', database='is', user='is', password='is')
 
                 cursor = connection.cursor()
 

@@ -95,7 +95,6 @@ if __name__ == "__main__":
                 connection = connectToDB()
 
                 cursor = connection.cursor()
-
                 cursor.execute("SELECT MAX (id) from imported_documents")
                 id = cursor.fetchone()[0]
 

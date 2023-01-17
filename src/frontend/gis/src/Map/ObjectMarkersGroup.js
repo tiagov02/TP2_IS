@@ -2,8 +2,13 @@ import React, {useEffect, useState} from 'react';
 import {LayerGroup, useMap} from 'react-leaflet';
 import {ObjectMarker} from "./ObjectMarker";
 
+
+/*
+link for icon
+https://cdn-icons-png.flaticon.com/512/6349/6349523.png
+ */
 async function requestEntities(bounds) {
-    const response = await fetch(`http://localhost:20002/api/tile/${bounds.swLng}/${bounds.swlAT}/${bounds.neLng}/${bounds.neLat}`);;
+    const response = await fetch(`http://localhost:20002/api/tile/${bounds.swLng}/${bounds.swlAT}/${bounds.neLng}/${bounds.neLat}`);
     const data = await response.json();
     return data;
 }

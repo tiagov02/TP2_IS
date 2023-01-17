@@ -1,6 +1,7 @@
 import sys
 
 from flask import Flask, jsonify, request,abort
+from flask_cors import CORS
 from entities.suicide import Suicide
 from entities.country import Country
 import psycopg2
@@ -12,6 +13,7 @@ PORT = int(sys.argv[1]) if len(sys.argv) >= 2 else 9000
 
 
 app = Flask(__name__)
+CORS(app)
 app.config["DEBUG"] = True
 
 # SUICIDES

@@ -1,10 +1,12 @@
 import sys
 import xmlrpc.client
 from flask import Flask,abort
+from flask_cors import CORS
 
 PORT = int(sys.argv[1]) if len(sys.argv) >= 2 else 9000
 
 app = Flask(__name__)
+CORS(app)
 app.config["DEBUG"] = True
 
 print("connecting to server...")

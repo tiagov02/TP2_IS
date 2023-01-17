@@ -2,10 +2,12 @@ import sys
 
 import psycopg2
 from flask import Flask, request, jsonify
+from flask_cors import CORS
 
 PORT = int(sys.argv[1]) if len(sys.argv) >= 2 else 9000
 
 app = Flask(__name__)
+CORS(app)
 app.config["DEBUG"] = True
 
 def connectToDB():

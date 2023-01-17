@@ -11,6 +11,90 @@ import {
     TableRow
 } from "@mui/material";
 
+
+function Players(){
+    const SIZE_PAGE = 20;
+    const [page, setPage] = useState(1);
+    const [data, setData] = useState(null);
+    const [maxDataSize, setMaxDataSize] = useState(0);
+
+      useEffect(() => {
+        setData(null);
+        setTimeout(() => {
+            fetch(`http://localhost:20001/api/suicides/${page}/${SIZE_PAGE}/`)
+            .then(response => response.json())
+            .then(jsonData => setData(jsonData));
+        }, 500);
+    }, [page])
+
+    useEffect(() => {
+        setTimeout(() => {
+            fetch(`http://localhost:20001/api/suicides/number`)
+            .then(response => response.json())
+            .then(jsonData => setMaxDataSize(jsonData));
+        }, 500);
+    }, [])
+
+    return (
+        <>
+            <h1>Suicides</h1>
+
+            <TableContainer component={Paper}>
+                <Table sx={{minWidth: 650}} aria-label="simple table">
+                    <TableHead>
+                        <TableRow>
+                            <TableCell component="th" width={"1px"} align="center">ID</TableCell>
+                            <TableCell>YYYYYYY(DEPOIS MUDO)</TableCell>
+                            <TableCell align="center">XXXXXXX(DEPOIS MUDO)</TableCell>
+                        </TableRow>
+                    </TableHead>
+                    <TableBody>
+                        {
+                            data ?
+                                data.map((row) => (
+                                    <TableRow
+                                        key={row.id}
+                                        style={{background: "gray", color: "black"}}
+                                    >
+                                        <TableCell component="td" align="center">{row.id}</TableCell>
+                                        <TableCell component="td" scope="row">
+                                            {row.name}
+                                        </TableCell>
+                                        <TableCell component="td" align="center" scope="row">
+                                            {row.age}
+                                        </TableCell>
+                                    </TableRow>
+                                ))
+                                :
+                                <TableRow>
+                                    <TableCell colSpan={3}>
+                                        <CircularProgress/>
+                                    </TableCell>
+                                </TableRow>
+                        }
+                    </TableBody>
+                </Table>
+            </TableContainer>
+            {
+                maxDataSize && <div style={{background: "black", padding: "1rem"}}>
+                    <Pagination style={{color: "black"}}
+                                variant="outlined" shape="rounded"
+                                color={"primary"}
+                                onChange={(e, v) => {
+                                    setPage(v)
+                                }}
+                                page={page}
+                                count={Math.ceil(maxDataSize / SIZE_PAGE)}
+                    />
+                </div>
+            }
+
+
+        </>
+    );
+}
+
+/*
 const DEMO_PLAYERS = [
     {"id": "31", "name": "Alexis Sanchez", "age": "33"},
     {"id": "39", "name": "Ander Herrera", "age": "33"},
@@ -43,8 +127,9 @@ const DEMO_PLAYERS = [
     {"id": "525", "name": "Tahith Chong", "age": "22"},
     {"id": "546", "name": "Victor Nilsson Lindelöf", "age": "28"}
 ];
+ */
 
-
+/*
 function Players() {
 
     const PAGE_SIZE = 10;
@@ -53,8 +138,7 @@ function Players() {
     const [maxDataSize, setMaxDataSize] = useState(DEMO_PLAYERS.length);
 
     useEffect(() => {
-        //!FIXME: this is to simulate how to retrieve data from the server
-        //!FIXME: the entities server URL is available on process.env.REACT_APP_API_ENTITIES_URL
+
         setData(null);
         setTimeout(() => {
             console.log(`fetching from ${process.env.REACT_APP_API_ENTITIES_URL}`)
@@ -119,6 +203,10 @@ function Players() {
 
         </>
     );
+
+
 }
+ */
+
 
 export default Players;

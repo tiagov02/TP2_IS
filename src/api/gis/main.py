@@ -31,7 +31,7 @@ def get_countries(swLng,swlAT,neLng,neLat):
                    f"'proprieties', to_jsonb(sc.*) -'id' -'geom' "
                    f") AS json  "
                    f"FROM suicide_country sc "
-                   f"WHERE st_contains(st_makeenvelope({swLng},{swlAT},{neLng},{neLat}),sc.geom);"
+                   f"WHERE st_contains(st_makeenvelope({neLng},{swlAT},{swLng},{neLat}),sc.geom);"
                    )
 
     res = cursor.fetchall()

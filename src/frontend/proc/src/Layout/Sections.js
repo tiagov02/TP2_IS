@@ -4,7 +4,7 @@ const Sections = [
 
     {
         id: "top-teams", //change
-        label: "Top Countries",
+        label: "Top Suicides",
         content: <TopTeams/>
     },
 

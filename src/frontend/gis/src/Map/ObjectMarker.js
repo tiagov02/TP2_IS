@@ -4,6 +4,7 @@ import React from "react";
 import {Marker, Popup} from 'react-leaflet';
 import {icon as leafletIcon, point} from "leaflet";
 
+
 const LIST_PROPERTIES = [
     {"key": "home", Icon: HomeIcon},
     ];

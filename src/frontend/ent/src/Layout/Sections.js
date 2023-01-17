@@ -1,4 +1,5 @@
 import Suicides from "../Tables/Suicides";
+import Countries from "../Tables/Countries";
 
 const Sections = [
 
@@ -11,7 +12,7 @@ const Sections = [
     {
         id: "countries",
         label: "Countries",
-        content: <h1>Countries - Work in progress</h1>
+        content: <Countries/>
     }
 
 ];

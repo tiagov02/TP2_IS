@@ -12,6 +12,14 @@ from utils.to_xml_converter import CSVtoXMLConverter
 
 filesConverter = []
 
+
+
+def connection():
+    psycopg2.connect(user="is",
+                     password="is",
+                     host="db-rel",
+                     database="is")
+
 def get_csv_files_in_input_folder():
     return [os.path.join(dp, f) for dp, dn, filenames in os.walk(CSV_INPUT_PATH) for f in filenames if
             os.path.splitext(f)[1] == '.csv']
@@ -60,10 +68,6 @@ class CSVHandler(FileSystemEventHandler):
         cursor = None
 
         try:
-            connection = psycopg2.connect(user="is",
-                                          password="is",
-                                          host="db-xml",
-                                          database="is")
             cursor = connection.cursor()
 
             cursor.execute("INSERT INTO converted_documents (src, file_size, dst) VALUES (%s, %s, %s);", (csv_path, os.stat(xml_path).st_size , xml_path))
@@ -86,11 +90,6 @@ class CSVHandler(FileSystemEventHandler):
         connection = None
         cursor = None
         try:
-            connection = psycopg2.connect(user="is",
-                                          password="is",
-                                          host="db-xml",
-                                          database="is")
-
             cursor = connection.cursor()
 
             cursor.execute("SELECT src from converted_documents")

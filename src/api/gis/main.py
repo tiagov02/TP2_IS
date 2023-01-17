@@ -17,6 +17,7 @@ def get_countries(swLng,swlAT,neLng,neLat):
                                   host="db-rel",
                                   database="is")
 
+#
     cursor = connection.cursor()
     cursor.execute(f"WITH suicide_country as( "
                    f"select SUM(s.suicides_no) as suicides_no, AVG(s.tax) as med_tax, c.name as country , c.geom as geom "

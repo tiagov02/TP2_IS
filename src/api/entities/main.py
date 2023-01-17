@@ -18,19 +18,19 @@ app.config["DEBUG"] = True
 
 #Because our database have too many registries we limit the consult to faster acess
 
-def connection():
-    psycopg2.connect(user="is",
-                     password="is",
-                     host="db-rel",
-                     database="is")
+def connectToDB():
+    return psycopg2.connect(user="is",password="is",host="db-rel",database="is")
 
 @app.route('/api/suicides/<int:page>/<int:max_records>', methods=['GET'])
 def get_suicides(page:int,max_records:int):
     suicides = []
 
+    connection = connectToDB()
+
     cursor = connection.cursor()
     offset = max_records * (page-1)
     cursor.execute(f"SELECT s.*,c.* from suicides s, countries c WHERE s.id_country=c.id ORDER BY year LIMIT {max_records} OFFSET {offset} ")
+
     for result in cursor:
         c = Country(
             id=result[15],
@@ -65,9 +65,12 @@ def get_suicides(page:int,max_records:int):
 @app.route('/api/suicides/number', methods=['GET'])
 def get_number_suicides():
 
+    connection = connectToDB()
     cursor = connection.cursor()
+
     cursor.execute(f"SELECT COUNT(*) from suicides")
     result = cursor.fetchone()
+
     return [{
         "no_registries": result[0]
     }]
@@ -75,9 +78,12 @@ def get_number_suicides():
 @app.route('/api/suicides/<string:id>', methods=['GET'])
 def get_suicide(id:str):
 
+    connection = connectToDB()
     cursor = connection.cursor()
+
     cursor.execute(f"SELECT s.*,c.* from suicides s, countries c WHERE id=\'{id}\' AND s.id_country=c.id ")
     result = cursor.fetchone()
+
     c = Country(
         id=result[15],
         name=result[16],
@@ -109,7 +115,10 @@ def get_suicide(id:str):
 
 @app.route('/api/suicides/create', methods=['POST'])
 def create_suicides():
+    connection = connectToDB()
+
     data = request.get_json()
+
     min_age = data['min_age']
     max_age = data['max_age']
     tax = data['tax']
@@ -131,7 +140,10 @@ def create_suicides():
 
 @app.route('/api/suicides/update', methods=['POST'])
 def update_suicide():
+    connection = connectToDB()
+
     data = request.get_json()
+
     id = data['id']
     min_age = data['min_age']
     max_age = data['max_age']
@@ -191,6 +203,7 @@ COUNTRIES
 def get_countries():
     countries = []
 
+    connection = connectToDB()
     cursor = connection.cursor()
     cursor.execute("SELECT * from countries")
     for result in cursor:
@@ -207,6 +220,8 @@ def get_countries():
 def get_100_countries_to_update(limit:int):
     countries = []
 
+    connection = connectToDB()
+
     cursor = connection.cursor()
     cursor.execute(f"SELECT * from countries WHERE geom is null LIMIT {limit}")
     for result in cursor:
@@ -221,6 +236,7 @@ def get_100_countries_to_update(limit:int):
 
 @app.route('/api/countries/<string:id>', methods=['GET'])
 def get_country(id:str):
+    connection = connectToDB()
 
     cursor = connection.cursor()
     cursor.execute(f"SELECT * from countries WHERE id=\'{id}\' ")
@@ -235,6 +251,8 @@ def get_country(id:str):
 
 @app.route('/api/countries/create',methods=['POST'])
 def create_country():
+    connection = connectToDB()
+
     data = request.get_json()
     name = data['name']
 
@@ -249,7 +267,10 @@ def create_country():
 
 @app.route('/api/countries/update',methods=['POST'])
 def update_country():
+    connection = connectToDB()
+
     data = request.get_json()
+
     id = data['id']
     name = data['name']
     lat = data['lat']
@@ -271,6 +292,7 @@ def update_country():
 
 @app.route('/api/suicides/delete/<int:id>', methods=['GET'])
 def delete_suicide(id:str):
+    connection = connectToDB()
 
     cursor = connection.cursor()
     cursor.execute(f"DELETE FROM suicides WHERE id = {id}")

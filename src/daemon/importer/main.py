@@ -15,7 +15,7 @@ filesConverter = []
 
 
 def connectToDB():
-    return psycopg2.connect(user="is",password="is",host="db-rel",database="is")
+    return psycopg2.connect(user="is",password="is",host="db-xml",database="is")
 
 def get_csv_files_in_input_folder():
     return [os.path.join(dp, f) for dp, dn, filenames in os.walk(CSV_INPUT_PATH) for f in filenames if

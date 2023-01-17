@@ -17,13 +17,16 @@ app.config["DEBUG"] = True
 # SUICIDES
 
 #Because our database have too many registries we limit the consult to faster acess
+
+def connection():
+    psycopg2.connect(user="is",
+                     password="is",
+                     host="db-rel",
+                     database="is")
+
 @app.route('/api/suicides/<int:page>/<int:max_records>', methods=['GET'])
 def get_suicides(page:int,max_records:int):
     suicides = []
-    connection = psycopg2.connect(user="is",
-                                  password="is",
-                                  host="db-rel",
-                                  database="is")
 
     cursor = connection.cursor()
     offset = max_records * (page-1)
@@ -61,10 +64,6 @@ def get_suicides(page:int,max_records:int):
 
 @app.route('/api/suicides/number', methods=['GET'])
 def get_number_suicides():
-    connection = psycopg2.connect(user="is",
-                                  password="is",
-                                  host="db-rel",
-                                  database="is")
 
     cursor = connection.cursor()
     cursor.execute(f"SELECT COUNT(*) from suicides")
@@ -75,10 +74,6 @@ def get_number_suicides():
 
 @app.route('/api/suicides/<string:id>', methods=['GET'])
 def get_suicide(id:str):
-    connection = psycopg2.connect(user="is",
-                                  password="is",
-                                  host="db-rel",
-                                  database="is")
 
     cursor = connection.cursor()
     cursor.execute(f"SELECT s.*,c.* from suicides s, countries c WHERE id=\'{id}\' AND s.id_country=c.id ")
@@ -127,11 +122,6 @@ def create_suicides():
     id_country = data['id_country']
     year = data['year']
 
-    connection = psycopg2.connect(user="is",
-                                  password="is",
-                                  host="db-rel",
-                                  database="is")
-
     cursor = connection.cursor()
 
     cursor.execute(f"insert into suicides (min_age, max_age, tax, population_no, suicides_no, generation, gdp_for_year, hdi_for_year, gdp_per_capita, year, id_country) "
@@ -155,11 +145,6 @@ def update_suicide():
     id_country = data['id_country']
     year = data['year']
     sex = data['sex']
-
-    connection = psycopg2.connect(user="is",
-                                  password="is",
-                                  host="db-rel",
-                                  database="is")
 
     cursor = connection.cursor()
     cursor.execute(f"UPDATE suicides SET min_age={min_age}, max_age={max_age}, tax={tax}, population_no={population_no}, suicides_no={suicides_no}, "
@@ -205,10 +190,6 @@ COUNTRIES
 @app.route('/api/countries', methods=['GET'])
 def get_countries():
     countries = []
-    connection = psycopg2.connect(user="is",
-                                  password="is",
-                                  host="db-rel",
-                                  database="is")
 
     cursor = connection.cursor()
     cursor.execute("SELECT * from countries")
@@ -225,10 +206,6 @@ def get_countries():
 @app.route('/api/countries/to_update/<int:limit>', methods=['GET'])
 def get_100_countries_to_update(limit:int):
     countries = []
-    connection = psycopg2.connect(user="is",
-                                  password="is",
-                                  host="db-rel",
-                                  database="is")
 
     cursor = connection.cursor()
     cursor.execute(f"SELECT * from countries WHERE geom is null LIMIT {limit}")
@@ -244,10 +221,6 @@ def get_100_countries_to_update(limit:int):
 
 @app.route('/api/countries/<string:id>', methods=['GET'])
 def get_country(id:str):
-    connection = psycopg2.connect(user="is",
-                                  password="is",
-                                  host="db-rel",
-                                  database="is")
 
     cursor = connection.cursor()
     cursor.execute(f"SELECT * from countries WHERE id=\'{id}\' ")
@@ -264,11 +237,6 @@ def get_country(id:str):
 def create_country():
     data = request.get_json()
     name = data['name']
-
-    connection = psycopg2.connect(user="is",
-                                  password="is",
-                                  host="db-rel",
-                                  database="is")
 
     cursor = connection.cursor()
     cursor.execute(f"insert into countries (name) values (\'{name}\') RETURNING id")
@@ -287,10 +255,6 @@ def update_country():
     lat = data['lat']
     lon = data['lon']
 
-    connection = psycopg2.connect(user="is",
-                                  password="is",
-                                  host="db-rel",
-                                  database="is")
     cursor = connection.cursor()
     cursor.execute(f"UPDATE countries SET name=\'{name}\',geom = ST_MakePoint({lon}, {lat}),updated_on=now() WHERE id=\'{id}\'")
     cursor.execute(f"SELECT * from countries WHERE id=\'{id}\' ")
@@ -307,10 +271,7 @@ def update_country():
 
 @app.route('/api/suicides/delete/<int:id>', methods=['GET'])
 def delete_suicide(id:str):
-    connection = psycopg2.connect(user="is",
-                                  password="is",
-                                  host="db-rel",
-                                  database="is")
+
     cursor = connection.cursor()
     cursor.execute(f"DELETE FROM suicides WHERE id = {id}")
     connection.commit()

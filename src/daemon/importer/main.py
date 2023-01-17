@@ -14,7 +14,7 @@ filesConverter = []
 
 
 
-def connection():
+def connectToDB():
     psycopg2.connect(user="is",
                      password="is",
                      host="db-rel",
@@ -68,6 +68,8 @@ class CSVHandler(FileSystemEventHandler):
         cursor = None
 
         try:
+
+            connection = connectToDB();
             cursor = connection.cursor()
 
             cursor.execute("INSERT INTO converted_documents (src, file_size, dst) VALUES (%s, %s, %s);", (csv_path, os.stat(xml_path).st_size , xml_path))
@@ -90,6 +92,7 @@ class CSVHandler(FileSystemEventHandler):
         connection = None
         cursor = None
         try:
+            connection = connectToDB();
             cursor = connection.cursor()
 
             cursor.execute("SELECT src from converted_documents")

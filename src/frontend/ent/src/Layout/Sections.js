@@ -1,11 +1,12 @@
-import Players from "../Tables/Players";
+import Players from "../Tables/Suicides";
+import Suicides from "../Tables/Suicides";
 
 const Sections = [
 
     {
         id: "suicides",
         label: "Suicides",
-        content: <Players/>
+        content: <Suicides/>
     },
 
     {

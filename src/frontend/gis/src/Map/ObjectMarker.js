@@ -2,20 +2,25 @@ import {Avatar, List, ListItem, ListItemIcon, ListItemText} from "@mui/material"
 import FlagIcon from '@mui/icons-material/Flag';
 import PictureInPictureAltIcon from '@mui/icons-material/PictureInPictureAlt';
 import ContactsIcon from '@mui/icons-material/Contacts';
-import React from "react";
+import React, {useEffect, useState} from "react";
 import {Marker, Popup} from 'react-leaflet';
 import {icon as leafletIcon, point} from "leaflet";
 
-const LIST_PROPERTIES = [
-    {"key": "country", label: "Country", Icon: FlagIcon},
-    {"key": "med_tax", label: "Shirt Number", Icon: ContactsIcon},
-    {"key": "suicides_no", label: "Position", Icon: PictureInPictureAltIcon}
-];
+
 
 export function ObjectMarker({geoJSON}) {
     const properties = geoJSON?.properties
     const {id, imgUrl, name} = properties;
     const coordinates = geoJSON?.geometry?.coordinates;
+    const [data, setData] = useState(null);
+
+    useEffect(() => {
+    fetch('http://localhost:20001/api/countries')
+      .then(response => response.json())
+      .then(jsonData => {
+        setData(jsonData);
+      });
+  }, []);
 
     return (
         <Marker
@@ -35,7 +40,7 @@ export function ObjectMarker({geoJSON}) {
                         <ListItemText primary={name}/>
                     </ListItem>
                     {
-                        LIST_PROPERTIES
+                        jsonData
                             .map(({key, label, Icon}) =>
                                 <ListItem key={key}>
                                     <ListItemIcon>
@@ -50,9 +55,7 @@ export function ObjectMarker({geoJSON}) {
                                 </ListItem>
                             )
                     }
-
                 </List>
-
             </Popup>
         </Marker>
     )

@@ -10,7 +10,7 @@ const Sections = [
 
     {
         id: "top-scorers", //change
-        label: "Age with more suicides",
+        label: "Top Suicides in Countries per Age",
         content: <h1>Top Scorers - Work in progresss</h1>
     }
 

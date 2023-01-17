@@ -31,7 +31,7 @@ function Players(){
         setTimeout(async () => {
             await fetch(`http://localhost:20001/api/suicides/number`)
             .then(response => response.json())
-            .then(jsonData => setMaxDataSize(jsonData));
+            .then(jsonData => setMaxDataSize(jsonData['no_registries']));
         }, 500);
     }, [])
 

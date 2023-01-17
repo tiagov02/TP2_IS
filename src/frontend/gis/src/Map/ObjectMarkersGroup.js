@@ -8,9 +8,8 @@ link for icon
 https://cdn-icons-png.flaticon.com/512/6349/6349523.png
  */
 async function requestEntities(bounds) {
-    const response = await fetch(`http://localhost:20002/api/tile/${bounds._northEast.lng}/${bounds._northEast.lat}/${bounds._southWest.lng}/${bounds._southWest.lat}`);
-    const data = await response.json();
-    return data;
+    const response = await fetch(`http://localhost:20002/api/tile/${bounds._southWest.lng}/${bounds._southWest.lat}/${bounds._northEast.lng}/${bounds._northEast.lat}`);
+    return await response.json();
 }
 
 function ObjectMarkersGroup() {

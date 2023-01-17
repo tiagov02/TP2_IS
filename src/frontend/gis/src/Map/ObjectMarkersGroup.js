@@ -3,7 +3,7 @@ import {LayerGroup, useMap} from 'react-leaflet';
 import {ObjectMarker} from "./ObjectMarker";
 
 
-
+/*
 const DEMO_DATA = [
         fetch('http://api-proc:8080/api/all')
             .then(response => response.json())
@@ -15,9 +15,11 @@ const DEMO_DATA = [
             })
 ];
 
+ */
 
 
-/*
+
+
 const DEMO_DATA = [
 
 
@@ -56,7 +58,6 @@ const DEMO_DATA = [
 
 ];
 
- */
 
 
 

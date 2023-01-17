@@ -29,7 +29,9 @@ def get_countries(swLng,swlAT,neLng,neLat):
                    f"'proprieties', to_jsonb(sc.*) -'id' -'geom' "
                    f") AS json  "
                    f"FROM suicide_country sc "
-                   f"ORDER BY sc.geom <-> st_makeenvelope({swLng},{swlAT},{neLng},{neLat})::geography LIMIT 20;")
+                   f"WHERE st_contains(st_makeenvelope({swLng},{swlAT},{neLng},{neLat}),sc.geom);"
+                   )
+
     res = cursor.fetchall()
     return jsonify([country for country in res])
 

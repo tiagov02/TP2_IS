@@ -49,10 +49,10 @@ if __name__ == "__main__":
                     f"(select unnest(xpath('//SUICIDES/YEAR[@code=\"{year}\"]/COUNTRY/SUICIDE', xml))\t"
                     f"as suicide from imported_documents WHERE id={id})\t"
                     f"SELECT "
-                    f"((xpath('/SUICIDE/@sex', suicide))[1]::varchar) as sex\t"
-                    f"(sum((xpath('/SUICIDE/@suicides_no',suicide))[1]::varchar::numeric)) :: varchar\t"
+                    f"((xpath('//SUICIDE/@sex', suicide))[1]::varchar) as sex\t"
+                    f"(sum((xpath('//SUICIDE/@suicides_no',suicide))[1]::varchar::numeric)) :: varchar\t"
                     f"FROM suicides "
-                    f"(xpath('/SUICIDE/@sex', suicide))[1]::varchar")
+                    f"(xpath('//SUICIDE/@sex', suicide))[1]::varchar")
                 for ns in cursor:
                     nSuicides.append(ns)
                 cursor.close()
@@ -61,7 +61,7 @@ if __name__ == "__main__":
                 cursor.execute(f"with suicides as ("
                                f"select unnest(xpath('//SUICIDES/YEAR[@code=\"{year}\"]/COUNTRY/SUICIDE[@minAge < 15]', xml)) "
                                f"as suicide from imported_documents WHERE id={id}) "
-                               f"SELECT (sum((xpath('/SUICIDE/@suicides_no',suicide))[1]::varchar::numeric)) "
+                               f"SELECT (sum((xpath('//SUICIDE/@suicides_no',suicide))[1]::varchar::numeric)) "
                                f"FROM suicides")
                 for c in cursor:
                     children.append(c)
@@ -71,7 +71,7 @@ if __name__ == "__main__":
                                f"select unnest(xpath('//SUICIDES/YEAR[@code=\"{year}\"]/COUNTRY/SUICIDE[@maxAge =\"MAX\"]', xml)) "
                                f"as suicide "
                                f"from imported_documents WHERE id={id}) "
-                               f"SELECT (sum((xpath('/SUICIDE/@suicides_no',suicide))[1]::varchar::numeric)) "
+                               f"SELECT (sum((xpath('//SUICIDE/@suicides_no',suicide))[1]::varchar::numeric)) "
                                f"FROM suicides")
                 for o in cursor:
                     olders.append(o)
@@ -102,9 +102,9 @@ if __name__ == "__main__":
                     f"with suicides as (select unnest"
                     f"(xpath('//SUICIDES/YEAR/COUNTRY[@name=\"{country}\"]/SUICIDE', xml)) "
                     f"as suicide from imported_documents WHERE id={id}) "
-                    f"SELECT ((xpath('@sex', suicide))[1]::varchar) as sex, "
-                    f"(sum((xpath('@suicides_no',suicide))[1]::varchar::numeric))::varchar "
-                    f"FROM suicides GROUP BY (xpath('@sex', suicide))[1]::varchar")
+                    f"SELECT ((xpath('//SUICIDE/@sex', suicide))[1]::varchar) as sex, "
+                    f"(sum((xpath('//SUICIDE/@suicides_no',suicide))[1]::varchar::numeric))::varchar "
+                    f"FROM suicides GROUP BY (xpath('//SUICIDE/@sex', suicide))[1]::varchar")
                 for ns in cursor:
                     nSuicides.append(ns)
                 cursor.close()
@@ -115,7 +115,7 @@ if __name__ == "__main__":
                                f"unnest"
                                f"(xpath('//SUICIDES/YEAR/COUNTRY[@name=\"{country}\"]/SUICIDE[@minAge < 15]', xml)) "
                                f"as suicide from imported_documents WHERE id={id}) "
-                               f"SELECT (sum((xpath('@suicides_no',suicide))[1]::varchar::numeric))::varchar "
+                               f"SELECT (sum((xpath('//SUICIDE/@suicides_no',suicide))[1]::varchar::numeric))::varchar "
                                f"FROM suicides")
                 for c in cursor:
                     children.append(c)
@@ -127,7 +127,7 @@ if __name__ == "__main__":
                                f"(xpath('//SUICIDES/YEAR/COUNTRY[@name=\"{country}\"]/SUICIDE[@maxAge =\"MAX\"]', xml)) "
                                f"as suicide "
                                f"from imported_documents WHERE id={id}) "
-                               f"SELECT (sum((xpath('@suicides_no',suicide))[1]::varchar::numeric))::varchar "
+                               f"SELECT (sum((xpath('//SUICIDE/@suicides_no',suicide))[1]::varchar::numeric))::varchar "
                                f"FROM suicides")
                 for o in cursor:
                     olders.append(o)
@@ -156,9 +156,9 @@ if __name__ == "__main__":
                     f"with suicides as (select unnest"
                     f"(xpath('//SUICIDES/YEAR[@code=\"{year}\"]/COUNTRY[@name=\"{country}\"]/SUICIDE', xml)) "
                     f"as suicide from imported_documents WHERE id={id}) "
-                    f"SELECT ((xpath('@sex', suicide))[1]::varchar) as sex, "
-                    f"(sum((xpath('@suicides_no',suicide))[1]::varchar::numeric)) :: varchar "
-                    f"FROM suicides GROUP BY (xpath('@sex', suicide))[1]::varchar")
+                    f"SELECT ((xpath('//SUICIDE/@sex', suicide))[1]::varchar) as sex, "
+                    f"(sum((xpath('//SUICIDE/@suicides_no',suicide))[1]::varchar::numeric)) :: varchar "
+                    f"FROM suicides GROUP BY (xpath('//SUICIDE/@sex', suicide))[1]::varchar")
 
                 for ns in cursor:
                     nSuicides.append(ns)
@@ -170,7 +170,7 @@ if __name__ == "__main__":
                                f"unnest"
                                f"(xpath('//SUICIDES/YEAR[@code=\"{year}\"]/COUNTRY[@name=\"{country}\"]/SUICIDE[@minAge < 15]', xml)) "
                                f"as suicide from imported_documents WHERE id={id}) "
-                               f"SELECT (sum((xpath('@suicides_no',suicide))[1]::varchar::numeric))::varchar "
+                               f"SELECT (sum((xpath('//SUICIDE/@suicides_no',suicide))[1]::varchar::numeric))::varchar "
                                f"FROM suicides")
                 for c in cursor:
                     children.append(c)
@@ -182,7 +182,7 @@ if __name__ == "__main__":
                                f"xpath('//SUICIDES/YEAR[@code=\"{year}\"]/COUNTRY[@name=\"{country}\"]/SUICIDE[@maxAge =\"MAX\"]', xml)) "
                                f"as suicide "
                                f"from imported_documents WHERE id={id}) "
-                               f"SELECT (sum((xpath('@suicides_no',suicide))[1]::varchar::numeric))::varchar "
+                               f"SELECT (sum((xpath('//SUICIDE/@suicides_no',suicide))[1]::varchar::numeric))::varchar "
                                f"FROM suicides")
                 for o in cursor:
                     olders.append(o)
@@ -208,9 +208,9 @@ if __name__ == "__main__":
                 cursor.execute(f"with suicides as "
                                f"(select unnest(xpath('//SUICIDES/YEAR/COUNTRY/SUICIDE[@gdp_per_capita>18577]', xml)) "
                                f"as suicide from imported_documents WHERE id={id}) "
-                               f"SELECT ((xpath('@sex', suicide))[1]::varchar) as sex, "
-                               f"(sum((xpath('@suicides_no',suicide))[1]::varchar::numeric))::varchar "
-                               f"FROM suicides GROUP BY (xpath('@sex', suicide))[1]::varchar")
+                               f"SELECT ((xpath('//SUICIDE/@sex', suicide))[1]::varchar) as sex, "
+                               f"(sum((xpath('//SUICIDE/@suicides_no',suicide))[1]::varchar::numeric))::varchar "
+                               f"FROM suicides GROUP BY (xpath('//SUICIDE/@sex', suicide))[1]::varchar")
                 for d in cursor:
                     res.append(d)
             except (Exception, psycopg2.Error) as error:
@@ -235,27 +235,28 @@ if __name__ == "__main__":
                 cursor.execute(
                     f"with countries as ( "
                     f"select unnest(xpath('//COUNTRY', xml)) as country "
-                    f"from imported_documents WHERE id={id}"
+                    f"from imported_documents WHERE id={id} "
                     f"), country_suicides as ( "
                     f"SELECT "
-                    f"(xpath('@name', country))[1]::text as country_name, "
-                    f"SUM((xpath('sum(./SUICIDE/@suicides_no)', country))[1]::text::decimal) as no_suicides "
-                    f"FROM "
+                    f"(xpath('//COUNTRY/@name', country))[1]::text as country_name, "
+                    f"SUM((xpath('sum(//SUICIDE/@suicides_no)', country))[1]::text::integer) as no_suicides "
+                    f" FROM "
                     f"countries "
                     f"GROUP BY "
-                    f"(xpath('@name', country))[1]::text "
+                    f"(xpath('//COUNTRY/@name', country))[1]::text "
                     f"),lessandmore_suicides as ( "
                     f"SELECT "
                     f"MIN(no_suicides) min, "
                     f"MAX(no_suicides) max "
                     f"FROM "
-                    f"country_suicides"
+                    f"country_suicides "
                     f")"
                     f"SELECT country_name , (no_suicides) ::varchar "
                     f"FROM country_suicides "
                     f"WHERE "
                     f"no_suicides IN (SELECT max FROM lessandmore_suicides) OR "
-                    f"no_suicides IN (SELECT min FROM lessandmore_suicides) ")
+                    f"no_suicides IN (SELECT min FROM lessandmore_suicides) "
+                    f"LIMIT 2 OFFSET 1; ")
                 for d in cursor:
                     res.append(d)
             except (Exception, psycopg2.Error) as error:

@@ -2,8 +2,11 @@ import React, {useEffect, useState} from 'react';
 import {LayerGroup, useMap} from 'react-leaflet';
 import {ObjectMarker} from "./ObjectMarker";
 
-async function requestEntities(bounds){
-
+async function requestEntities(bounds) {
+    const url = 'http://localhost:20002/api/objects?bounds=${bounds.toBBoxString()}';
+    const response = await fetch(url);
+    const data = await response.json();
+    return data;
 }
 
 function ObjectMarkersGroup() {

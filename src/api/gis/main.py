@@ -26,7 +26,7 @@ def get_countries(swLng,swlAT,neLng,neLat):
                    f")"
                    f"SELECT jsonb_build_object(  "
                    f"'type', 'feature', "
-                   f"'geometry', ST_AsGeoJSON(geom), "
+                   f"'geometry', ST_AsGeoJSON(geom) ::json, "
                    f"'proprieties', to_jsonb(sc.*) -'id' -'geom' "
                    f") AS json  "
                    f"FROM suicide_country sc "
@@ -51,7 +51,7 @@ def get_all():
                    f")"
                    f"SELECT jsonb_build_object(  "
                    f"'type', 'feature', "
-                   f"'geometry', ST_AsGeoJSON(geom), "
+                   f"'geometry', ST_AsGeoJSON(geom)::json, "
                    f"'proprieties', to_jsonb(sc.*) -'id' -'geom' "
                    f") AS json  "
                    f"FROM suicide_country sc; ")

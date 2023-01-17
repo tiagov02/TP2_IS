@@ -219,6 +219,19 @@ def get_countries():
         ))
     return jsonify([country.__dict__ for country in countries])
 
+@app.route('/api/countries/number', methods=['GET'])
+def get_number_suicides():
+
+    connection = connectToDB()
+    cursor = connection.cursor()
+
+    cursor.execute(f"SELECT COUNT(*) from countries")
+    result = cursor.fetchone()
+
+    return [{
+        "no_registries": result[0]
+    }]
+
 @app.route('/api/countries/with_suicides_no/<int:page>/<int:max_records>', methods=['GET'])
 def get_countries_with_suicides_no(page:int,max_records:int):
     countries = []

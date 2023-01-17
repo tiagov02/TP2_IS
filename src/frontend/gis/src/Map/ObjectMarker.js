@@ -8,8 +8,8 @@ import {icon as leafletIcon, point} from "leaflet";
 
 const LIST_PROPERTIES = [
     {"key": "country", label: "Country", Icon: FlagIcon},
-    {"key": "number", label: "Shirt Number", Icon: ContactsIcon},
-    {"key": "position", label: "Position", Icon: PictureInPictureAltIcon}
+    {"key": "med_tax", label: "Shirt Number", Icon: ContactsIcon},
+    {"key": "suicides_no", label: "Position", Icon: PictureInPictureAltIcon}
 ];
 
 export function ObjectMarker({geoJSON}) {

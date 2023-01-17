@@ -4,17 +4,12 @@ import {Box, CircularProgress, Container, FormControl, InputLabel, MenuItem, Sel
 
 
 function getCountry(){
-    const [countries, setCountries] = useState([]);
-    const [selectedCountry, setSelectedCountry] = useState('');
-    useEffect(() => {
-        // Make the GET request to the '/api/countries' endpoint
         fetch('http://localhost:20002/api/countries')
         .then(response => response.json())
         .then(data => {
             // Update the state with the received data
             setCountries(data);
         });
-    }, []);
 }
 const DEMO_TEAMS = [
     {"team": "Manchester United", country: "UK"},

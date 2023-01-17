@@ -60,8 +60,8 @@ if __name__ == "__main__":
             myobj = {
                 'id': data['id'][0],
                 'name':data['name'],
-                'lat' : coords[1],
-                'lon' : coords[0]
+                'lat' : coords[0],
+                'lon' : coords[1]
             }
 
             x = requests.post(url, json=myobj)

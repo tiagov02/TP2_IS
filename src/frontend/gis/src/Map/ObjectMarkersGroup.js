@@ -15,7 +15,7 @@ async function requestEntities(bounds) {
 function ObjectMarkersGroup() {
 
     const map = useMap();
-    const [geom, setGeom] = useState([]);
+    const [geom, setGeom] = useState(...[]);
     const [bounds, setBounds] = useState(map.getBounds());
 
     /**

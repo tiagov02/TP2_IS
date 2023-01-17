@@ -20,7 +20,8 @@ def get_countries(swLng,swlAT,neLng,neLat):
 
     cursor = connection.cursor()
     cursor.execute(f"WITH suicide_country as( "
-                   f"select SUM(s.suicides_no) as suicides_no, AVG(s.tax) as med_tax, c.name as country , c.geom as geom "
+                   f"select SUM(s.suicides_no) as suicides_no, AVG(s.tax) as med_tax, c.name as country , c.geom as geom, "
+                   f"'https://cdn-icons-png.flaticon.com/512/6349/6349523.png' as imgUrl "
                    f" FROM countries c, suicides s "
                    f"WHERE s.id_country = c.id  "
                    f"GROUP BY s.id_country, c.name, c.geom "
@@ -45,7 +46,8 @@ def get_all():
     cursor = connection.cursor()
 
     cursor.execute(f"WITH suicide_country as( "
-                   f"select SUM(s.suicides_no) as suicides_no, AVG(s.tax) as med_tax, c.name as country , c.geom as geom "
+                   f"select SUM(s.suicides_no) as suicides_no, AVG(s.tax) as med_tax, c.name as country , c.geom as geom, "
+                   f" 'https://cdn-icons-png.flaticon.com/512/6349/6349523.png' as imgUrl "
                    f" FROM countries c, suicides s "
                    f"WHERE s.id_country = c.id  "
                    f"GROUP BY s.id_country, c.name, c.geom "

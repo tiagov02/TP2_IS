@@ -219,19 +219,21 @@ def get_countries():
         ))
     return jsonify([country.__dict__ for country in countries])
 
-@app.route('/api/countries/with_suicides_no', methods=['GET'])
-def get_countries_with_suicides_no():
+@app.route('/api/countries/with_suicides_no/<int:page>/<int:max_records>', methods=['GET'])
+def get_countries_with_suicides_no(page:int,max_records:int):
     countries = []
 
+    offset = max_records * (page - 1)
     connection = connectToDB()
     cursor = connection.cursor()
-    cursor.execute("with cs as ( "
-                   "SELECT c.*, SUM(SC.suicides_no) "
-                   "from countries c, suicides sc "
-                   "where c.id = sc.id_country "
-                   "GROUP BY c.id "
-                   ") "
-                   "select * from cs ORDER BY name; ")
+    cursor.execute(f"with cs as ( "
+                   f"SELECT c.*, SUM(SC.suicides_no) "
+                   f"from countries c, suicides sc "
+                   f"where c.id = sc.id_country "
+                   f"GROUP BY c.id "
+                   f") "
+                   f"select * from cs ORDER BY name"
+                   f"ORDER BY year LIMIT {max_records} OFFSET {offset}  ")
     for result in cursor:
         countries.append(Country(
             id=result[0],

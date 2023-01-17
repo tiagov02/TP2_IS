@@ -7,12 +7,10 @@ const DEMO_TEAMS = [
     {"team": "Chelsea", country: "UK"},
     {"team": "Tottenham", country: "UK"},
     {"team": "Fulham", country: "UK"},
-
     {"team": "Sporting", country: "Portugal"},
     {"team": "Porto", country: "Portugal"},
     {"team": "Benfica", country: "Portugal"},
     {"team": "Braga", country: "Portugal"},
-
     {"team": "PSG", country: "France"},
     {"team": "Lyon", country: "France"},
     {"team": "Olympique de Marseille", country: "France"}

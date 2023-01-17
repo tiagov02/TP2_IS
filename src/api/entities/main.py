@@ -84,7 +84,7 @@ def get_suicide(id:str):
     connection = connectToDB()
     cursor = connection.cursor()
 
-    cursor.execute(f"SELECT s.*,c.* from suicides s, countries c WHERE id=\'{id}\' AND s.id_country=c.id ")
+    cursor.execute(f"SELECT s.*,c.* from suicides s, countries c WHERE id=\'{id}\' AND s.id_country=c.id ORDER by s.year and c.name")
     result = cursor.fetchone()
 
     c = Country(
@@ -166,7 +166,7 @@ def update_suicide():
                    f"generation=\'{generation}\', gdp_for_year=\'{gpd_for_year}\', hdi_for_year={hdi_for_year}, gdp_per_capita={gdp_per_capita}, id_country=\'{id_country}\',  "
                    f"year={year} , sex=\'{sex}\' WHERE id=\'{id}\'")
 
-    cursor.execute(f"SELECT s.*,c.* from suicides s, countries cWHERE id=\'{id}\'")
+    cursor.execute(f"SELECT s.*,c.* from suicides s, countries c WHERE id=\'{id}\'")
     result = cursor.fetchone()
     connection.commit()
     c = Country(
@@ -208,7 +208,7 @@ def get_countries():
 
     connection = connectToDB()
     cursor = connection.cursor()
-    cursor.execute("SELECT * from countries")
+    cursor.execute("SELECT * from countries order by name")
     for result in cursor:
         countries.append(Country(
             id=result[0],
@@ -216,6 +216,30 @@ def get_countries():
             geom=result[2],
             created_on=result[3],
             updated_on=result[4]
+        ))
+    return jsonify([country.__dict__ for country in countries])
+
+@app.route('/api/countries/with_suicides_no', methods=['GET'])
+def get_countries_with_suicides_no():
+    countries = []
+
+    connection = connectToDB()
+    cursor = connection.cursor()
+    cursor.execute("with cs as ( "
+                   "SELECT c.*, SUM(SC.suicides_no) "
+                   "from countries c, suicides sc "
+                   "where c.id = sc.id_country "
+                   "GROUP BY c.id "
+                   ") "
+                   "select * from cs ORDER BY name; ")
+    for result in cursor:
+        countries.append(Country(
+            id=result[0],
+            name=result[1],
+            geom=result[2],
+            created_on=result[3],
+            updated_on=result[4],
+            suicides_no=result[5]
         ))
     return jsonify([country.__dict__ for country in countries])
 

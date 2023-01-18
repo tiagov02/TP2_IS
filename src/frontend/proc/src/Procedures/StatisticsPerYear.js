@@ -48,7 +48,7 @@ function StatisticsPerYear() {
                 <Box>
                     <h2 style={{color: "white"}}>Options</h2>
                     <FormControl fullWidth>
-                        <InputLabel id="countries-select-label">Country</InputLabel>
+                        <InputLabel id="countries-select-label">Years</InputLabel>
                         <Select
                             labelId="countries-select-label"
                             id="demo-simple-select"
@@ -87,7 +87,7 @@ function StatisticsPerYear() {
                                 })
                             }
                         </ul> :
-                        selectedCountry ? <CircularProgress/> : "--"
+                        selectedYear ? <CircularProgress/> : "--"
                 }
             </Container>
         </>

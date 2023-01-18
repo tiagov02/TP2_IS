@@ -69,7 +69,7 @@ function TopTeams() {
                             <option value="" disabled>Select a country</option>
                             {
                                 COUNTRIES.map(country => (
-                                    <option key={country.id} value={country.name}>
+                                    <option key={country.NAME} value={country.name}>
                                         {country.name}
                                     </option>
                                 ))

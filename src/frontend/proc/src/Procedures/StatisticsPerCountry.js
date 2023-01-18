@@ -12,6 +12,7 @@ function StatisticsPerCountry() {
   }, []);
 
 
+
   return (
     <div>
       <label>Select a country:</label>

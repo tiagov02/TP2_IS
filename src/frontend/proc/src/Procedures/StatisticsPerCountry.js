@@ -25,4 +25,5 @@ function StatisticsPerCountry() {
   );
 }
 
+
 export default StatisticsPerCountry;

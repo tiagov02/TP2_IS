@@ -1,6 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {Box, CircularProgress, Container, FormControl, InputLabel, MenuItem, Select} from "@mui/material";
-import {response} from "express";
+
 
 function StatisticsPerCountry() {
   const [countries, setCountries] = useState([]);

@@ -1,5 +1,6 @@
 import StatisticsPerCountry from "../Procedures/StatisticsPerCountry";
 import StatisticsPerYear from "../Procedures/StatisticsPerYear";
+import StatisticsPerCountryYear from "../Procedures/StatisticsPerCountryYear";
 
 const Sections = [
 
@@ -10,9 +11,14 @@ const Sections = [
     },
 
     {
-        id: "top-scorers", //change
+        id: "statistics-year", //change
         label: "Top Suicides in Countries per Year",
         content: <StatisticsPerYear/>
+    },
+    {
+        id: "statistics-year-country", //change
+        label: "Top Suicides in Countries per Year",
+        content: <StatisticsPerCountryYear/>
     }
 
 ];

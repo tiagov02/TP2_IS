@@ -14,7 +14,7 @@ function present_result_rpc(data){
     )
 }
 
-function StatisticsPerCountry() {
+function StatisticsPerYear() {
     const [years, setYears] = useState([]);
     const [selectedYear, setSelectedYear] = useState("");
 
@@ -94,4 +94,4 @@ function StatisticsPerCountry() {
     );
 }
 
-export default StatisticsPerCountry;
+export default StatisticsPerYear;

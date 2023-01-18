@@ -75,9 +75,9 @@ function StatisticsPerCountryYear() {
                                 </MenuItem>
                             ))}
                         </Select><br/>
-                        <InputLabel id="countries-select-label">Years</InputLabel>
+                        <InputLabel id="years-select-label">Years</InputLabel>
                         <Select
-                            labelId="countries-select-label"
+                            labelId="years-select-label"
                             id="demo-simple-select"
                             value={selectedYear}
                             label="Country"

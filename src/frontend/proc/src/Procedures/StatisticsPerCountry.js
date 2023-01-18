@@ -69,7 +69,7 @@ function StatisticsPerCountry() {
                         >
                             <MenuItem value={""}><em>None</em></MenuItem>
                             {countries.map(country => (
-                                <MenuItem key={country.id} value={country.name}>
+                                <MenuItem key={country.name} value={country.name}>
                                     {country.name}
                                 </MenuItem>
                             ))}
@@ -91,16 +91,6 @@ function StatisticsPerCountry() {
                         <ul>
                             {
                                 procData.map(data => <li>{data.team}</li>)
-                            }
-                        </ul> :
-                        selectedCountry ? <CircularProgress/> : "--"
-                }
-                <h2>Results <small>(GraphQL)</small></h2>
-                {
-                    gqlData ?
-                        <ul>
-                            {
-                                gqlData.map(data => <li>{data.team}</li>)
                             }
                         </ul> :
                         selectedCountry ? <CircularProgress/> : "--"

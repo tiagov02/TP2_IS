@@ -1,26 +1,18 @@
 import React, {useEffect, useState} from "react";
 import {Box, CircularProgress, Container, FormControl, InputLabel, MenuItem, Select} from "@mui/material";
 
-
-
-function getCountry(){
-    fetch(`HTTP://localhost:20001/api/countries`)
-        .then(response => response.json())
-        .then(data => {
-            // Update the state with the received data
-            return data;
-        });
-}
 const DEMO_TEAMS = [
     {"team": "Manchester United", country: "UK"},
     {"team": "Manchester City", country: "UK"},
     {"team": "Chelsea", country: "UK"},
     {"team": "Tottenham", country: "UK"},
     {"team": "Fulham", country: "UK"},
+
     {"team": "Sporting", country: "Portugal"},
     {"team": "Porto", country: "Portugal"},
     {"team": "Benfica", country: "Portugal"},
     {"team": "Braga", country: "Portugal"},
+
     {"team": "PSG", country: "France"},
     {"team": "Lyon", country: "France"},
     {"team": "Olympique de Marseille", country: "France"}
@@ -29,13 +21,12 @@ const DEMO_TEAMS = [
 const COUNTRIES = [...new Set(DEMO_TEAMS.map(team => team.country))];
 
 
-async function StatisticsPerCountry() {
+function StatisticsPerCountry() {
 
     const [selectedCountry, setSelectedCountry] = useState("");
 
     const [procData, setProcData] = useState(null);
     const [gqlData, setGQLData] = useState(null);
-    const countries = await getCountry();
 
     useEffect(() => {
         //!FIXME: this is to simulate how to retrieve data from the server
@@ -48,12 +39,17 @@ async function StatisticsPerCountry() {
                 console.log(`fetching from ${process.env.REACT_APP_API_PROC_URL}`);
                 setProcData(DEMO_TEAMS.filter(t => t.country === selectedCountry));
             }, 500);
+
+            setTimeout(() => {
+                console.log(`fetching from ${process.env.REACT_APP_API_GRAPHQL_URL}`);
+                setGQLData(DEMO_TEAMS.filter(t => t.country === selectedCountry));
+            }, 1000);
         }
     }, [selectedCountry])
 
     return (
         <>
-            <h1>Top Countries</h1>
+            <h1>Top Teams</h1>
 
             <Container maxWidth="100%"
                        sx={{backgroundColor: 'background.default', padding: "2rem", borderRadius: "1rem"}}>
@@ -61,17 +57,20 @@ async function StatisticsPerCountry() {
                     <h2 style={{color: "white"}}>Options</h2>
                     <FormControl fullWidth>
                         <InputLabel id="countries-select-label">Country</InputLabel>
-                        <select id="country-select" value={selectedCountry}
-                                onChange={e => setSelectedCountry(e.target.value)}>
-                            <option value="" disabled>Select a country</option>
+                        <Select
+                            labelId="countries-select-label"
+                            id="demo-simple-select"
+                            value={selectedCountry}
+                            label="Country"
+                            onChange={(e, v) => {
+                                setSelectedCountry(e.target.value)
+                            }}
+                        >
+                            <MenuItem value={""}><em>None</em></MenuItem>
                             {
-                                countries.map(country => (
-                                    <option key={country.name} value={country.name}>
-                                        {country.name}
-                                    </option>
-                                ))
+                                COUNTRIES.map(c => <MenuItem key={c} value={c}>{c}</MenuItem>)
                             }
-                        </select>
+                        </Select>
                     </FormControl>
                 </Box>
             </Container>

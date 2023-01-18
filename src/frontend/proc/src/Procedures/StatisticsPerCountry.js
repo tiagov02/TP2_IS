@@ -21,35 +21,36 @@ const DEMO_TEAMS = [
 const COUNTRIES = [...new Set(DEMO_TEAMS.map(team => team.country))];
 
 
-function TopTeams() {
-
+function StatisticsPerCountry() {
+    const [countries, setCountries] = useState([]);
     const [selectedCountry, setSelectedCountry] = useState("");
 
     const [procData, setProcData] = useState(null);
     const [gqlData, setGQLData] = useState(null);
 
     useEffect(() => {
-        //!FIXME: this is to simulate how to retrieve data from the server
-        //!FIXME: the entities server URL is available on process.env.REACT_APP_API_ENTITIES_URL
+        fetch(`http://localhost:20001/api/countries`)
+          .then(res => res.json())
+          .then(data => setCountries(data));
         setProcData(null);
         setGQLData(null);
 
         if (selectedCountry) {
             setTimeout(() => {
                 console.log(`fetching from ${process.env.REACT_APP_API_PROC_URL}`);
-                setProcData(DEMO_TEAMS.filter(t => t.country === selectedCountry));
+                setProcData(DEMO_TEAMS.filter(country => country.country === selectedCountry));
             }, 500);
 
             setTimeout(() => {
                 console.log(`fetching from ${process.env.REACT_APP_API_GRAPHQL_URL}`);
-                setGQLData(DEMO_TEAMS.filter(t => t.country === selectedCountry));
+                setGQLData(DEMO_TEAMS.filter(country => country.country === selectedCountry));
             }, 1000);
         }
     }, [selectedCountry])
 
     return (
         <>
-            <h1>Top Teams</h1>
+            <h1>More Suicides In Country</h1>
 
             <Container maxWidth="100%"
                        sx={{backgroundColor: 'background.default', padding: "2rem", borderRadius: "1rem"}}>
@@ -62,14 +63,16 @@ function TopTeams() {
                             id="demo-simple-select"
                             value={selectedCountry}
                             label="Country"
-                            onChange={(e, v) => {
+                            onChange={(e) => {
                                 setSelectedCountry(e.target.value)
                             }}
                         >
                             <MenuItem value={""}><em>None</em></MenuItem>
-                            {
-                                COUNTRIES.map(c => <MenuItem key={c} value={c}>{c}</MenuItem>)
-                            }
+                            {countries.map(country => (
+                                <MenuItem key={country.id} value={country.name}>
+                                    {country.name}
+                                </MenuItem>
+                            ))}
                         </Select>
                     </FormControl>
                 </Box>
@@ -107,4 +110,4 @@ function TopTeams() {
     );
 }
 
-export default TopTeams;
+export default StatisticsPerCountry;

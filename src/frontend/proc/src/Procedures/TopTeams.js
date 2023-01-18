@@ -3,12 +3,12 @@ import {Box, CircularProgress, Container, FormControl, InputLabel, MenuItem, Sel
 
 
 
-async function getCountry(){
-        await fetch('http://localhost:20002/api/countries')
+function getCountry(){
+        fetch('http://localhost:20002/api/countries')
         .then(response => response.json())
         .then(data => {
             // Update the state with the received data
-            return data;
+            setCountries(data);
         });
 }
 const DEMO_TEAMS = [
@@ -26,7 +26,7 @@ const DEMO_TEAMS = [
     {"team": "Olympique de Marseille", country: "France"}
 ];
 
-const COUNTRIES = [...new Set(await getCountry().map(c => c.name))];
+const COUNTRIES = [...new Set(DEMO_TEAMS.map(team => team.country))];
 
 
 function TopTeams() {
@@ -68,7 +68,7 @@ function TopTeams() {
                           <select id="country-select" value={selectedCountry} onChange={e => setSelectedCountry(e.target.value)}>
                             <option value="" disabled>Select a country</option>
                             {
-                                COUNTRIES.map(country => (
+                                countries.map(country => (
                                     <option key={country.NAME} value={country.name}>
                                         {country.name}
                                     </option>

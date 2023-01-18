@@ -1,30 +1,31 @@
 import {Avatar, List, ListItem, ListItemIcon, ListItemText} from "@mui/material";
 import FlagIcon from '@mui/icons-material/Flag';
-import PictureInPictureAltIcon from '@mui/icons-material/PictureInPictureAlt';
-import ContactsIcon from '@mui/icons-material/Contacts';
+import PercentIcon from '@mui/icons-material/Percent';
+import FaceRetouchingOffIcon from '@mui/icons-material/FaceRetouchingOff'
 import React from "react";
 import {Marker, Popup} from 'react-leaflet';
 import {icon as leafletIcon, point} from "leaflet";
 
 const LIST_PROPERTIES = [
     {"key": "country", label: "Country", Icon: FlagIcon},
-    {"key": "med_tax", label: "Medium tax of suicides", Icon: ContactsIcon},
-    {"key": "suicides_no", label: "No of suicides«", Icon: PictureInPictureAltIcon}
+    {"key": "med_tax", label: "Medium tax of suicides", Icon: PercentIcon},
+    {"key": "suicides_no", label: "Nº of suicides", Icon: FaceRetouchingOffIcon}
 ];
 
 export function ObjectMarker({geoJSON}) {
     //debugger
     const properties = geoJSON.properties
-    const {id, imgUrl, name} = properties;
+    console.log(properties)
+    const {id, imgurl, name} = properties;
     const coordinates = [geoJSON.geometry.coordinates[1],geoJSON.geometry.coordinates[0]];
-    console.log(coordinates)
+
 
     return (
         <Marker
             position={coordinates}
             icon={leafletIcon({
-                iconUrl: 'https://cdn-icons-png.flaticon.com/512/6349/6349523.png',
-                iconRetinaUrl: 'https://cdn-icons-png.flaticon.com/512/6349/6349523.png',
+                iconUrl: imgurl,
+                iconRetinaUrl: imgurl,
                 iconSize: point(50, 50),
             })}
         >
@@ -32,7 +33,7 @@ export function ObjectMarker({geoJSON}) {
                 <List dense={true}>
                     <ListItem>
                         <ListItemIcon>
-                            <Avatar alt={name} src={imgUrl}/>
+                            <Avatar alt={name} src={imgurl}/>
                         </ListItemIcon>
                         <ListItemText primary={name}/>
                     </ListItem>

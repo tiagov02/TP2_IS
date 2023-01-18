@@ -29,7 +29,7 @@ const DEMO_TEAMS = [
 const COUNTRIES = [...new Set(DEMO_TEAMS.map(team => team.country))];
 
 
-function TopTeams() {
+function StatisticsPerCountry() {
 
     const [selectedCountry, setSelectedCountry] = useState("");
 

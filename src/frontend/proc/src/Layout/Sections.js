@@ -1,11 +1,11 @@
-import TopTeams from "../Procedures/TopTeams";
+import StatisticsPerCountry from "../Procedures/StatisticsPerCountry";
 
 const Sections = [
 
     {
         id: "top-teams", //change
         label: "Top Suicides",
-        content: <TopTeams/>
+        content: <StatisticsPerCountry/>
     },
 
     {

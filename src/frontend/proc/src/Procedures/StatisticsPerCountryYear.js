@@ -23,6 +23,8 @@ function StatisticsPerCountryYear() {
     const [years, setYears] = useState([]);
     const [selectedYear, setSelectedYear] = useState("");
 
+    let hasError = false;
+
 
     useEffect(() => {
         fetch(`http://localhost:20001/api/years`)
@@ -43,7 +45,7 @@ function StatisticsPerCountryYear() {
                     .then(data => {
                         debugger
                         setProcData(data)
-                    });
+                    }).catch(error => hasError = true);
             }, 500);
         }
     }, [selectedYear])
@@ -114,8 +116,10 @@ function StatisticsPerCountryYear() {
                                 })
                             }
                         </ul> :
-                        selectedYear ? <CircularProgress/> : "--"
+                        selectedYear && selectedCountry && !hasError ? <CircularProgress/> : "--"
                 }
+                hasError?
+                    <h3 style='color: #880808'>There are no suicides matching the data that you search!</h3>
             </Container>
         </>
     );

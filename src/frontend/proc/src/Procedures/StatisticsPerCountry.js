@@ -11,6 +11,7 @@ function StatisticsPerCountry() {
       .then(data => setCountries(data));
   }, []);
 
+
   return (
     <div>
       <label>Select a country:</label>

@@ -2,26 +2,39 @@ import React, {useEffect, useState} from "react";
 import {Box, CircularProgress, Container, FormControl, InputLabel, MenuItem, Select} from "@mui/material";
 
 
-
+function present_result_rpc(data){
+    return(
+    <>
+                                    <li>Suicides in childerns: {data.children}</li>
+                                    <li>Suicides in old people: {data.olders}</li>
+                                    <h3>Number of suicides by sex</h3>
+                                    <li>Sex: {data.per_sex[0].sex} --> Suicides Number:{data.per_sex[0].suicides_no}</li>
+                                    <li>Sex: {data.per_sex[1].sex} --> Suicides Number:{data.per_sex[1].suicides_no}</li>
+    </>
+    )
+}
 
 function StatisticsPerCountry() {
     const [countries, setCountries] = useState([]);
     const [selectedCountry, setSelectedCountry] = useState("");
 
     const [procData, setProcData] = useState(null);
-    const [gqlData, setGQLData] = useState(null);
 
     useEffect(() => {
         fetch(`http://localhost:20001/api/countries`)
           .then(res => res.json())
           .then(data => setCountries(data));
         setProcData(null);
-        setGQLData(null);
 
         if (selectedCountry) {
             setTimeout(() => {
                 console.log(`fetching from ${process.env.REACT_APP_API_PROC_URL}`);
-                setProcData(DEMO_TEAMS.filter(country => country.name === selectedCountry));
+                fetch(`http://localhost:20004/api/suicides_per_country/${selectedCountry}`)
+                    .then(res => res.json())
+                    .then(data => {
+                        debugger
+                        setProcData(data)
+                    });
             }, 500);
         }
     }, [selectedCountry])
@@ -42,6 +55,7 @@ function StatisticsPerCountry() {
                             value={selectedCountry}
                             label="Country"
                             onChange={(e) => {
+                                console.log(e.target.value)
                                 setSelectedCountry(e.target.value)
                             }}
                         >
@@ -68,7 +82,9 @@ function StatisticsPerCountry() {
                     procData ?
                         <ul>
                             {
-                                procData.map(data => <li>{data.team}</li>)
+                                procData.map(data => {
+                                    return present_result_rpc(data)
+                                })
                             }
                         </ul> :
                         selectedCountry ? <CircularProgress/> : "--"

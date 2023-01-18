@@ -1,6 +1,12 @@
 import React, {useEffect, useState} from "react";
 import {Box, CircularProgress, Container, FormControl, InputLabel, MenuItem, Select} from "@mui/material";
 
+
+async function getCountries(){
+     return await fetch(`http://localhost:20001/api/countries`)
+                .then(response => response.json())
+                .then(jsonData => jsonData);
+}
 const DEMO_TEAMS = [
     {"team": "Manchester United", country: "UK"},
     {"team": "Manchester City", country: "UK"},
@@ -12,13 +18,13 @@ const DEMO_TEAMS = [
     {"team": "Porto", country: "Portugal"},
     {"team": "Benfica", country: "Portugal"},
     {"team": "Braga", country: "Portugal"},
-
     {"team": "PSG", country: "France"},
     {"team": "Lyon", country: "France"},
     {"team": "Olympique de Marseille", country: "France"}
 ];
 
-const COUNTRIES = [...new Set(DEMO_TEAMS.map(team => team.country))];
+const COUNTRIES = await getCountries();
+debugger
 
 function StatisticsPerCountry() {
 
@@ -26,14 +32,6 @@ function StatisticsPerCountry() {
 
     const [procData, setProcData] = useState(null);
     const [gqlData, setGQLData] = useState(null);
-
-    useEffect(() => {
-        setTimeout(() => {
-            fetch(`http://localhost:20001/api/countries`)
-                .then(response => response.json())
-                .then(jsonData => COUNTRIES);
-        }, 500);
-    }, [])
 
     useEffect(() => {
         //!FIXME: this is to simulate how to retrieve data from the server
@@ -75,7 +73,7 @@ function StatisticsPerCountry() {
                         >
                             <MenuItem value={""}><em>None</em></MenuItem>
                             {
-                                COUNTRIES.map(c => <MenuItem key={c} value={c}>{c}</MenuItem>)
+                                COUNTRIES.map(c => <MenuItem key={c.name} value={c.name}>{c.name}</MenuItem>)
                             }
                         </Select>
                     </FormControl>

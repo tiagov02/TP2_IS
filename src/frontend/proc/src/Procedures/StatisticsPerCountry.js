@@ -28,6 +28,14 @@ function StatisticsPerCountry() {
     const [gqlData, setGQLData] = useState(null);
 
     useEffect(() => {
+        setTimeout(() => {
+            fetch(`http://localhost:20001/api/countries`)
+                .then(response => response.json())
+                .then(jsonData => COUNTRIES);
+        }, 500);
+    }, [])
+
+    useEffect(() => {
         //!FIXME: this is to simulate how to retrieve data from the server
         //!FIXME: the entities server URL is available on process.env.REACT_APP_API_ENTITIES_URL
         setProcData(null);

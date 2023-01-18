@@ -3,12 +3,13 @@ import {Box, CircularProgress, Container, FormControl, InputLabel, MenuItem, Sel
 
 
 
-function getCountry(){
-        fetch('http://localhost:20002/api/countries')
+async function getCountry(){
+        await fetch('http://localhost:20002/api/countries')
         .then(response => response.json())
         .then(data => {
+            debugger
             // Update the state with the received data
-            setCountries(data);
+            return data;
         });
 }
 const DEMO_TEAMS = [
@@ -29,12 +30,13 @@ const DEMO_TEAMS = [
 const COUNTRIES = [...new Set(DEMO_TEAMS.map(team => team.country))];
 
 
-function StatisticsPerCountry() {
+async function StatisticsPerCountry() {
 
     const [selectedCountry, setSelectedCountry] = useState("");
 
     const [procData, setProcData] = useState(null);
     const [gqlData, setGQLData] = useState(null);
+    const countries = await getCountry();
 
     useEffect(() => {
         //!FIXME: this is to simulate how to retrieve data from the server
@@ -47,11 +49,6 @@ function StatisticsPerCountry() {
                 console.log(`fetching from ${process.env.REACT_APP_API_PROC_URL}`);
                 setProcData(DEMO_TEAMS.filter(t => t.country === selectedCountry));
             }, 500);
-
-            setTimeout(() => {
-                console.log(`fetching from ${process.env.REACT_APP_API_GRAPHQL_URL}`);
-                setGQLData(DEMO_TEAMS.filter(t => t.country === selectedCountry));
-            }, 1000);
         }
     }, [selectedCountry])
 
@@ -65,11 +62,12 @@ function StatisticsPerCountry() {
                     <h2 style={{color: "white"}}>Options</h2>
                     <FormControl fullWidth>
                         <InputLabel id="countries-select-label">Country</InputLabel>
-                          <select id="country-select" value={selectedCountry} onChange={e => setSelectedCountry(e.target.value)}>
+                        <select id="country-select" value={selectedCountry}
+                                onChange={e => setSelectedCountry(e.target.value)}>
                             <option value="" disabled>Select a country</option>
                             {
                                 countries.map(country => (
-                                    <option key={country.NAME} value={country.name}>
+                                    <option key={country.name} value={country.name}>
                                         {country.name}
                                     </option>
                                 ))

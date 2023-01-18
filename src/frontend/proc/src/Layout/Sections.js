@@ -3,7 +3,7 @@ import StatisticsPerCountry from "../Procedures/StatisticsPerCountry";
 const Sections = [
 
     {
-        id: "top-teams", //change
+        id: "statistics-country", //change
         label: "Top Suicides",
         content: <StatisticsPerCountry/>
     },

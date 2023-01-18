@@ -21,12 +21,12 @@ function StatisticsPerCountry() {
         if (selectedCountry) {
             setTimeout(() => {
                 console.log(`fetching from ${process.env.REACT_APP_API_PROC_URL}`);
-                setProcData(DEMO_TEAMS.filter(country => country.country === selectedCountry));
+                setProcData(DEMO_TEAMS.filter(country => country.name === selectedCountry));
             }, 500);
 
             setTimeout(() => {
                 console.log(`fetching from ${process.env.REACT_APP_API_GRAPHQL_URL}`);
-                setGQLData(DEMO_TEAMS.filter(country => country.country === selectedCountry));
+                setGQLData(DEMO_TEAMS.filter(country => country.name === selectedCountry));
             }, 1000);
         }
     }, [selectedCountry])

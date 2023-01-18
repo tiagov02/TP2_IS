@@ -59,7 +59,7 @@ function StatisticsPerCountryYear() {
                 <Box>
                     <h2 style={{color: "white"}}>Options</h2>
                     <FormControl fullWidth>
-
+                        <InputLabel id="countries-select-label">Country</InputLabel>
                         <Select
                             labelId="countries-select-label"
                             id="demo-simple-select"
@@ -118,8 +118,11 @@ function StatisticsPerCountryYear() {
                         </ul> :
                         selectedYear && selectedCountry && !hasError ? <CircularProgress/> : "--"
                 }
-                hasError?
-                    <h3 style='color: #880808'>There are no suicides matching the data that you search!</h3>
+                {
+                    hasError ?
+                        <h3 style={{color: '#880808'}}>There are no suicides matching the data that you search!</h3>
+                        : <p></p>
+                }
             </Container>
         </>
     );

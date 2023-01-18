@@ -23,7 +23,7 @@ const DEMO_TEAMS = [
     {"team": "Olympique de Marseille", country: "France"}
 ];
 
-const COUNTRIES = await getCountries();
+const COUNTRIES = getCountries();
 debugger
 
 function StatisticsPerCountry() {

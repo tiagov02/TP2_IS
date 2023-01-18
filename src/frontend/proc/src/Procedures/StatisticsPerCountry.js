@@ -109,4 +109,4 @@ async function StatisticsPerCountry() {
     );
 }
 
-export default TopTeams;
+export default StatisticsPerCountry;

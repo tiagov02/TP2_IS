@@ -1,25 +1,30 @@
 import {Avatar, List, ListItem, ListItemIcon, ListItemText} from "@mui/material";
-import HomeIcon from '@mui/icons-material/Home';
+import FlagIcon from '@mui/icons-material/Flag';
+import PictureInPictureAltIcon from '@mui/icons-material/PictureInPictureAlt';
+import ContactsIcon from '@mui/icons-material/Contacts';
 import React from "react";
 import {Marker, Popup} from 'react-leaflet';
 import {icon as leafletIcon, point} from "leaflet";
 
-
 const LIST_PROPERTIES = [
-    {"key": "home", Icon: HomeIcon},
-    ];
+    {"key": "country", label: "Country", Icon: FlagIcon},
+    {"key": "med_tax", label: "Medium tax of suicides", Icon: ContactsIcon},
+    {"key": "suicides_no", label: "No of suicides«", Icon: PictureInPictureAltIcon}
+];
 
 export function ObjectMarker({geoJSON}) {
-    const properties = geoJSON?.properties
-    const { img, home} = properties;
-    const coordinates = geoJSON?.geometry?.coordinates;
+    //debugger
+    const properties = geoJSON.properties
+    const {id, imgUrl, name} = properties;
+    const coordinates = [geoJSON.geometry.coordinates[1],geoJSON.geometry.coordinates[0]];
+    console.log(coordinates)
 
     return (
         <Marker
             position={coordinates}
             icon={leafletIcon({
-                iconUrl: img,
-                iconRetinaUrl: img,
+                iconUrl: 'https://cdn-icons-png.flaticon.com/512/6349/6349523.png',
+                iconRetinaUrl: 'https://cdn-icons-png.flaticon.com/512/6349/6349523.png',
                 iconSize: point(50, 50),
             })}
         >
@@ -27,9 +32,9 @@ export function ObjectMarker({geoJSON}) {
                 <List dense={true}>
                     <ListItem>
                         <ListItemIcon>
-                            <Avatar alt={home} src={img}/>
+                            <Avatar alt={name} src={imgUrl}/>
                         </ListItemIcon>
-                        <ListItemText primary={home}/>
+                        <ListItemText primary={name}/>
                     </ListItem>
                     {
                         LIST_PROPERTIES
@@ -40,14 +45,16 @@ export function ObjectMarker({geoJSON}) {
                                     </ListItemIcon>
                                     <ListItemText
                                         primary={<span>
-                                        {properties[key]}
-
+                                        {properties[key]}<br/>
+                                        <label style={{fontSize: "xx-small"}}>({label})</label>
                                     </span>}
                                     />
                                 </ListItem>
                             )
                     }
+
                 </List>
+
             </Popup>
         </Marker>
     )

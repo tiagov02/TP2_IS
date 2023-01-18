@@ -30,8 +30,10 @@ function ObjectMarkersGroup() {
         fetch(`http://localhost:20002/api/tile/${bounds._southWest.lng}/${bounds._southWest.lat}/${bounds._northEast.lng}/${bounds._northEast.lat}`)
     .then(response => response.json())
     .then(geoJSON => {
-        console.log(geoJSON);
-        setGeom(geoJSON.features)
+        //console.log(geoJSON);
+        //console.log(geoJSON)
+        //debugger
+        setGeom(geoJSON)
     })
     .catch(err => console.log(err));
     }, [bounds])
@@ -39,7 +41,7 @@ function ObjectMarkersGroup() {
     return (
         <LayerGroup>
             {
-                Array.isArray(geom) && geom.map(geoJSON => <ObjectMarker key={geoJSON.properties.id} position={geoJSON.properties.geometry} geoJSON={geoJSON}/>)
+                Array.isArray(geom) && geom.map(geoJSON => <ObjectMarker key={geoJSON[0].properties.id} geoJSON={geoJSON[0]}/>)
             }
     </LayerGroup>
     );

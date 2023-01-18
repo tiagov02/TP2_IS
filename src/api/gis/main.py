@@ -29,7 +29,7 @@ def get_countries(swLng,swlAT,neLng,neLat):
                    f"SELECT jsonb_build_object(  "
                    f"'type', 'feature', "
                    f"'geometry', ST_AsGeoJSON(geom) ::json, "
-                   f"'proprieties', to_jsonb(sc.*) -'id' -'geom' "
+                   f"'properties', to_jsonb(sc.*) -'geom' "
                    f") AS json  "
                    f"FROM suicide_country sc "
                    f"WHERE st_contains(st_makeenvelope({neLng},{swlAT},{swLng},{neLat}),sc.geom);"
@@ -55,7 +55,7 @@ def get_all():
                    f"SELECT jsonb_build_object(  "
                    f"'type', 'feature', "
                    f"'geometry', ST_AsGeoJSON(geom)::json, "
-                   f"'proprieties', to_jsonb(sc.*) -'id' -'geom' "
+                   f"'properties', to_jsonb(sc.*) -'geom' "
                    f") AS json  "
                    f"FROM suicide_country sc; ")
     res = cursor.fetchall()

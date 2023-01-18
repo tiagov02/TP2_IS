@@ -38,7 +38,7 @@ function StatisticsPerCountryYear() {
         if (selectedYear && selectedCountry) {
             setTimeout(() => {
                 console.log(`fetching from ${process.env.REACT_APP_API_PROC_URL}`);
-                fetch(`http://localhost:20001/api/suicides_per_year_country/${selectedYear}/${selectedCountry}`)
+                fetch(`http://localhost:20004/api/suicides_per_year_country/${selectedYear}/${selectedCountry}`)
                     .then(res => res.json())
                     .then(data => {
                         debugger
@@ -74,8 +74,7 @@ function StatisticsPerCountryYear() {
                                     {country.name}
                                 </MenuItem>
                             ))}
-                        </Select>
-
+                        </Select><br/>
                         <InputLabel id="countries-select-label">Years</InputLabel>
                         <Select
                             labelId="countries-select-label"

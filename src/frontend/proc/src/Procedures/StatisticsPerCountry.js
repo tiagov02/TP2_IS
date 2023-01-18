@@ -3,11 +3,10 @@ import {Box, CircularProgress, Container, FormControl, InputLabel, MenuItem, Sel
 
 
 
-async function getCountry(){
-        await fetch('http://localhost:20002/api/countries')
+function getCountry(){
+    fetch(`HTTP://localhost:20001/api/countries`)
         .then(response => response.json())
         .then(data => {
-            debugger
             // Update the state with the received data
             return data;
         });

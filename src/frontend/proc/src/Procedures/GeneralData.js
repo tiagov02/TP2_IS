@@ -1,8 +1,8 @@
 import React, {useEffect, useState} from "react";
 import {Box, CircularProgress, Container, FormControl, InputLabel, MenuItem, Select} from "@mui/material";
 
-
-function present_result_rpc(data){
+//CHANGE THIS TWO FUNCTIONS
+function present_result_rpc_less_more(data){
     return(
     <>
                                     <li>Suicides in childerns: {data.children}</li>
@@ -14,30 +14,29 @@ function present_result_rpc(data){
     )
 }
 
-function GeneralData() {
-    const [years, setYears] = useState([]);
-    const [selectedYear, setSelectedYear] = useState("");
+function present_result_rpc_rich(data){
+    return(
+    <>
 
-    const [procData, setProcData] = useState(null);
+                                    <li>Sex: {data.per_sex[0].sex} --> Suicides Number:{data.per_sex[0].suicides_no}</li>
+                                    <li>Sex: {data.per_sex[1].sex} --> Suicides Number:{data.per_sex[1].suicides_no}</li>
+    </>
+    )
+}
+
+function GeneralData() {
+
+    const [lessMore, setLessMore] = useState(null);
+    const [richCountries, setRichCountries] = useState(null);
 
     useEffect(() => {
-        fetch(`http://localhost:20001/api/years`)
+        fetch(`http://localhost:20004/api/suicides_in_rich_countries`)
           .then(res => res.json())
-          .then(data => setYears(data));
-        setProcData(null);
-
-        if (selectedYear) {
-            setTimeout(() => {
-                console.log(`fetching from ${process.env.REACT_APP_API_PROC_URL}`);
-                fetch(`http://localhost:20004/api/suicides_per_year/${selectedYear}`)
-                    .then(res => res.json())
-                    .then(data => {
-                        debugger
-                        setProcData(data)
-                    });
-            }, 500);
-        }
-    }, [selectedYear])
+          .then(data => setRichCountries(data));
+        fetch(`http://localhost:20004/api/country_less_more_suicides`)
+            .then(res =>res.json())
+            .then(data => setLessMore(data));
+    }, [])
 
     return (
         <>
@@ -72,17 +71,30 @@ function GeneralData() {
                 borderRadius: "1rem",
                 color: "white"
             }}>
-                <h2>Results <small>(PROC)</small></h2>
+                <h2>Results of suicides in rich countries<small>(PROC)</small></h2>
                 {
                     procData ?
                         <ul>
                             {
                                 procData.map(data => {
-                                    return present_result_rpc(data)
+                                    return present_result_rpc_rich(data)
                                 })
                             }
                         </ul> :
-                        selectedYear ? <CircularProgress/> : "--"
+                        <p></p>
+                }
+
+                <h2>Whats the country that have less and lore suicides?<small>(PROC)</small></h2>
+                {
+                    procData ?
+                        <ul>
+                            {
+                                procData.map(data => {
+                                    return present_result_rpc_less_more(data)
+                                })
+                            }
+                        </ul> :
+                        <p></p>
                 }
             </Container>
         </>

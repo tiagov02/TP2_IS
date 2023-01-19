@@ -121,6 +121,7 @@ services:
       WEB_PORT: ${EXT_PORT_FRONTEND_PROC}
       API_GRAPHQL_URL: "localhost:${EXT_PORT_API_GRAPHQL}"
       API_PROC_URL: "localhost:${EXT_PORT_API_PROC}"
+      API_ENTITIES_URL: "localhost:${EXT_PORT_API_ENTITIES}"
     depends_on:
       - api-proc
       - api-graphql

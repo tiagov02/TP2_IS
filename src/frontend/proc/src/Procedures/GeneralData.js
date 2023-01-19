@@ -3,21 +3,21 @@ import {Box, CircularProgress, Container, FormControl, InputLabel, MenuItem, Sel
 
 //CHANGE THIS TWO FUNCTIONS
 function present_result_rpc_less_more(data){
+    debugger
     return(
     <>
         <h3>Country with less suicides</h3>
-        <li>Country: {data.less.country}</li>
-        <li>Country: {data.less.suicides_no}</li>
+        <li>Country: {data[0].less.country}</li>
+        <li>Country: {data[0].less.suicides_no}</li>
 
         <h3>Country with More suicides</h3>
-        <li>Country: {data.more.country}</li>
-        <li>Country: {data.more.suicides_no}</li>
+        <li>Country: {data[0].more.country}</li>
+        <li>Country: {data[0].more.suicides_no}</li>
     </>
     )
 }
 
 function present_result_rpc_rich(data){
-    debugger
     return(
     <>
 
@@ -35,12 +35,10 @@ function GeneralData() {
     useEffect(() => {
         fetch(`http://localhost:20004/api/suicides_in_rich_countries`)
           .then(res => res.json())
-          .then(data => setRichCountries(data).catch(error => {return}));
+          .then(data => setRichCountries(data));
         fetch(`http://localhost:20004/api/country_less_more_suicides`)
             .then(res =>res.json())
-            .then(data => setLessMore(data)).catch(error => {
-            return
-        });
+            .then(data => setLessMore(data));
     }, [])
 
     return (
@@ -81,9 +79,7 @@ function GeneralData() {
                     lessMore ?
                         <ul>
                             {
-                                lessMore.map(data => {
-                                    return present_result_rpc_less_more(data)
-                                })
+                                present_result_rpc_less_more(lessMore)
                             }
                         </ul> :
                         <p></p>

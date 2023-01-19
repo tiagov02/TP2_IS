@@ -14,22 +14,22 @@ function present_result_rpc(data){
     )
 }
 
-function StatisticsPerCountry() {
-    const [countries, setCountries] = useState([]);
-    const [selectedCountry, setSelectedCountry] = useState("");
+function GeneralData() {
+    const [years, setYears] = useState([]);
+    const [selectedYear, setSelectedYear] = useState("");
 
     const [procData, setProcData] = useState(null);
 
     useEffect(() => {
-        fetch(`http://localhost:20001/api/countries`)
+        fetch(`http://localhost:20001/api/years`)
           .then(res => res.json())
-          .then(data => setCountries(data));
+          .then(data => setYears(data));
         setProcData(null);
 
-        if (selectedCountry) {
+        if (selectedYear) {
             setTimeout(() => {
                 console.log(`fetching from ${process.env.REACT_APP_API_PROC_URL}`);
-                fetch(`http://localhost:20004/api/suicides_per_country/${selectedCountry}`)
+                fetch(`http://localhost:20004/api/suicides_per_year/${selectedYear}`)
                     .then(res => res.json())
                     .then(data => {
                         debugger
@@ -37,37 +37,32 @@ function StatisticsPerCountry() {
                     });
             }, 500);
         }
-    }, [selectedCountry])
+    }, [selectedYear])
 
     return (
         <>
-            <h1>Suicides By Country</h1>
+            <h1>More Suicides In Country</h1>
 
-            <Container maxWidth="100%"
-                       sx={{backgroundColor: 'background.default', padding: "2rem", borderRadius: "1rem"}}>
-                <Box>
-                    <h2 style={{color: "white"}}>Options</h2>
-                    <FormControl fullWidth>
-                        <InputLabel id="countries-select-label">Country</InputLabel>
-                        <Select
-                            labelId="countries-select-label"
-                            id="demo-simple-select"
-                            value={selectedCountry}
-                            label="Country"
-                            onChange={(e) => {
-                                console.log(e.target.value)
-                                setSelectedCountry(e.target.value)
-                            }}
-                        >
-                            <MenuItem value={""}><em>None</em></MenuItem>
-                            {countries.map(country => (
-                                <MenuItem key={country.name} value={country.name}>
-                                    {country.name}
-                                </MenuItem>
-                            ))}
-                        </Select>
-                    </FormControl>
-                </Box>
+
+            <Container maxWidth="100%" sx={{
+                backgroundColor: 'info.dark',
+                padding: "2rem",
+                marginTop: "2rem",
+                borderRadius: "1rem",
+                color: "white"
+            }}>
+                <h2>Results <small>(PROC)</small></h2>
+                {
+                    procData ?
+                        <ul>
+                            {
+                                procData.map(data => {
+                                    return present_result_rpc(data)
+                                })
+                            }
+                        </ul> :
+                        selectedYear ? <CircularProgress/> : "--"
+                }
             </Container>
 
             <Container maxWidth="100%" sx={{
@@ -87,11 +82,11 @@ function StatisticsPerCountry() {
                                 })
                             }
                         </ul> :
-                        selectedCountry ? <CircularProgress/> : "--"
+                        selectedYear ? <CircularProgress/> : "--"
                 }
             </Container>
         </>
     );
 }
 
-export default StatisticsPerCountry;
+export default GeneralData;

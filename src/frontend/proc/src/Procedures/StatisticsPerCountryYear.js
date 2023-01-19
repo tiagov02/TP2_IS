@@ -52,7 +52,7 @@ function StatisticsPerCountryYear() {
 
     return (
         <>
-            <h1>More Suicides In Country</h1>
+            <h1>Suicides By Country and year</h1>
 
             <Container maxWidth="100%"
                        sx={{backgroundColor: 'background.default', padding: "2rem", borderRadius: "1rem"}}>

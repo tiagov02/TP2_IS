@@ -90,8 +90,8 @@ def get_suicides_in_rich_countries():
                 "suicides_no": res[0][1]
             },
                        {
-                           "sex": res[0][0],
-                           "suicides_no": res[0][1]
+                           "sex": res[1][0],
+                           "suicides_no": res[1][1]
                        }], 200
         else:
             abort(404)

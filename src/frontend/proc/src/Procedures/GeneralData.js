@@ -3,7 +3,7 @@ import {Box, CircularProgress, Container, FormControl, InputLabel, MenuItem, Sel
 
 //CHANGE THIS TWO FUNCTIONS
 function present_result_rpc_less_more(data){
-    debugger
+
     return(
     <>
         <h3>Country with less suicides</h3>
@@ -18,11 +18,12 @@ function present_result_rpc_less_more(data){
 }
 
 function present_result_rpc_rich(data){
+    debugger
     return(
     <>
 
-                                    <li>Sex: {data.sex} --> Suicides Number:{data.suicides_no}</li>
-                                    <li>Sex: {data.sex} --> Suicides Number:{data.suicides_no}</li>
+                                    <li>Sex: {data[0].sex} --> Suicides Number:{data[0].suicides_no}</li>
+                                    <li>Sex: {data[1].sex} --> Suicides Number:{data[1].suicides_no}</li>
     </>
     )
 }
@@ -58,9 +59,7 @@ function GeneralData() {
                     richCountries ?
                         <ul>
                             {
-                                richCountries.map(data => {
-                                    return present_result_rpc_rich(data)
-                                })
+                                present_result_rpc_rich(richCountries)
                             }
                         </ul> :
                         <p></p>

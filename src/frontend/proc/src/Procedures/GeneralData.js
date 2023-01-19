@@ -17,11 +17,12 @@ function present_result_rpc_less_more(data){
 }
 
 function present_result_rpc_rich(data){
+    debugger
     return(
     <>
 
-                                    <li>Sex: {data.per_sex[0].sex} --> Suicides Number:{data.per_sex[0].suicides_no}</li>
-                                    <li>Sex: {data.per_sex[1].sex} --> Suicides Number:{data.per_sex[1].suicides_no}</li>
+                                    <li>Sex: {data.sex} --> Suicides Number:{data.suicides_no}</li>
+                                    <li>Sex: {data.sex} --> Suicides Number:{data.suicides_no}</li>
     </>
     )
 }
@@ -34,10 +35,12 @@ function GeneralData() {
     useEffect(() => {
         fetch(`http://localhost:20004/api/suicides_in_rich_countries`)
           .then(res => res.json())
-          .then(data => setRichCountries(data));
+          .then(data => setRichCountries(data).catch(error => {return}));
         fetch(`http://localhost:20004/api/country_less_more_suicides`)
             .then(res =>res.json())
-            .then(data => setLessMore(data));
+            .then(data => setLessMore(data)).catch(error => {
+            return
+        });
     }, [])
 
     return (
@@ -79,7 +82,7 @@ function GeneralData() {
                         <ul>
                             {
                                 lessMore.map(data => {
-                                    return present_result_rpc_rich(data)
+                                    return present_result_rpc_less_more(data)
                                 })
                             }
                         </ul> :

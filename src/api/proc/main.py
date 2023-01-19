@@ -9,12 +9,11 @@ app = Flask(__name__)
 CORS(app)
 app.config["DEBUG"] = True
 
-print("connecting to server...")
-server = xmlrpc.client.ServerProxy('http://rpc-server:9000')
-print("Connected!")
+
 
 @app.route('/api/suicides_per_year/<int:year>', methods=['GET'])
 def get_suicides_per_year(year:int):
+    server = xmlrpc.client.ServerProxy('http://rpc-server:9000')
     res = server.orderByYear(year)
     if not len(res) == 0:
         return [{
@@ -36,6 +35,7 @@ def get_suicides_per_year(year:int):
 @app.route('/api/suicides_per_country/<string:country>', methods=['GET'])
 def get_suicides_per_country(country):
     try:
+        server = xmlrpc.client.ServerProxy('http://rpc-server:9000')
         res = server.orderByCountry(country)
         if not len(res) == 0:
             return [{
@@ -59,6 +59,7 @@ def get_suicides_per_country(country):
 @app.route('/api/suicides_per_year_country/<int:year>/<string:country>', methods =['GET'])
 def get_suicides_per_year_country(year,country):
     try:
+        server = xmlrpc.client.ServerProxy('http://rpc-server:9000')
         res = server.orderByYarAndCountry(year, country)
         if not len(res) == 0:
             return [{
@@ -81,6 +82,7 @@ def get_suicides_per_year_country(year,country):
 @app.route('/api/suicides_in_rich_countries', methods=['GET'])
 def get_suicides_in_rich_countries():
     try:
+        server = xmlrpc.client.ServerProxy('http://rpc-server:9000')
         res = server.suicidesInRichCountry()
         if not len(res) == 0:
             return [{
@@ -99,6 +101,7 @@ def get_suicides_in_rich_countries():
 @app.route('/api/country_less_more_suicides', methods=['GET'])
 def get_countries_less_more_suicides():
     try:
+        server = xmlrpc.client.ServerProxy('http://rpc-server:9000')
         res = server.CountryWithLessandMoreSuicides()
         if not len(res) == 0:
             return [{

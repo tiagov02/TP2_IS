@@ -116,7 +116,7 @@ function StatisticsPerCountryYear() {
                                 })
                             }
                         </ul> :
-                        (selectedYear || selectedCountry) && !hasError ? <CircularProgress/> : "--"
+                        (selectedYear && selectedCountry) && !hasError ? <CircularProgress/> : "--"
                 }
                 {
                     hasError.current ?

@@ -7,13 +7,13 @@ const Sections = [
 
     {
         id: "statistics-country", //change
-        label: "Top Suicides",
+        label: "Suicides per country",
         content: <StatisticsPerCountry/>
     },
 
     {
         id: "statistics-year", //change
-        label: "Top Suicides in Countries per Year",
+        label: "Suicides per year",
         content: <StatisticsPerYear/>
     },
     {
@@ -23,7 +23,7 @@ const Sections = [
     },
     {
         id: "general-data", //change
-        label: "Top Suicides Data",
+        label: "Insights about suicides",
         content: <GeneralData/>
     }
 

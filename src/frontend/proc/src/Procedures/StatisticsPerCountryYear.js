@@ -39,6 +39,7 @@ function StatisticsPerCountryYear() {
 
         if (selectedYear && selectedCountry) {
             setTimeout(() => {
+                hasError.current = false;
                 console.log(`fetching from ${process.env.REACT_APP_API_PROC_URL}`);
                 fetch(`http://localhost:20004/api/suicides_per_year_country/${selectedYear}/${selectedCountry}`)
                     .then(res => res.json())

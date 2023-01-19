@@ -5,11 +5,13 @@ import {Box, CircularProgress, Container, FormControl, InputLabel, MenuItem, Sel
 function present_result_rpc_less_more(data){
     return(
     <>
-                                    <li>Suicides in childerns: {data.children}</li>
-                                    <li>Suicides in old people: {data.olders}</li>
-                                    <h3>Number of suicides by sex</h3>
-                                    <li>Sex: {data.per_sex[0].sex} --> Suicides Number:{data.per_sex[0].suicides_no}</li>
-                                    <li>Sex: {data.per_sex[1].sex} --> Suicides Number:{data.per_sex[1].suicides_no}</li>
+        <h3>Country with less suicides</h3>
+        <li>Country: {data.less.country}</li>
+        <li>Country: {data.less.suicides_no}</li>
+
+        <h3>Country with More suicides</h3>
+        <li>Country: {data.more.country}</li>
+        <li>Country: {data.more.suicides_no}</li>
     </>
     )
 }
@@ -50,17 +52,17 @@ function GeneralData() {
                 borderRadius: "1rem",
                 color: "white"
             }}>
-                <h2>Results <small>(PROC)</small></h2>
+                <h2>Did you know how many suicides have in rich countries? <small>(PROC)</small></h2>
                 {
-                    procData ?
+                    richCountries ?
                         <ul>
                             {
-                                procData.map(data => {
-                                    return present_result_rpc(data)
+                                richCountries.map(data => {
+                                    return present_result_rpc_rich(data)
                                 })
                             }
                         </ul> :
-                        selectedYear ? <CircularProgress/> : "--"
+                        <p></p>
                 }
             </Container>
 
@@ -71,26 +73,13 @@ function GeneralData() {
                 borderRadius: "1rem",
                 color: "white"
             }}>
-                <h2>Results of suicides in rich countries<small>(PROC)</small></h2>
+                <h2>Whats the country that have less and more suicides? <small>(PROC)</small></h2>
                 {
-                    procData ?
+                    lessMore ?
                         <ul>
                             {
-                                procData.map(data => {
+                                lessMore.map(data => {
                                     return present_result_rpc_rich(data)
-                                })
-                            }
-                        </ul> :
-                        <p></p>
-                }
-
-                <h2>Whats the country that have less and lore suicides?<small>(PROC)</small></h2>
-                {
-                    procData ?
-                        <ul>
-                            {
-                                procData.map(data => {
-                                    return present_result_rpc_less_more(data)
                                 })
                             }
                         </ul> :

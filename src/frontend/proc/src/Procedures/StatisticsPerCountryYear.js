@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import {Box, CircularProgress, Container, FormControl, InputLabel, MenuItem, Select} from "@mui/material";
 
 
@@ -25,7 +25,7 @@ function StatisticsPerCountryYear() {
 
     const hasError = useRef(false);
 
-
+    //useEffect(() => {hasError.current = false});
     useEffect(() => {
         fetch(`http://localhost:20001/api/years`)
           .then(res => res.json())
@@ -43,12 +43,12 @@ function StatisticsPerCountryYear() {
                 fetch(`http://localhost:20004/api/suicides_per_year_country/${selectedYear}/${selectedCountry}`)
                     .then(res => res.json())
                     .then(data => {
-                        debugger
                         setProcData(data)
+                        hasError.current = false;
                     }).catch(error =>  hasError.current = true);
             }, 500);
         }
-    }, [selectedYear])
+    }, [selectedYear,selectedCountry])
 
     return (
         <>
@@ -116,7 +116,7 @@ function StatisticsPerCountryYear() {
                                 })
                             }
                         </ul> :
-                        selectedYear && selectedCountry && !hasError ? <CircularProgress/> : "--"
+                        (selectedYear || selectedCountry) && !hasError ? <CircularProgress/> : "--"
                 }
                 {
                     hasError.current ?

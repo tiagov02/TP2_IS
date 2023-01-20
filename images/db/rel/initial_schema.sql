@@ -2,23 +2,6 @@ CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 CREATE EXTENSION IF NOT EXISTS POSTGIS;
 CREATE EXTENSION IF NOT EXISTS POSTGIS_TOPOLOGY;
 
-create table if not exists spatial_ref_sys
-(
-    srid      integer not null
-        primary key
-        constraint spatial_ref_sys_srid_check
-            check ((srid > 0) AND (srid <= 998999)),
-    auth_name varchar(256),
-    auth_srid integer,
-    srtext    varchar(2048),
-    proj4text varchar(2048)
-);
-
-alter table spatial_ref_sys
-    owner to is;
-
-grant select on spatial_ref_sys to public;
-
 create table if not exists teams
 (
     id         uuid      default uuid_generate_v4() not null

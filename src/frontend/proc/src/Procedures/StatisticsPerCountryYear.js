@@ -27,12 +27,12 @@ function StatisticsPerCountryYear() {
 
     //useEffect(() => {hasError.current = false});
     useEffect(() => {
-        fetch(`http://localhost:20001/api/years`)
+        fetch(`http://${process.env.REACT_APP_API_ENTITIES_URL}/api/years`)
           .then(res => res.json())
           .then(data => setYears(data));
         setProcData(null);
 
-        fetch(`http://localhost:20001/api/countries`)
+        fetch(`http://${process.env.REACT_APP_API_ENTITIES_URL}/api/countries`)
           .then(res => res.json())
           .then(data => setCountries(data));
         setProcData(null);
@@ -41,7 +41,7 @@ function StatisticsPerCountryYear() {
             setTimeout(() => {
                 hasError.current = false;
                 console.log(`fetching from ${process.env.REACT_APP_API_PROC_URL}`);
-                fetch(`http://localhost:20004/api/suicides_per_year_country/${selectedYear}/${selectedCountry}`)
+                fetch(`http://${process.env.REACT_APP_API_PROC_URL}/api/suicides_per_year_country/${selectedYear}/${selectedCountry}`)
                     .then(res => res.json())
                     .then(data => {
                         setProcData(data)

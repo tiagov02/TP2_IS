@@ -34,10 +34,10 @@ function GeneralData() {
     const [richCountries, setRichCountries] = useState(null);
 
     useEffect(() => {
-        fetch(`http://localhost:20004/api/suicides_in_rich_countries`)
+        fetch(`http://${process.env.REACT_APP_API_PROC_URL}/api/suicides_in_rich_countries`)
           .then(res => res.json())
           .then(data => setRichCountries(data));
-        fetch(`http://localhost:20004/api/country_less_more_suicides`)
+        fetch(`http://${process.env.REACT_APP_API_PROC_URL}/api/country_less_more_suicides`)
             .then(res =>res.json())
             .then(data => setLessMore(data));
     }, [])

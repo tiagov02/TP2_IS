@@ -21,7 +21,7 @@ function StatisticsPerCountry() {
     const [procData, setProcData] = useState(null);
 
     useEffect(() => {
-        fetch(`http://localhost:20001/api/countries`)
+        fetch(`http://${process.env.REACT_APP_API_ENTITIES_URL}/api/countries`)
           .then(res => res.json())
           .then(data => setCountries(data));
         setProcData(null);
@@ -29,7 +29,7 @@ function StatisticsPerCountry() {
         if (selectedCountry) {
             setTimeout(() => {
                 console.log(`fetching from ${process.env.REACT_APP_API_PROC_URL}`);
-                fetch(`http://localhost:20004/api/suicides_per_country/${selectedCountry}`)
+                fetch(`http://${process.env.REACT_APP_API_PROC_URL}/api/suicides_per_country/${selectedCountry}`)
                     .then(res => res.json())
                     .then(data => {
                         debugger

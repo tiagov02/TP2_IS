@@ -21,7 +21,7 @@ function Suicides(){
       useEffect(() => {
         setData(null);
         setTimeout(() => {
-            fetch(`http://localhost:20001/api/suicides/per_page/${page}/${SIZE_PAGE}`)
+            fetch(`http://${process.env.REACT_APP_API_ENTITIES_URL}/api/suicides/per_page/${page}/${SIZE_PAGE}`)
             .then(response => response.json())
             .then(jsonData => setData(jsonData));
         }, 500);
@@ -29,7 +29,7 @@ function Suicides(){
 
     useEffect(() => {
         setTimeout(() => {
-            fetch(`http://localhost:20001/api/suicides/number`)
+            fetch(`http://${process.env.REACT_APP_API_ENTITIES_URL}/api/suicides/number`)
             .then(response => response.json())
             .then(jsonData => setMaxDataSize(jsonData));
         }, 500);

@@ -27,7 +27,7 @@ function ObjectMarkersGroup() {
         const {_northEast: {lat: neLat, lng: neLng}, _southWest: {lat: swLat, lng: swLng}} = bounds;
 
 
-        fetch(`http://localhost:20002/api/tile/${bounds._southWest.lng}/${bounds._southWest.lat}/${bounds._northEast.lng}/${bounds._northEast.lat}`)
+        fetch(`http://${process.env.REACT_APP_API_GIS_URL}/api/tile/${bounds._southWest.lng}/${bounds._southWest.lat}/${bounds._northEast.lng}/${bounds._northEast.lat}`)
     .then(response => response.json())
     .then(geoJSON => {
         //console.log(geoJSON);

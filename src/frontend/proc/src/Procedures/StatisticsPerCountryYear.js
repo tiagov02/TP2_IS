@@ -63,7 +63,7 @@ function StatisticsPerCountryYear() {
                         <InputLabel id="countries-select-label">Country</InputLabel>
                         <Select
                             labelId="countries-select-label"
-                            id="demo-simple-select"
+                            id="countries-simple-select"
                             value={selectedCountry}
                             label="Country"
                             onChange={(e) => {
@@ -81,7 +81,7 @@ function StatisticsPerCountryYear() {
                         <InputLabel id="years-select-label">Years</InputLabel>
                         <Select
                             labelId="years-select-label"
-                            id="demo-simple-select"
+                            id="years-simple-select"
                             value={selectedYear}
                             label="Country"
                             onChange={(e) => {

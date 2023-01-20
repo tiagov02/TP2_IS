@@ -23,7 +23,7 @@ function StatisticsPerCountryYear() {
     const [years, setYears] = useState([]);
     const [selectedYear, setSelectedYear] = useState("");
 
-    const hasError = useRef(false);
+    const[hasError, setHasError] = useState(false);
 
     //useEffect(() => {hasError.current = false});
     useEffect(() => {
@@ -39,14 +39,14 @@ function StatisticsPerCountryYear() {
 
         if (selectedYear && selectedCountry) {
             setTimeout(() => {
-                hasError.current = false;
+                setHasError(false);
                 console.log(`fetching from ${process.env.REACT_APP_API_PROC_URL}`);
                 fetch(`http://${process.env.REACT_APP_API_PROC_URL}/api/suicides_per_year_country/${selectedYear}/${selectedCountry}`)
                     .then(res => res.json())
                     .then(data => {
                         setProcData(data)
-                        hasError.current = false;
-                    }).catch(error =>  hasError.current = true);
+                        setHasError(false);
+                    }).catch(error =>  setHasError(true));
             }, 500);
         }
     }, [selectedYear,selectedCountry])
@@ -120,7 +120,7 @@ function StatisticsPerCountryYear() {
                         (selectedYear && selectedCountry) && !hasError ? <CircularProgress/> : "--"
                 }
                 {
-                    hasError.current ?
+                    hasError ?
                         <h3 style={{color: '#880808'}}>There are no suicides matching the data that you search!</h3>
                         : <p></p>
                 }

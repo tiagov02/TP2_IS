@@ -21,10 +21,10 @@ function ObjectMarkersGroup() {
         return () => {
             map.off('moveend', cb);
         }
-    }, []);
+    }, [map]);
 
     useEffect(() => {
-        const {_northEast: {lat: neLat, lng: neLng}, _southWest: {lat: swLat, lng: swLng}} = bounds;
+        //const {_northEast: {lat: neLat, lng: neLng}, _southWest: {lat: swLat, lng: swLng}} = bounds;
 
 
         fetch(`http://${process.env.REACT_APP_API_GIS_URL}/api/tile/${bounds._southWest.lng}/${bounds._southWest.lat}/${bounds._northEast.lng}/${bounds._northEast.lat}`)

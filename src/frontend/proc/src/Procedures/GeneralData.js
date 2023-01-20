@@ -8,11 +8,11 @@ function present_result_rpc_less_more(data){
     <>
         <h3>Country with less suicides</h3>
         <li>Country: {data[0].less.country}</li>
-        <li>Country: {data[0].less.suicides_no}</li>
+        <li>Nº of suicides: {data[0].less.suicides_no}</li>
 
         <h3>Country with More suicides</h3>
         <li>Country: {data[0].more.country}</li>
-        <li>Country: {data[0].more.suicides_no}</li>
+        <li>Nº of suicides: {data[0].more.suicides_no}</li>
     </>
     )
 }

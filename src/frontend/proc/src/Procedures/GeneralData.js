@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {Container} from "@mui/material";
+import {CircularProgress, Container} from "@mui/material";
 
 //CHANGE THIS TWO FUNCTIONS
 function present_result_rpc_less_more(data){
@@ -62,7 +62,7 @@ function GeneralData() {
                                 present_result_rpc_rich(richCountries)
                             }
                         </ul> :
-                        <p></p>
+                        <CircularProgress/>
                 }
             </Container>
 
@@ -81,7 +81,7 @@ function GeneralData() {
                                 present_result_rpc_less_more(lessMore)
                             }
                         </ul> :
-                        <p></p>
+                        <CircularProgress/>
                 }
             </Container>
         </>

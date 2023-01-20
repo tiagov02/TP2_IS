@@ -18,7 +18,6 @@ function present_result_rpc_less_more(data){
 }
 
 function present_result_rpc_rich(data){
-    debugger
     return(
     <>
 

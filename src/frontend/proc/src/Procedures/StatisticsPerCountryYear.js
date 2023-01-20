@@ -80,7 +80,7 @@ function StatisticsPerCountryYear() {
                         </Select>
                     </FormControl>
                     <br/>
-                    <FormControl fullWidth>
+                    <FormControl fullWidth style={{marginTop:'1rem'}}>
                         <InputLabel id="years-select-label">Years</InputLabel>
                         <Select
                             labelId="years-select-label"

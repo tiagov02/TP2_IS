@@ -78,6 +78,9 @@ function StatisticsPerCountryYear() {
                                 </MenuItem>
                             ))}
                         </Select>
+                    </FormControl>
+                    <br/>
+                    <FormControl fullWidth>
                         <InputLabel id="years-select-label">Years</InputLabel>
                         <Select
                             labelId="years-select-label"

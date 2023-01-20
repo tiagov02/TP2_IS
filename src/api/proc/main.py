@@ -4,6 +4,7 @@ from flask import Flask,abort
 from flask_cors import CORS
 
 PORT = int(sys.argv[1]) if len(sys.argv) >= 2 else 9000
+URL_RPC = 'http://rpc-server:9000'
 
 app = Flask(__name__)
 CORS(app)
@@ -13,7 +14,7 @@ app.config["DEBUG"] = True
 
 @app.route('/api/suicides_per_year/<int:year>', methods=['GET'])
 def get_suicides_per_year(year:int):
-    server = xmlrpc.client.ServerProxy('http://rpc-server:9000')
+    server = xmlrpc.client.ServerProxy(URL_RPC)
     res = server.orderByYear(year)
     if not len(res) == 0:
         return [{
@@ -35,7 +36,7 @@ def get_suicides_per_year(year:int):
 @app.route('/api/suicides_per_country/<string:country>', methods=['GET'])
 def get_suicides_per_country(country):
     try:
-        server = xmlrpc.client.ServerProxy('http://rpc-server:9000')
+        server = xmlrpc.client.ServerProxy(URL_RPC)
         res = server.orderByCountry(country)
         if not len(res) == 0:
             return [{
@@ -59,7 +60,7 @@ def get_suicides_per_country(country):
 @app.route('/api/suicides_per_year_country/<int:year>/<string:country>', methods =['GET'])
 def get_suicides_per_year_country(year,country):
     try:
-        server = xmlrpc.client.ServerProxy('http://rpc-server:9000')
+        server = xmlrpc.client.ServerProxy(URL_RPC)
         res = server.orderByYarAndCountry(year, country)
         if not len(res) == 0:
             return [{
@@ -82,7 +83,7 @@ def get_suicides_per_year_country(year,country):
 @app.route('/api/suicides_in_rich_countries', methods=['GET'])
 def get_suicides_in_rich_countries():
     try:
-        server = xmlrpc.client.ServerProxy('http://rpc-server:9000')
+        server = xmlrpc.client.ServerProxy(URL_RPC)
         res = server.suicidesInRichCountry()
         if not len(res) == 0:
             return [{
@@ -101,7 +102,7 @@ def get_suicides_in_rich_countries():
 @app.route('/api/country_less_more_suicides', methods=['GET'])
 def get_countries_less_more_suicides():
     try:
-        server = xmlrpc.client.ServerProxy('http://rpc-server:9000')
+        server = xmlrpc.client.ServerProxy(URL_RPC)
         res = server.CountryWithLessandMoreSuicides()
         if not len(res) == 0:
             return [{

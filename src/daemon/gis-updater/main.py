@@ -5,6 +5,7 @@ from pip._vendor import requests
 
 POLLING_FREQ = int(sys.argv[1]) if len(sys.argv) >= 2 else 60
 ENTITIES_PER_ITERATION = int(sys.argv[2]) if len(sys.argv) >= 3 else 10
+URL_API_ENTITIES = 'http://api-entities:8080'
 
 #!TODO: CORRIGIR PORTAS
 def generate_coords(region: str):
@@ -26,7 +27,7 @@ def generate_coords(region: str):
     ]
 
 def getCoordsWithoutUpdate():
-    url = f"http://api-entities:8080/api/countries/to_update/{ENTITIES_PER_ITERATION}"
+    url = f"{URL_API_ENTITIES}/api/countries/to_update/{ENTITIES_PER_ITERATION}"
 
     r = requests.get(url=url)
 
@@ -56,7 +57,7 @@ if __name__ == "__main__":
                     time.sleep(POLLING_FREQ)
                     continue
 
-            url = 'http://api-entities:8080/api/countries/update'
+            url = f"{URL_API_ENTITIES}/api/countries/update"
             myobj = {
                 'id': data['id'][0],
                 'name':data['name'],

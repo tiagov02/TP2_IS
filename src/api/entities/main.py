@@ -21,9 +21,12 @@ app.config["DEBUG"] = True
 
 #Because our database have too many registries we limit the consult to faster acess
 
+# conexão à base de dados
 def connectToDB():
     return psycopg2.connect(user="is",password="is",host="db-rel",database="is")
 
+
+#GET que retorna por ano
 @app.route('/api/years', methods=['GET'])
 def get_years():
 
@@ -39,6 +42,8 @@ def get_years():
     return jsonify([year.__dict__ for year in ret])
 
 
+
+#GET que retorna numero de suicidos
 @app.route('/api/suicides/number', methods=['GET'])
 def get_number_suicides():
 
@@ -52,6 +57,8 @@ def get_number_suicides():
         "no_registries": result[0]
     }]
 
+
+# get para paginação de frontend -> por pagina e por numero de registos
 @app.route('/api/suicides/per_page/<int:page>/<int:max_records>', methods=['GET'])
 def get_suicides(page:int,max_records:int):
     suicides = []
@@ -94,6 +101,8 @@ def get_suicides(page:int,max_records:int):
 
     return jsonify([suicide.__dict__ for suicide in suicides])
 
+
+# get para retornar suicidos por id
 @app.route('/api/suicides/by_id/<string:id>', methods=['GET'])
 def get_suicide(id:str):
 
@@ -132,6 +141,7 @@ def get_suicide(id:str):
     return jsonify([suicide.__dict__])
 
 
+# post para criar suicidos
 @app.route('/api/suicides/create', methods=['POST'])
 def create_suicides():
     connection = connectToDB()
@@ -157,6 +167,8 @@ def create_suicides():
     connection.commit()
     return jsonify(data), 201
 
+
+# atualizar um suicido
 @app.route('/api/suicides/update', methods=['POST'])
 def update_suicide():
     connection = connectToDB()
@@ -218,6 +230,8 @@ def update_suicide():
 COUNTRIES
 '''
 
+
+# get que retorna paises onde houveram suicidios
 @app.route('/api/countries', methods=['GET'])
 def get_countries():
     countries = []
@@ -235,6 +249,8 @@ def get_countries():
         ))
     return jsonify([country.__dict__ for country in countries])
 
+
+# get que retorna o numero pais onde ocorreram suicidos
 @app.route('/api/countries/number', methods=['GET'])
 def get_number_countries():
 
@@ -248,6 +264,7 @@ def get_number_countries():
         "no_registries": result[0]
     }]
 
+# get para paginação de front end
 @app.route('/api/countries/with_suicides_no/<int:page>/<int:max_records>', methods=['GET'])
 def get_countries_with_suicides_no(page:int,max_records:int):
     countries = []
@@ -274,6 +291,7 @@ def get_countries_with_suicides_no(page:int,max_records:int):
         ))
     return jsonify([country.__dict__ for country in countries])
 
+
 @app.route('/api/countries/to_update/<int:limit>', methods=['GET'])
 def get_100_countries_to_update(limit:int):
     countries = []
@@ -292,6 +310,8 @@ def get_100_countries_to_update(limit:int):
         ))
     return jsonify([country.__dict__ for country in countries])
 
+
+# get para retornar inforamções de suicidos sobre um determinado pais
 @app.route('/api/countries/<string:id>', methods=['GET'])
 def get_country(id:str):
     connection = connectToDB()
@@ -307,6 +327,9 @@ def get_country(id:str):
         updated_on=first[4]
     ).__dict__),200
 
+
+
+# post para criar paises
 @app.route('/api/countries/create',methods=['POST'])
 def create_country():
     connection = connectToDB()
@@ -323,6 +346,8 @@ def create_country():
     else:
         abort(500)
 
+
+# post para atualizar paises
 @app.route('/api/countries/update',methods=['POST'])
 def update_country():
     connection = connectToDB()
@@ -347,7 +372,7 @@ def update_country():
         updated_on=first[4]
     ).__dict__),201
 
-
+# get para apagar suicidios
 @app.route('/api/suicides/delete/<int:id>', methods=['GET'])
 def delete_suicide(id:str):
     connection = connectToDB()

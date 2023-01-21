@@ -291,7 +291,7 @@ def get_countries_with_suicides_no(page:int,max_records:int):
         ))
     return jsonify([country.__dict__ for country in countries])
 
-#GET that returns the countries withoout coordinates where have a limit defined by the task that updates them
+#GET that returns the countries without coordinates where have a limit defined by the task that updates them
 @app.route('/api/countries/to_update/<int:limit>', methods=['GET'])
 def get_countries_to_update(limit:int):
     countries = []

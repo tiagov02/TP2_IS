@@ -13,7 +13,7 @@ app.config["DEBUG"] = True
 def connectToDB():
     return psycopg2.connect(user="is",password="is",host="db-rel",database="is")
 
-# get que retorna coordenadas latitude nordueste, longitude nordueste, latitude sudueste, longitude sudueste
+#return coords lat/long north and south
 @app.route('/api/tile/<string:swLng>/<string:swlAT>/<string:neLng>/<string:neLat>', methods=['GET'])
 def get_countries(swLng,swlAT,neLng,neLat):
 

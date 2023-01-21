@@ -11,7 +11,7 @@ CORS(app)
 app.config["DEBUG"] = True
 
 
-
+# GET that calls RPC server and returns suicides per year
 @app.route('/api/suicides_per_year/<int:year>', methods=['GET'])
 def get_suicides_per_year(year:int):
     server = xmlrpc.client.ServerProxy(URL_RPC)
@@ -33,6 +33,7 @@ def get_suicides_per_year(year:int):
     else:
         abort(404)
 
+# GET that calls RPC server and returns suicides per country
 @app.route('/api/suicides_per_country/<string:country>', methods=['GET'])
 def get_suicides_per_country(country):
     try:
@@ -57,6 +58,7 @@ def get_suicides_per_country(country):
         abort(404)
 
 
+# GET that calls RPC server and returns suicides per year and country
 @app.route('/api/suicides_per_year_country/<int:year>/<string:country>', methods =['GET'])
 def get_suicides_per_year_country(year,country):
     try:
@@ -80,6 +82,7 @@ def get_suicides_per_year_country(year,country):
     except xmlrpc.client.Fault:
         abort(404)
 
+#GET that returns the suicides in rich countries(calls the api)
 @app.route('/api/suicides_in_rich_countries', methods=['GET'])
 def get_suicides_in_rich_countries():
     try:
@@ -99,6 +102,7 @@ def get_suicides_in_rich_countries():
     except xmlrpc.client.Fault:
         abort(404)
 
+# GET That returns the countries with less and more suicides
 @app.route('/api/country_less_more_suicides', methods=['GET'])
 def get_countries_less_more_suicides():
     try:

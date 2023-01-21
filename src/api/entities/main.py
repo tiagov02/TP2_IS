@@ -26,7 +26,7 @@ def connectToDB():
     return psycopg2.connect(user="is",password="is",host="db-rel",database="is")
 
 
-#GET que retorna por ano
+#GET that return the year(distict for only repeat one year once)
 @app.route('/api/years', methods=['GET'])
 def get_years():
 
@@ -43,7 +43,7 @@ def get_years():
 
 
 
-#GET que retorna numero de suicidos
+#GET that returns the suicides number for help in frontend to do the pagination
 @app.route('/api/suicides/number', methods=['GET'])
 def get_number_suicides():
 
@@ -58,7 +58,7 @@ def get_number_suicides():
     }]
 
 
-# get para paginação de frontend -> por pagina e por numero de registos
+# GET that returns the suicides and respective countries, per page( bacause we have too many registries in the database)
 @app.route('/api/suicides/per_page/<int:page>/<int:max_records>', methods=['GET'])
 def get_suicides(page:int,max_records:int):
     suicides = []
@@ -102,7 +102,7 @@ def get_suicides(page:int,max_records:int):
     return jsonify([suicide.__dict__ for suicide in suicides])
 
 
-# get para retornar suicidos por id
+# GET that returns the suicide by Id
 @app.route('/api/suicides/by_id/<string:id>', methods=['GET'])
 def get_suicide(id:str):
 
@@ -141,7 +141,7 @@ def get_suicide(id:str):
     return jsonify([suicide.__dict__])
 
 
-# post para criar suicidos
+# POST that create one suicide(receiving a JSON)
 @app.route('/api/suicides/create', methods=['POST'])
 def create_suicides():
     connection = connectToDB()
@@ -168,7 +168,7 @@ def create_suicides():
     return jsonify(data), 201
 
 
-# atualizar um suicido
+# POST that update one suicide(receiving a JSON)
 @app.route('/api/suicides/update', methods=['POST'])
 def update_suicide():
     connection = connectToDB()
@@ -231,7 +231,7 @@ COUNTRIES
 '''
 
 
-# get que retorna paises onde houveram suicidios
+# post That returns the countries that we have in the database order by name in alphabetic order
 @app.route('/api/countries', methods=['GET'])
 def get_countries():
     countries = []
@@ -250,7 +250,7 @@ def get_countries():
     return jsonify([country.__dict__ for country in countries])
 
 
-# get que retorna o numero pais onde ocorreram suicidos
+# GET that returns the country number for pagination
 @app.route('/api/countries/number', methods=['GET'])
 def get_number_countries():
 
@@ -264,7 +264,7 @@ def get_number_countries():
         "no_registries": result[0]
     }]
 
-# get para paginação de front end
+#GET that returns the country and the number of suicides in each country
 @app.route('/api/countries/with_suicides_no/<int:page>/<int:max_records>', methods=['GET'])
 def get_countries_with_suicides_no(page:int,max_records:int):
     countries = []
@@ -291,9 +291,9 @@ def get_countries_with_suicides_no(page:int,max_records:int):
         ))
     return jsonify([country.__dict__ for country in countries])
 
-
+#GET that returns the countries withoout coordinates where have a limit defined by the task that updates them
 @app.route('/api/countries/to_update/<int:limit>', methods=['GET'])
-def get_100_countries_to_update(limit:int):
+def get_countries_to_update(limit:int):
     countries = []
 
     connection = connectToDB()
@@ -311,7 +311,7 @@ def get_100_countries_to_update(limit:int):
     return jsonify([country.__dict__ for country in countries])
 
 
-# get para retornar inforamções de suicidos sobre um determinado pais
+#GET that returns a country by id
 @app.route('/api/countries/<string:id>', methods=['GET'])
 def get_country(id:str):
     connection = connectToDB()
@@ -329,7 +329,7 @@ def get_country(id:str):
 
 
 
-# post para criar paises
+# POST that create countries
 @app.route('/api/countries/create',methods=['POST'])
 def create_country():
     connection = connectToDB()
@@ -347,7 +347,7 @@ def create_country():
         abort(500)
 
 
-# post para atualizar paises
+# POST that update countries
 @app.route('/api/countries/update',methods=['POST'])
 def update_country():
     connection = connectToDB()
@@ -371,16 +371,6 @@ def update_country():
         created_on=first[3],
         updated_on=first[4]
     ).__dict__),201
-
-# get para apagar suicidios
-@app.route('/api/suicides/delete/<int:id>', methods=['GET'])
-def delete_suicide(id:str):
-    connection = connectToDB()
-
-    cursor = connection.cursor()
-    cursor.execute(f"DELETE FROM suicides WHERE id = {id}")
-    connection.commit()
-    return jsonify({'message': 'Suicide record deleted'}), 200
 
 
 

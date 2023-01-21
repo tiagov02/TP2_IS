@@ -101,6 +101,7 @@ def get_suicides_in_rich_countries():
             abort(404)
     except xmlrpc.client.Fault:
         abort(404)
+        #
 
 # GET That returns the countries with less and more suicides
 @app.route('/api/country_less_more_suicides', methods=['GET'])
